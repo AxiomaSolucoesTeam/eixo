@@ -681,6 +681,16 @@
     var f = s.closest('form'); if (f) { if (f.requestSubmit) f.requestSubmit(); else f.submit(); }
   });
 
+  /* ── Desfoque progressivo: topo de cada barra da aplicação e base da tela no celular ── */
+  function pblurEl(side) {
+    var el = d.createElement('div'); el.className = 'ax-pblur ax-pblur--' + side; el.setAttribute('aria-hidden', 'true');
+    el.innerHTML = '<i></i><i></i><i></i><i></i><i></i><i></i>'; return el;
+  }
+  function bindPblur(root) {
+    each(root, '.ax-app__bar', function (bar) { if (!bar.querySelector(':scope > .ax-pblur')) bar.insertBefore(pblurEl('top'), bar.firstChild); });
+    each(root, '.ax-app', function (app) { if (!app.querySelector(':scope > .ax-pblur--bottom')) app.appendChild(pblurEl('bottom')); });
+  }
+
   /* ── Liga tudo o que estiver marcado dentro de raiz (padrão: a página) ── */
   function init(root) {
     root = root || d;
@@ -690,7 +700,7 @@
     each(root, '.ax-tabs[data-auto]', tabs);
     each(root, 'dialog.ax-dialog, dialog.ax-sheet, dialog.ax-side-sheet', bindDialog);
     each(root, 'form[data-ax-validate]', function (f) { f.noValidate = true; });
-    bindMenus(root); bindMasks(root); bindPrefs(root); bindCounts(root); bindCounters(root); flash(root);
+    bindMenus(root); bindMasks(root); bindPrefs(root); bindCounts(root); bindCounters(root); bindPblur(root); flash(root);
   }
 
   function autoInit() { init(d); ready = true; }

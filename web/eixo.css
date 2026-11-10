@@ -1480,4 +1480,28 @@ html:has(dialog[open]) { overflow: hidden; }
 @media (prefers-reduced-transparency: reduce) { .ax-actionbar { background: var(--surface-raised); -webkit-backdrop-filter: none; backdrop-filter: none; } }
 [data-theme="contraste"] .ax-actionbar { background: var(--surface); box-shadow: none; border: 2px solid var(--line-strong); }
 [data-theme="contraste"] .ax-auth__brand { background: var(--deep); }
+/* ── Desfoque progressivo ──
+   Camadas de backdrop-filter (0,5 → 16px), cada uma mascarada numa faixa: o conteúdo vai ficando mais desfocado
+   perto da borda, sem linha dura. O runtime coloca um no topo de cada .ax-app__bar e um embaixo da tela no celular;
+   em outras áreas de rolagem, use <div class="ax-pblur ax-pblur--top|--bottom"> com 6 <i></i> dentro. */
+.ax-pblur { --pb-dir: to top; position: absolute; left: 0; right: 0; pointer-events: none; }
+.ax-pblur--top { top: 0; height: calc(100% + 28px); }
+.ax-pblur--bottom { --pb-dir: to bottom; bottom: 0; height: 120px; }
+.ax-pblur > i { position: absolute; inset: 0; }
+.ax-pblur > i:nth-child(1) { -webkit-backdrop-filter: blur(.5px); backdrop-filter: blur(.5px); -webkit-mask: linear-gradient(var(--pb-dir), transparent 0%, #000 16.6%, #000 33.3%, transparent 50%); mask: linear-gradient(var(--pb-dir), transparent 0%, #000 16.6%, #000 33.3%, transparent 50%); }
+.ax-pblur > i:nth-child(2) { -webkit-backdrop-filter: blur(1px); backdrop-filter: blur(1px); -webkit-mask: linear-gradient(var(--pb-dir), transparent 16.6%, #000 33.3%, #000 50%, transparent 66.6%); mask: linear-gradient(var(--pb-dir), transparent 16.6%, #000 33.3%, #000 50%, transparent 66.6%); }
+.ax-pblur > i:nth-child(3) { -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px); -webkit-mask: linear-gradient(var(--pb-dir), transparent 33.3%, #000 50%, #000 66.6%, transparent 83.3%); mask: linear-gradient(var(--pb-dir), transparent 33.3%, #000 50%, #000 66.6%, transparent 83.3%); }
+.ax-pblur > i:nth-child(4) { -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); -webkit-mask: linear-gradient(var(--pb-dir), transparent 50%, #000 66.6%, #000 83.3%, transparent 100%); mask: linear-gradient(var(--pb-dir), transparent 50%, #000 66.6%, #000 83.3%, transparent 100%); }
+.ax-pblur > i:nth-child(5) { -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); -webkit-mask: linear-gradient(var(--pb-dir), transparent 66.6%, #000 83.3%, #000 100%); mask: linear-gradient(var(--pb-dir), transparent 66.6%, #000 83.3%, #000 100%); }
+.ax-pblur > i:nth-child(6) { -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); -webkit-mask: linear-gradient(var(--pb-dir), transparent 83.3%, #000 100%); mask: linear-gradient(var(--pb-dir), transparent 83.3%, #000 100%); }
+/* Véu da cor do fundo, para o texto que passa por baixo não brigar com o que está em cima */
+.ax-pblur::after { content: ''; position: absolute; inset: 0; background: linear-gradient(var(--pb-dir), transparent, color-mix(in srgb, var(--bg) 72%, transparent)); }
+.ax-app__bar { isolation: isolate; }
+.ax-app__bar > .ax-pblur { z-index: -1; }
+.ax-app > .ax-pblur--bottom { position: fixed; z-index: calc(var(--z-nav) - 1); display: none; }
+@media (max-width: 599px) { .ax-app > .ax-pblur--bottom { display: block; } }
+@media (prefers-reduced-transparency: reduce) { .ax-pblur { display: none !important; } .ax-app__bar { background: var(--bg); } }
+[data-theme="contraste"] .ax-pblur { display: none !important; }
+[data-theme="contraste"] .ax-app__bar { background: var(--bg); box-shadow: 0 1px 0 var(--line-strong); }
+@media (forced-colors: active) { .ax-pblur { display: none !important; } }
 /* ═══ fim Aplicação ═══ */
