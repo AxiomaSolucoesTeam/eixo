@@ -1,4 +1,4 @@
-/*! Axioma Eixo 0.3.0 · design system da Axioma · gerado por tools/build_dist.py — não edite à mão */
+/*! Axioma Eixo 0.3.1 · design system da Axioma · gerado por tools/build_dist.py — não edite à mão */
 /* Axioma Eixo · runtime de referência (esboço v0.2). Sem dependências.
    Ícones SVG (desenhos do Lucide, licença ISC, com nomes do Eixo), sons sintetizados com Web Audio,
    háptica, toasts, seletor próprio, marcadores deslizantes de navegação e abas.
@@ -707,5 +707,5 @@
   if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', autoInit); else setTimeout(autoInit, 0);
 
   w.Eixo = Object.assign(w.Eixo || {}, { icons: ICONS, icon: icon, hydrate: hydrate, sound: sound, haptic: haptic, toast: toast, select: select, nav: nav, seg: seg, tabs: tabs, countUp: countUp, fmt: fmt, reduceMotion: reduceMotion, init: init, prefs: prefs, busy: busy, validate: validate, validateField: validateField, mask: MASKS,
-    confirm: confirmDialog, dialog: { open: dlgOpen, close: dlgClose }, menu: { open: menuOpen, close: menuClose }, version: '0.3.0' });
+    confirm: confirmDialog, dialog: { open: dlgOpen, close: dlgClose }, menu: { open: menuOpen, close: menuClose }, version: '0.3.1' });
 })();
