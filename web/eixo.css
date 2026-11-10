@@ -1299,7 +1299,8 @@ button.ax-list-item { width: 100%; border: 0; background: none; text-align: left
 
 /* ── Moldura ── */
 .ax-app { display: grid; grid-template-columns: auto minmax(0, 1fr); min-height: 100vh; min-height: 100dvh; }
-.ax-app > .ax-side, .ax-app > .ax-rail { position: sticky; top: 0; z-index: var(--z-nav); align-self: start; height: calc(100vh - 24px); height: calc(100dvh - 24px); }
+/* Barra lateral fixa: top igual à margem (não pula ao rolar) e opaca (nada rola por trás dela; vidro deixaria o degradê do fundo aparecer e mudar de tom com a rolagem) */
+.ax-app > .ax-side, .ax-app > .ax-rail { position: sticky; top: 12px; z-index: var(--z-nav); align-self: start; height: calc(100vh - 24px); height: calc(100dvh - 24px); background: var(--surface); -webkit-backdrop-filter: none; backdrop-filter: none; box-shadow: var(--shadow-highlight), var(--shadow-xs); border-color: var(--line); }
 .ax-app > .ax-side .ax-side__nav { overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
 .ax-app > .ax-rail, .ax-app > .ax-bottomnav { display: none; }
 .ax-app__main { display: flex; flex-direction: column; min-width: 0; }
