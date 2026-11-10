@@ -1533,6 +1533,9 @@ html:has(dialog[open]) { overflow: hidden; }
 .ax-pblur::after { content: ''; position: absolute; inset: 0; background: linear-gradient(var(--pb-dir), transparent, color-mix(in srgb, var(--bg) 72%, transparent)); }
 .ax-app__bar { isolation: isolate; }
 .ax-app__bar > .ax-pblur { z-index: -1; }
+/* A faixa do topo atravessa também a coluna da barra lateral (que fica por cima), senão a margem em volta dela fica com outro tom */
+@media (min-width: 1024px) { .ax-app__bar > .ax-pblur { left: calc(-1 * (var(--size-sidebar) + 24px)); } }
+@media (min-width: 600px) and (max-width: 1023px) { .ax-app__bar > .ax-pblur { left: calc(-1 * (var(--size-rail) + 24px)); } }
 .ax-app > .ax-pblur--bottom { position: fixed; z-index: calc(var(--z-nav) - 1); display: none; }
 @media (max-width: 599px) { .ax-app > .ax-pblur--bottom { display: block; } }
 @media (prefers-reduced-transparency: reduce) { .ax-pblur { display: none !important; } .ax-app__bar { background: var(--bg); } }
