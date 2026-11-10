@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="pt-BR" data-ax-prefs>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Formulário · Axioma XMed</title>
+<script>try{var p=JSON.parse(localStorage.getItem('axioma.eixo')||'{}'),t=p.theme&&p.theme!=='auto'?p.theme:(matchMedia('(prefers-contrast: more)').matches?'contraste':matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../web/eixo.css">
+<style>
+.tela-demo { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 8px 8px 8px 14px; border: 1px dashed var(--line-strong); border-radius: var(--radius-lg); color: var(--text-mute); font-size: 13px; }
+.tela-demo > span { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; }
+.tela-demo .ax-seg { max-width: 100%; overflow-x: auto; scrollbar-width: none; }
+.tela-demo .ax-seg__opt { white-space: nowrap; }
+.ax-link-quiet { color: inherit; text-decoration: none; }
+.ax-link-quiet:hover { text-decoration: underline; }
+</style>
+<script src="../web/eixo.js" defer></script>
+</head>
+<body>
+<a class="ax-skip" href="#conteudo">Pular para o conteúdo</a>
+<div class="ax-app">
+  <aside class="ax-side" aria-label="Menu principal">
+    <div class="ax-side__brand"><a class="ax-brand" href="painel.html"><span class="ax-brand__mark" aria-hidden="true"><i class="ax-i" data-i="medical_services" aria-hidden="true"></i></span><span class="ax-brand__text">Axioma <b>XMed</b></span></a></div>
+    <nav class="ax-side__nav" data-auto aria-label="Áreas do XMed">
+      <a class="ax-nav-item" href="painel.html"><i class="ax-i" data-i="space_dashboard" aria-hidden="true"></i>Painel</a>
+      <p class="ax-side__title">Financeiro</p>
+      <a class="ax-nav-item" href="lista.html" aria-current="page"><i class="ax-i" data-i="payments" aria-hidden="true"></i>Receitas</a>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="trending_down" aria-hidden="true"></i>Despesas</a>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="receipt_long" aria-hidden="true"></i>Recibos<span class="ax-nav-item__count ax-nav-item__count--quiet">12</span></a>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="account_balance" aria-hidden="true"></i>Carnê-Leão</a>
+      <p class="ax-side__title">Cadastros</p>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="person" aria-hidden="true"></i>Pacientes</a>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="medical_services" aria-hidden="true"></i>Profissionais</a>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="assignment" aria-hidden="true"></i>Solicitações<span class="ax-nav-item__count">2</span></a>
+    </nav>
+    <div class="ax-side__foot">
+      <button class="ax-user" type="button" data-ax-menu="menu-conta"><span class="ax-avatar ax-avatar--sm" data-tint="1">CB</span><span class="ax-user__text"><span class="ax-user__name">Clínica Bem Viver</span><span class="ax-user__role">Administrador</span></span><i class="ax-i" data-i="unfold_more" aria-hidden="true"></i></button>
+    </div>
+  </aside>
+  <nav class="ax-rail" aria-label="Menu principal"><a class="ax-brand__mark" href="painel.html" aria-label="Axioma XMed, início"><i class="ax-i" data-i="medical_services" aria-hidden="true"></i></a><a class="ax-rail__item" href="painel.html"><span class="ax-rail__pill"><i class="ax-i" data-i="space_dashboard" aria-hidden="true"></i></span>Painel</a><a class="ax-rail__item" href="lista.html" aria-current="page"><span class="ax-rail__pill"><i class="ax-i" data-i="payments" aria-hidden="true"></i></span>Receitas</a><a class="ax-rail__item" href="#"><span class="ax-rail__pill"><i class="ax-i" data-i="receipt_long" aria-hidden="true"></i></span>Recibos</a><a class="ax-rail__item" href="#"><span class="ax-rail__pill"><i class="ax-i" data-i="person" aria-hidden="true"></i></span>Pacientes</a><button class="ax-rail__item" type="button" data-ax-open="nav-mais"><span class="ax-rail__pill"><i class="ax-i" data-i="menu" aria-hidden="true"></i></span>Mais</button></nav>
+  <div class="ax-app__main">
+    <header class="ax-app__bar">
+      <a class="ax-brand ax-app__brand-compact" href="painel.html"><span class="ax-brand__mark" aria-hidden="true"><i class="ax-i" data-i="medical_services" aria-hidden="true"></i></span><span class="ax-brand__text">Axioma <b>XMed</b></span></a>
+      <nav class="ax-crumbs" aria-label="Você está em"><a href="painel.html">Painel</a><i class="ax-i" data-i="chevron_right" aria-hidden="true"></i><a href="lista.html">Receitas</a><i class="ax-i" data-i="chevron_right" aria-hidden="true"></i><span aria-current="page">Nova receita</span></nav>
+      <div class="ax-app__bar-end">
+        <label class="ax-search"><i class="ax-i" data-i="search" aria-hidden="true"></i><input type="search" placeholder="Buscar no XMed" aria-label="Buscar no XMed"><span class="ax-kbd">/</span></label>
+        <button class="ax-icon-btn" type="button" aria-label="Notificações, 2 novas"><i class="ax-i" data-i="notifications" aria-hidden="true"></i></button>
+        <button class="ax-icon-btn ax-only-medium" type="button" data-ax-menu="menu-conta" aria-label="Conta de Clínica Bem Viver"><span class="ax-avatar ax-avatar--xs" data-tint="1">CB</span></button>
+      </div>
+    </header>
+    <main class="ax-app__content ax-app__content--form" id="conteudo" tabindex="-1">
+<div class="ax-page">
+  <a class="ax-back" href="lista.html"><i class="ax-i" data-i="arrow_back" aria-hidden="true"></i>Receitas</a>
+  <header class="ax-pagehead"><div class="ax-pagehead__text"><h1 class="ax-pagehead__title">Nova receita</h1><p class="ax-pagehead__desc">Todos os campos são obrigatórios, menos os marcados como opcionais.</p></div></header>
+  <form class="ax-form" data-ax-validate action="detalhe.html" method="get" id="form-receita">
+  <section class="ax-form__section" aria-labelledby="s-pac">
+    <div class="ax-form__intro"><h2 id="s-pac">Paciente</h2><p>Quem foi atendido e quem pagou. O CPF do pagador vai para o recibo e para o Carnê-Leão.</p></div>
+    <div class="ax-form__fields">
+      <div class="ax-field" data-span="two-thirds"><span class="ax-field__label" id="paciente-l">Paciente</span>
+      <div class="ax-select" data-required><input type="hidden" name="paciente">
+        <button type="button" class="ax-input ax-select__trigger" id="paciente" aria-labelledby="paciente-l paciente-v"><i class="ax-i" data-i="person" aria-hidden="true"></i><span class="ax-select__value" id="paciente-v" data-placeholder>Escolha o paciente</span><i class="ax-i ax-select__chev" data-i="unfold_more" aria-hidden="true"></i></button>
+        <div class="ax-select__pop" hidden><div class="ax-select__search"><i class="ax-i" data-i="search" aria-hidden="true"></i><input type="text" placeholder="Buscar" aria-label="Buscar paciente" aria-controls="paciente-list" role="combobox" aria-expanded="true"></div><ul class="ax-select__list" id="paciente-list" role="listbox" aria-labelledby="paciente-l" tabindex="-1"><li class="ax-option" role="option" data-value="maria" aria-selected="false">Maria Aparecida Lima</li><li class="ax-option" role="option" data-value="joao" aria-selected="false">João Pedro Almeida</li><li class="ax-option" role="option" data-value="rebeca" aria-selected="false">Rebeca Nogueira</li><li class="ax-option" role="option" data-value="carlos" aria-selected="false">Carlos Henrique Dias</li><li class="ax-option" role="option" data-value="luiza" aria-selected="false">Luíza Andrade</li><li class="ax-option" role="option" data-value="tiago" aria-selected="false">Tiago Moreira</li><li class="ax-option" role="option" data-value="beatriz" aria-selected="false">Beatriz Sampaio</li></ul></div>
+      </div></div>
+      <div class="ax-field" data-span="third"><label class="ax-field__label" for="cpf">CPF do pagador</label>
+      <div class="ax-input"><input id="cpf" name="cpf" type="text" required data-ax-mask="cpf" data-ax-valid="cpf" autocomplete="off" placeholder="000.000.000-00"></div></div>
+      <div class="ax-field"><label class="ax-field__label" for="email">E-mail para o recibo <span class="ax-field__optional">(opcional)</span></label>
+      <div class="ax-input"><i class="ax-i" data-i="mail" aria-hidden="true"></i><input id="email" name="email" type="email" aria-describedby="email-h" autocomplete="email"></div><p class="ax-field__hint" id="email-h">O recibo sai daqui assim que a receita for salva.</p></div>
+    </div>
+  </section>
+  <section class="ax-form__section" aria-labelledby="s-at">
+    <div class="ax-form__intro"><h2 id="s-at">Atendimento</h2><p>O tipo define o código do serviço no recibo.</p></div>
+    <div class="ax-form__fields">
+      <div class="ax-field" data-span="third"><span class="ax-field__label" id="tipo-l">Tipo</span>
+      <div class="ax-select" data-required><input type="hidden" name="tipo">
+        <button type="button" class="ax-input ax-select__trigger" id="tipo" aria-labelledby="tipo-l tipo-v"><span class="ax-select__value" id="tipo-v" data-placeholder>Escolha</span><i class="ax-i ax-select__chev" data-i="unfold_more" aria-hidden="true"></i></button>
+        <div class="ax-select__pop" hidden><ul class="ax-select__list" id="tipo-list" role="listbox" aria-labelledby="tipo-l" tabindex="-1"><li class="ax-option" role="option" data-value="consulta" aria-selected="false">Consulta</li><li class="ax-option" role="option" data-value="retorno" aria-selected="false">Retorno<span class="ax-option__hint">sem custo</span></li><li class="ax-option" role="option" data-value="procedimento" aria-selected="false">Procedimento</li></ul></div>
+      </div></div>
+      <div class="ax-field" data-span="two-thirds"><span class="ax-field__label" id="prof-l">Profissional</span>
+      <div class="ax-select" data-required><input type="hidden" name="prof">
+        <button type="button" class="ax-input ax-select__trigger" id="prof" aria-labelledby="prof-l prof-v"><span class="ax-select__value" id="prof-v" data-placeholder>Escolha</span><i class="ax-i ax-select__chev" data-i="unfold_more" aria-hidden="true"></i></button>
+        <div class="ax-select__pop" hidden><ul class="ax-select__list" id="prof-list" role="listbox" aria-labelledby="prof-l" tabindex="-1"><li class="ax-option" role="option" data-value="ana" aria-selected="false"><i class="ax-i" data-i="medical_services" aria-hidden="true"></i>Dra. Ana Beatriz</li><li class="ax-option" role="option" data-value="caio" aria-selected="false"><i class="ax-i" data-i="medical_services" aria-hidden="true"></i>Dr. Caio Freitas</li><li class="ax-option" role="option" data-value="mariana" aria-selected="false"><i class="ax-i" data-i="medical_services" aria-hidden="true"></i>Dra. Mariana Costa</li></ul></div>
+      </div></div>
+      <div class="ax-field" data-span="third"><label class="ax-field__label" for="data">Data do atendimento</label>
+      <div class="ax-input"><i class="ax-i" data-i="calendar_today" aria-hidden="true"></i><input id="data" name="data" type="text" required data-ax-mask="data" value="10/11/2026" placeholder="dd/mm/aaaa" pattern="\d{2}/\d{2}/\d{4}" data-error="Use o formato dd/mm/aaaa."></div></div>
+    </div>
+  </section>
+  <section class="ax-form__section" aria-labelledby="s-pg">
+    <div class="ax-form__intro"><h2 id="s-pg">Pagamento</h2><p>Parcelado no cartão? O XMed cria as parcelas e avisa cada vencimento.</p></div>
+    <div class="ax-form__fields">
+      <div class="ax-field" data-span="third"><label class="ax-field__label" for="valor">Valor</label>
+      <div class="ax-input ax-input--num"><span class="ax-input__adorn">R$</span><input id="valor" name="valor" type="text" required data-ax-mask="moeda" placeholder="0,00"></div></div>
+      <div class="ax-field" data-span="third"><span class="ax-field__label" id="forma-l">Forma de pagamento</span>
+      <div class="ax-select" data-required><input type="hidden" name="forma">
+        <button type="button" class="ax-input ax-select__trigger" id="forma" aria-labelledby="forma-l forma-v"><span class="ax-select__value" id="forma-v" data-placeholder>Escolha</span><i class="ax-i ax-select__chev" data-i="unfold_more" aria-hidden="true"></i></button>
+        <div class="ax-select__pop" hidden><ul class="ax-select__list" id="forma-list" role="listbox" aria-labelledby="forma-l" tabindex="-1"><li class="ax-option" role="option" data-value="pix" aria-selected="false"><i class="ax-i" data-i="qr_code" aria-hidden="true"></i>Pix</li><li class="ax-option" role="option" data-value="credito" aria-selected="false"><i class="ax-i" data-i="credit_card" aria-hidden="true"></i>Cartão de crédito<span class="ax-option__hint">até 12x</span></li><li class="ax-option" role="option" data-value="debito" aria-selected="false"><i class="ax-i" data-i="credit_card" aria-hidden="true"></i>Cartão de débito</li><li class="ax-option" role="option" data-value="dinheiro" aria-selected="false"><i class="ax-i" data-i="payments" aria-hidden="true"></i>Dinheiro</li><li class="ax-option" role="option" data-value="convenio" aria-selected="false"><i class="ax-i" data-i="shield" aria-hidden="true"></i>Convênio</li></ul></div>
+      </div></div>
+      <div class="ax-field" data-span="third"><span class="ax-field__label" id="parcelas-l">Parcelas</span>
+      <div class="ax-select"><input type="hidden" name="parcelas">
+        <button type="button" class="ax-input ax-select__trigger" id="parcelas" aria-labelledby="parcelas-l parcelas-v"><span class="ax-select__value" id="parcelas-v" data-placeholder>À vista</span><i class="ax-i ax-select__chev" data-i="unfold_more" aria-hidden="true"></i></button>
+        <div class="ax-select__pop" hidden><ul class="ax-select__list" id="parcelas-list" role="listbox" aria-labelledby="parcelas-l" tabindex="-1"><li class="ax-option" role="option" data-value="1" aria-selected="false">À vista</li><li class="ax-option" role="option" data-value="2" aria-selected="false">2x</li><li class="ax-option" role="option" data-value="3" aria-selected="false">3x</li><li class="ax-option" role="option" data-value="4" aria-selected="false">4x</li><li class="ax-option" role="option" data-value="5" aria-selected="false">5x</li><li class="ax-option" role="option" data-value="6" aria-selected="false">6x</li><li class="ax-option" role="option" data-value="7" aria-selected="false">7x</li><li class="ax-option" role="option" data-value="8" aria-selected="false">8x</li><li class="ax-option" role="option" data-value="9" aria-selected="false">9x</li><li class="ax-option" role="option" data-value="10" aria-selected="false">10x</li><li class="ax-option" role="option" data-value="11" aria-selected="false">11x</li><li class="ax-option" role="option" data-value="12" aria-selected="false">12x</li></ul></div>
+      </div></div>
+      <fieldset class="ax-field"><legend class="ax-field__label">Situação</legend><div class="ax-row">
+        <label class="ax-choice"><input type="radio" class="ax-radio" name="sit" value="recebida" required checked><span class="ax-choice__title">Já recebi</span></label>
+        <label class="ax-choice"><input type="radio" class="ax-radio" name="sit" value="areceber"><span class="ax-choice__title">Vou receber</span></label>
+      </div></fieldset>
+    </div>
+  </section>
+  <section class="ax-form__section" aria-labelledby="s-obs">
+    <div class="ax-form__intro"><h2 id="s-obs">Observações</h2><p>Aparecem no recibo do paciente.</p></div>
+    <div class="ax-form__fields">
+      <div class="ax-field"><label class="ax-field__label" for="obs">Observações <span class="ax-field__optional">(opcional)</span></label>
+        <div class="ax-input ax-input--textarea"><textarea id="obs" name="obs" maxlength="280" placeholder="Retorno em 30 dias"></textarea></div>
+        <div class="ax-field__footer"><p class="ax-field__hint">Até 280 caracteres.</p><span class="ax-field__count" aria-live="polite"></span></div></div>
+    </div>
+  </section>
+  <div class="ax-actionbar">
+    <span class="ax-actionbar__note"><i class="ax-i" data-i="cloud" aria-hidden="true"></i>Rascunho salvo às 14:32</span>
+    <a class="ax-btn ax-btn--secondary" href="lista.html">Cancelar</a>
+    <button class="ax-btn ax-btn--primary" type="submit"><i class="ax-i ax-btn__icon" data-i="check" aria-hidden="true"></i>Salvar receita</button>
+  </div>
+</form>
+</div>
+    </main>
+  </div>
+  <nav class="ax-bottomnav" data-auto aria-label="Menu principal"><a class="ax-bottomnav__item" href="painel.html"><span class="ax-bottomnav__pill"><i class="ax-i" data-i="home" aria-hidden="true"></i></span>Início</a><a class="ax-bottomnav__item" href="lista.html" aria-current="page"><span class="ax-bottomnav__pill"><i class="ax-i" data-i="payments" aria-hidden="true"></i></span>Receitas</a><a class="ax-bottomnav__item" href="#"><span class="ax-bottomnav__pill"><i class="ax-i" data-i="receipt_long" aria-hidden="true"></i></span>Recibos</a><button class="ax-bottomnav__item" type="button" data-ax-open="nav-mais"><span class="ax-bottomnav__pill"><i class="ax-i" data-i="menu" aria-hidden="true"></i></span>Mais</button></nav>
+</div>
+<div class="ax-menu" id="menu-conta" hidden aria-label="Conta">
+  <div class="ax-menu__group"><a class="ax-menu__item" href="#"><i class="ax-i" data-i="person" aria-hidden="true"></i>Meu perfil</a><a class="ax-menu__item" href="configuracoes.html"><i class="ax-i" data-i="settings" aria-hidden="true"></i>Configurações</a><a class="ax-menu__item" href="#"><i class="ax-i" data-i="help" aria-hidden="true"></i>Ajuda</a></div>
+  <div class="ax-menu__group"><a class="ax-menu__item" href="acesso.html"><i class="ax-i" data-i="logout" aria-hidden="true"></i>Sair</a></div>
+</div>
+<dialog class="ax-sheet" id="nav-mais" aria-labelledby="nav-mais-t">
+  <span class="ax-sheet__grabber" aria-hidden="true"></span>
+  <h2 class="ax-sheet__title" id="nav-mais-t">Todas as áreas</h2>
+  <nav class="ax-side__nav" aria-label="Todas as áreas">
+      <a class="ax-nav-item" href="painel.html"><i class="ax-i" data-i="space_dashboard" aria-hidden="true"></i>Painel</a>
+      <p class="ax-side__title">Financeiro</p>
+      <a class="ax-nav-item" href="lista.html" aria-current="page"><i class="ax-i" data-i="payments" aria-hidden="true"></i>Receitas</a>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="trending_down" aria-hidden="true"></i>Despesas</a>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="receipt_long" aria-hidden="true"></i>Recibos<span class="ax-nav-item__count ax-nav-item__count--quiet">12</span></a>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="account_balance" aria-hidden="true"></i>Carnê-Leão</a>
+      <p class="ax-side__title">Cadastros</p>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="person" aria-hidden="true"></i>Pacientes</a>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="medical_services" aria-hidden="true"></i>Profissionais</a>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="assignment" aria-hidden="true"></i>Solicitações<span class="ax-nav-item__count">2</span></a>
+      <a class="ax-nav-item" href="configuracoes.html"><i class="ax-i" data-i="settings" aria-hidden="true"></i>Configurações</a>
+  </nav>
+  <button class="ax-btn ax-btn--secondary ax-btn--block" type="button" data-ax-close>Fechar</button>
+</dialog>
+
+<script>document.addEventListener('DOMContentLoaded', function () { 
+document.querySelectorAll('[data-demo-group]').forEach(function (g) {
+  g.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-demo]'); if (!b) return;
+    document.querySelectorAll('[data-state-panel]').forEach(function (p) { p.hidden = p.getAttribute('data-state-panel') !== b.getAttribute('data-demo'); });
+  });
+});
+document.querySelectorAll('.ax-progress__fill[data-w]').forEach(function (f) { f.style.width = f.getAttribute('data-w') + '%'; });
+document.querySelectorAll('form[data-ax-validate]').forEach(function (f) {
+  f.addEventListener('submit', function (e) {
+    if (f.getAttribute('action') !== '#' && location.protocol !== 'about:' && true) return;
+    e.preventDefault(); var b = f.querySelector('[type="submit"]'); Eixo.busy(b, true);
+    setTimeout(function () { Eixo.busy(b, false); Eixo.toast({ tone: 'success', title: f.id === 'form-acesso' ? 'Bem-vinda de volta' : 'Tudo certo, salvo', text: 'Na demonstração nada é enviado.' }); }, 900);
+  });
+});
+ });</script>
+</body>
+</html>

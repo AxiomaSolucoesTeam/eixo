@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="pt-BR" data-ax-prefs>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Configurações · Axioma XMed</title>
+<script>try{var p=JSON.parse(localStorage.getItem('axioma.eixo')||'{}'),t=p.theme&&p.theme!=='auto'?p.theme:(matchMedia('(prefers-contrast: more)').matches?'contraste':matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../web/eixo.css">
+<style>
+.tela-demo { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 8px 8px 8px 14px; border: 1px dashed var(--line-strong); border-radius: var(--radius-lg); color: var(--text-mute); font-size: 13px; }
+.tela-demo > span { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; }
+.tela-demo .ax-seg { max-width: 100%; overflow-x: auto; scrollbar-width: none; }
+.tela-demo .ax-seg__opt { white-space: nowrap; }
+.ax-link-quiet { color: inherit; text-decoration: none; }
+.ax-link-quiet:hover { text-decoration: underline; }
+</style>
+<script src="../web/eixo.js" defer></script>
+</head>
+<body>
+<a class="ax-skip" href="#conteudo">Pular para o conteúdo</a>
+<div class="ax-app">
+  <aside class="ax-side" aria-label="Menu principal">
+    <div class="ax-side__brand"><a class="ax-brand" href="painel.html"><span class="ax-brand__mark" aria-hidden="true"><i class="ax-i" data-i="medical_services" aria-hidden="true"></i></span><span class="ax-brand__text">Axioma <b>XMed</b></span></a></div>
+    <nav class="ax-side__nav" data-auto aria-label="Áreas do XMed">
+      <a class="ax-nav-item" href="painel.html"><i class="ax-i" data-i="space_dashboard" aria-hidden="true"></i>Painel</a>
+      <p class="ax-side__title">Financeiro</p>
+      <a class="ax-nav-item" href="lista.html"><i class="ax-i" data-i="payments" aria-hidden="true"></i>Receitas</a>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="trending_down" aria-hidden="true"></i>Despesas</a>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="receipt_long" aria-hidden="true"></i>Recibos<span class="ax-nav-item__count ax-nav-item__count--quiet">12</span></a>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="account_balance" aria-hidden="true"></i>Carnê-Leão</a>
+      <p class="ax-side__title">Cadastros</p>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="person" aria-hidden="true"></i>Pacientes</a>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="medical_services" aria-hidden="true"></i>Profissionais</a>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="assignment" aria-hidden="true"></i>Solicitações<span class="ax-nav-item__count">2</span></a>
+    </nav>
+    <div class="ax-side__foot">
+      <button class="ax-user" type="button" data-ax-menu="menu-conta"><span class="ax-avatar ax-avatar--sm" data-tint="1">CB</span><span class="ax-user__text"><span class="ax-user__name">Clínica Bem Viver</span><span class="ax-user__role">Administrador</span></span><i class="ax-i" data-i="unfold_more" aria-hidden="true"></i></button>
+    </div>
+  </aside>
+  <nav class="ax-rail" aria-label="Menu principal"><a class="ax-brand__mark" href="painel.html" aria-label="Axioma XMed, início"><i class="ax-i" data-i="medical_services" aria-hidden="true"></i></a><a class="ax-rail__item" href="painel.html"><span class="ax-rail__pill"><i class="ax-i" data-i="space_dashboard" aria-hidden="true"></i></span>Painel</a><a class="ax-rail__item" href="lista.html"><span class="ax-rail__pill"><i class="ax-i" data-i="payments" aria-hidden="true"></i></span>Receitas</a><a class="ax-rail__item" href="#"><span class="ax-rail__pill"><i class="ax-i" data-i="receipt_long" aria-hidden="true"></i></span>Recibos</a><a class="ax-rail__item" href="#"><span class="ax-rail__pill"><i class="ax-i" data-i="person" aria-hidden="true"></i></span>Pacientes</a><button class="ax-rail__item" type="button" data-ax-open="nav-mais"><span class="ax-rail__pill"><i class="ax-i" data-i="menu" aria-hidden="true"></i></span>Mais</button></nav>
+  <div class="ax-app__main">
+    <header class="ax-app__bar">
+      <a class="ax-brand ax-app__brand-compact" href="painel.html"><span class="ax-brand__mark" aria-hidden="true"><i class="ax-i" data-i="medical_services" aria-hidden="true"></i></span><span class="ax-brand__text">Axioma <b>XMed</b></span></a>
+      <nav class="ax-crumbs" aria-label="Você está em"><a href="painel.html">Painel</a><i class="ax-i" data-i="chevron_right" aria-hidden="true"></i><span aria-current="page">Configurações</span></nav>
+      <div class="ax-app__bar-end">
+        <label class="ax-search"><i class="ax-i" data-i="search" aria-hidden="true"></i><input type="search" placeholder="Buscar no XMed" aria-label="Buscar no XMed"><span class="ax-kbd">/</span></label>
+        <button class="ax-icon-btn" type="button" aria-label="Notificações, 2 novas"><i class="ax-i" data-i="notifications" aria-hidden="true"></i></button>
+        <button class="ax-icon-btn ax-only-medium" type="button" data-ax-menu="menu-conta" aria-label="Conta de Clínica Bem Viver"><span class="ax-avatar ax-avatar--xs" data-tint="1">CB</span></button>
+      </div>
+    </header>
+    <main class="ax-app__content" id="conteudo" tabindex="-1">
+<div class="ax-page">
+  <header class="ax-pagehead"><div class="ax-pagehead__text"><h1 class="ax-pagehead__title">Configurações</h1><p class="ax-pagehead__desc">Preferências da sua conta e da clínica.</p></div></header>
+  <div class="ax-settings">
+    <nav class="ax-subnav" aria-label="Seções das configurações">
+      <a href="#"><i class="ax-i" data-i="person" aria-hidden="true"></i>Perfil</a><a href="#" aria-current="page"><i class="ax-i" data-i="palette" aria-hidden="true"></i>Aparência</a><a href="#"><i class="ax-i" data-i="notifications" aria-hidden="true"></i>Notificações</a><a href="#"><i class="ax-i" data-i="lock" aria-hidden="true"></i>Segurança</a><a href="#"><i class="ax-i" data-i="link" aria-hidden="true"></i>Integrações</a>
+    </nav>
+    <div class="ax-stack">
+      <section class="ax-card" aria-labelledby="h-ap"><div class="ax-card__head"><h2 class="ax-card__title" id="h-ap">Aparência</h2></div><div class="ax-card__body ax-stack">
+        <div class="ax-field"><span class="ax-field__label" id="tema-l">Tema</span>
+      <div class="ax-select" data-ax-pref="theme"><button type="button" class="ax-input ax-select__trigger" aria-labelledby="tema-l tema-v"><i class="ax-i" data-i="palette" aria-hidden="true"></i><span class="ax-select__value" id="tema-v">Automático</span><i class="ax-i ax-select__chev" data-i="unfold_more" aria-hidden="true"></i></button>
+      <div class="ax-select__pop" hidden><ul class="ax-select__list" role="listbox" aria-labelledby="tema-l" tabindex="-1">
+        <li class="ax-option" role="option" data-value="auto" aria-selected="true"><i class="ax-i" data-i="contrast" aria-hidden="true"></i>Automático<span class="ax-option__hint">segue o aparelho</span></li>
+        <li class="ax-option" role="option" data-value="light" aria-selected="false"><i class="ax-i" data-i="light_mode" aria-hidden="true"></i>Claro</li>
+        <li class="ax-option" role="option" data-value="dark" aria-selected="false"><i class="ax-i" data-i="dark_mode" aria-hidden="true"></i>Escuro</li>
+        <li class="ax-option" role="option" data-value="contraste" aria-selected="false"><i class="ax-i" data-i="accessibility" aria-hidden="true"></i>Alto contraste</li>
+      </ul></div></div><p class="ax-field__hint">Vale para todos os sistemas Axioma neste navegador.</p></div>
+        <hr class="ax-divider">
+        <label class="ax-switch-row"><span class="ax-choice__text"><span class="ax-choice__title">Reduzir movimento</span><span class="ax-choice__hint">Tira as animações de entrada e as molas</span></span><input type="checkbox" role="switch" class="ax-switch" data-ax-pref="motion"></label>
+        <hr class="ax-divider">
+        <label class="ax-switch-row"><span class="ax-choice__text"><span class="ax-choice__title">Sons da interface</span><span class="ax-choice__hint">Confirmações curtas ao salvar e enviar</span></span><input type="checkbox" role="switch" class="ax-switch" data-ax-pref="sound"></label>
+      </div></section>
+      <section class="ax-card" aria-labelledby="h-not"><div class="ax-card__head"><h2 class="ax-card__title" id="h-not">Notificações</h2></div><div class="ax-card__body ax-stack">
+        <label class="ax-switch-row"><span class="ax-choice__text"><span class="ax-choice__title">Avisar quando um recibo for aberto</span><span class="ax-choice__hint">Por e-mail, no fim do dia</span></span><input type="checkbox" role="switch" class="ax-switch" checked></label>
+        <hr class="ax-divider">
+        <label class="ax-switch-row"><span class="ax-choice__text"><span class="ax-choice__title">Lembrete do Carnê-Leão</span><span class="ax-choice__hint">3 dias antes do vencimento, por WhatsApp</span></span><input type="checkbox" role="switch" class="ax-switch" checked></label>
+      </div></section>
+      <section class="ax-card" aria-labelledby="h-seg"><div class="ax-card__head"><h2 class="ax-card__title" id="h-seg">Sessões</h2></div><div class="ax-card__body ax-stack">
+        <p class="ax-body-sm">Você está conectado em 3 aparelhos. Se perdeu um deles, saia de todos e entre de novo.</p>
+        <div><button class="ax-btn ax-btn--danger-ghost" type="button" data-ax-confirm="Sair de todos os aparelhos?" data-ax-confirm-text="Você vai precisar entrar de novo em cada um, inclusive neste." data-ax-confirm-ok="Sair de todos"><i class="ax-i" data-i="logout" aria-hidden="true"></i>Sair de todos os aparelhos</button></div>
+      </div></section>
+    </div>
+  </div>
+</div>
+    </main>
+  </div>
+  <nav class="ax-bottomnav" data-auto aria-label="Menu principal"><a class="ax-bottomnav__item" href="painel.html"><span class="ax-bottomnav__pill"><i class="ax-i" data-i="home" aria-hidden="true"></i></span>Início</a><a class="ax-bottomnav__item" href="lista.html"><span class="ax-bottomnav__pill"><i class="ax-i" data-i="payments" aria-hidden="true"></i></span>Receitas</a><a class="ax-bottomnav__item" href="#"><span class="ax-bottomnav__pill"><i class="ax-i" data-i="receipt_long" aria-hidden="true"></i></span>Recibos</a><button class="ax-bottomnav__item" type="button" data-ax-open="nav-mais" aria-current="page"><span class="ax-bottomnav__pill"><i class="ax-i" data-i="menu" aria-hidden="true"></i></span>Mais</button></nav>
+</div>
+<div class="ax-menu" id="menu-conta" hidden aria-label="Conta">
+  <div class="ax-menu__group"><a class="ax-menu__item" href="#"><i class="ax-i" data-i="person" aria-hidden="true"></i>Meu perfil</a><a class="ax-menu__item" href="configuracoes.html"><i class="ax-i" data-i="settings" aria-hidden="true"></i>Configurações</a><a class="ax-menu__item" href="#"><i class="ax-i" data-i="help" aria-hidden="true"></i>Ajuda</a></div>
+  <div class="ax-menu__group"><a class="ax-menu__item" href="acesso.html"><i class="ax-i" data-i="logout" aria-hidden="true"></i>Sair</a></div>
+</div>
+<dialog class="ax-sheet" id="nav-mais" aria-labelledby="nav-mais-t">
+  <span class="ax-sheet__grabber" aria-hidden="true"></span>
+  <h2 class="ax-sheet__title" id="nav-mais-t">Todas as áreas</h2>
+  <nav class="ax-side__nav" aria-label="Todas as áreas">
+      <a class="ax-nav-item" href="painel.html"><i class="ax-i" data-i="space_dashboard" aria-hidden="true"></i>Painel</a>
+      <p class="ax-side__title">Financeiro</p>
+      <a class="ax-nav-item" href="lista.html"><i class="ax-i" data-i="payments" aria-hidden="true"></i>Receitas</a>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="trending_down" aria-hidden="true"></i>Despesas</a>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="receipt_long" aria-hidden="true"></i>Recibos<span class="ax-nav-item__count ax-nav-item__count--quiet">12</span></a>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="account_balance" aria-hidden="true"></i>Carnê-Leão</a>
+      <p class="ax-side__title">Cadastros</p>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="person" aria-hidden="true"></i>Pacientes</a>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="medical_services" aria-hidden="true"></i>Profissionais</a>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="assignment" aria-hidden="true"></i>Solicitações<span class="ax-nav-item__count">2</span></a>
+      <a class="ax-nav-item" href="configuracoes.html"><i class="ax-i" data-i="settings" aria-hidden="true"></i>Configurações</a>
+  </nav>
+  <button class="ax-btn ax-btn--secondary ax-btn--block" type="button" data-ax-close>Fechar</button>
+</dialog>
+
+<script>document.addEventListener('DOMContentLoaded', function () { 
+document.querySelectorAll('[data-demo-group]').forEach(function (g) {
+  g.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-demo]'); if (!b) return;
+    document.querySelectorAll('[data-state-panel]').forEach(function (p) { p.hidden = p.getAttribute('data-state-panel') !== b.getAttribute('data-demo'); });
+  });
+});
+document.querySelectorAll('.ax-progress__fill[data-w]').forEach(function (f) { f.style.width = f.getAttribute('data-w') + '%'; });
+document.querySelectorAll('form[data-ax-validate]').forEach(function (f) {
+  f.addEventListener('submit', function (e) {
+    if (f.getAttribute('action') !== '#' && location.protocol !== 'about:' && true) return;
+    e.preventDefault(); var b = f.querySelector('[type="submit"]'); Eixo.busy(b, true);
+    setTimeout(function () { Eixo.busy(b, false); Eixo.toast({ tone: 'success', title: f.id === 'form-acesso' ? 'Bem-vinda de volta' : 'Tudo certo, salvo', text: 'Na demonstração nada é enviado.' }); }, 900);
+  });
+});
+ });</script>
+</body>
+</html>

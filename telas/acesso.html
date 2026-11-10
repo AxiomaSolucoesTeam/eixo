@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="pt-BR" data-ax-prefs>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Acesso · Axioma XMed</title>
+<script>try{var p=JSON.parse(localStorage.getItem('axioma.eixo')||'{}'),t=p.theme&&p.theme!=='auto'?p.theme:(matchMedia('(prefers-contrast: more)').matches?'contraste':matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../web/eixo.css">
+<style>
+.tela-demo { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 8px 8px 8px 14px; border: 1px dashed var(--line-strong); border-radius: var(--radius-lg); color: var(--text-mute); font-size: 13px; }
+.tela-demo > span { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; }
+.tela-demo .ax-seg { max-width: 100%; overflow-x: auto; scrollbar-width: none; }
+.tela-demo .ax-seg__opt { white-space: nowrap; }
+.ax-link-quiet { color: inherit; text-decoration: none; }
+.ax-link-quiet:hover { text-decoration: underline; }
+</style>
+<script src="../web/eixo.js" defer></script>
+</head>
+<body>
+<div class="ax-auth">
+  <div class="ax-auth__brand">
+    <span class="ax-brand ax-brand--lg ax-brand--on-deep"><span class="ax-brand__mark" aria-hidden="true"><i class="ax-i" data-i="medical_services" aria-hidden="true"></i></span><span class="ax-brand__text">Axioma <b>XMed</b></span></span>
+    <div class="ax-stack"><h1>Você atende. O XMed cuida do Carnê-Leão.</h1><p>Receitas, despesas e recibos num só lugar, com o imposto do mês calculado sozinho.</p></div>
+    <p class="ax-caption">Axioma · sistemas para quem cuida de gente</p>
+  </div>
+  <main class="ax-auth__panel" id="conteudo">
+    <form class="ax-auth__form" data-ax-validate action="painel.html" method="get" id="form-acesso">
+      <span class="ax-brand ax-only-medium"><span class="ax-brand__mark" aria-hidden="true"><i class="ax-i" data-i="medical_services" aria-hidden="true"></i></span><span class="ax-brand__text">Axioma <b>XMed</b></span></span>
+      <h2>Entrar no XMed</h2>
+      <template data-ax-toast data-tone="info" data-title="Sua sessão terminou" data-text="Por segurança, saímos depois de 30 minutos parado. Entre de novo."></template>
+      <div class="ax-field"><label class="ax-field__label" for="email-acesso">E-mail</label>
+      <div class="ax-input"><input id="email-acesso" name="email-acesso" type="email" required autocomplete="username" placeholder="nome@clinica.com.br"></div></div>
+      <div class="ax-field"><label class="ax-field__label" for="senha">Senha</label>
+        <div class="ax-input"><input id="senha" name="senha" type="password" required autocomplete="current-password"><button class="ax-icon-btn" type="button" data-ax-reveal aria-pressed="false" aria-label="Mostrar senha"><i class="ax-i" data-i="visibility" aria-hidden="true"></i></button></div>
+        <a class="ax-btn ax-btn--link" href="#">Esqueci minha senha</a></div>
+      <button class="ax-btn ax-btn--primary ax-btn--lg ax-btn--block" type="submit">Entrar</button>
+      <p class="ax-auth__foot">Precisa de acesso? Peça ao administrador da sua clínica.</p>
+    </form>
+  </main>
+</div>
+<script>document.addEventListener('DOMContentLoaded', function () { 
+document.querySelectorAll('[data-demo-group]').forEach(function (g) {
+  g.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-demo]'); if (!b) return;
+    document.querySelectorAll('[data-state-panel]').forEach(function (p) { p.hidden = p.getAttribute('data-state-panel') !== b.getAttribute('data-demo'); });
+  });
+});
+document.querySelectorAll('.ax-progress__fill[data-w]').forEach(function (f) { f.style.width = f.getAttribute('data-w') + '%'; });
+document.querySelectorAll('form[data-ax-validate]').forEach(function (f) {
+  f.addEventListener('submit', function (e) {
+    if (f.getAttribute('action') !== '#' && location.protocol !== 'about:' && true) return;
+    e.preventDefault(); var b = f.querySelector('[type="submit"]'); Eixo.busy(b, true);
+    setTimeout(function () { Eixo.busy(b, false); Eixo.toast({ tone: 'success', title: f.id === 'form-acesso' ? 'Bem-vinda de volta' : 'Tudo certo, salvo', text: 'Na demonstração nada é enviado.' }); }, 900);
+  });
+});
+ });</script>
+</body>
+</html>

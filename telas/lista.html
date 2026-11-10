@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="pt-BR" data-ax-prefs>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lista · Axioma XMed</title>
+<script>try{var p=JSON.parse(localStorage.getItem('axioma.eixo')||'{}'),t=p.theme&&p.theme!=='auto'?p.theme:(matchMedia('(prefers-contrast: more)').matches?'contraste':matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../web/eixo.css">
+<style>
+.tela-demo { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 8px 8px 8px 14px; border: 1px dashed var(--line-strong); border-radius: var(--radius-lg); color: var(--text-mute); font-size: 13px; }
+.tela-demo > span { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; }
+.tela-demo .ax-seg { max-width: 100%; overflow-x: auto; scrollbar-width: none; }
+.tela-demo .ax-seg__opt { white-space: nowrap; }
+.ax-link-quiet { color: inherit; text-decoration: none; }
+.ax-link-quiet:hover { text-decoration: underline; }
+</style>
+<script src="../web/eixo.js" defer></script>
+</head>
+<body>
+<a class="ax-skip" href="#conteudo">Pular para o conteúdo</a>
+<div class="ax-app">
+  <aside class="ax-side" aria-label="Menu principal">
+    <div class="ax-side__brand"><a class="ax-brand" href="painel.html"><span class="ax-brand__mark" aria-hidden="true"><i class="ax-i" data-i="medical_services" aria-hidden="true"></i></span><span class="ax-brand__text">Axioma <b>XMed</b></span></a></div>
+    <nav class="ax-side__nav" data-auto aria-label="Áreas do XMed">
+      <a class="ax-nav-item" href="painel.html"><i class="ax-i" data-i="space_dashboard" aria-hidden="true"></i>Painel</a>
+      <p class="ax-side__title">Financeiro</p>
+      <a class="ax-nav-item" href="lista.html" aria-current="page"><i class="ax-i" data-i="payments" aria-hidden="true"></i>Receitas</a>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="trending_down" aria-hidden="true"></i>Despesas</a>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="receipt_long" aria-hidden="true"></i>Recibos<span class="ax-nav-item__count ax-nav-item__count--quiet">12</span></a>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="account_balance" aria-hidden="true"></i>Carnê-Leão</a>
+      <p class="ax-side__title">Cadastros</p>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="person" aria-hidden="true"></i>Pacientes</a>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="medical_services" aria-hidden="true"></i>Profissionais</a>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="assignment" aria-hidden="true"></i>Solicitações<span class="ax-nav-item__count">2</span></a>
+    </nav>
+    <div class="ax-side__foot">
+      <button class="ax-user" type="button" data-ax-menu="menu-conta"><span class="ax-avatar ax-avatar--sm" data-tint="1">CB</span><span class="ax-user__text"><span class="ax-user__name">Clínica Bem Viver</span><span class="ax-user__role">Administrador</span></span><i class="ax-i" data-i="unfold_more" aria-hidden="true"></i></button>
+    </div>
+  </aside>
+  <nav class="ax-rail" aria-label="Menu principal"><a class="ax-brand__mark" href="painel.html" aria-label="Axioma XMed, início"><i class="ax-i" data-i="medical_services" aria-hidden="true"></i></a><a class="ax-rail__item" href="painel.html"><span class="ax-rail__pill"><i class="ax-i" data-i="space_dashboard" aria-hidden="true"></i></span>Painel</a><a class="ax-rail__item" href="lista.html" aria-current="page"><span class="ax-rail__pill"><i class="ax-i" data-i="payments" aria-hidden="true"></i></span>Receitas</a><a class="ax-rail__item" href="#"><span class="ax-rail__pill"><i class="ax-i" data-i="receipt_long" aria-hidden="true"></i></span>Recibos</a><a class="ax-rail__item" href="#"><span class="ax-rail__pill"><i class="ax-i" data-i="person" aria-hidden="true"></i></span>Pacientes</a><button class="ax-rail__item" type="button" data-ax-open="nav-mais"><span class="ax-rail__pill"><i class="ax-i" data-i="menu" aria-hidden="true"></i></span>Mais</button></nav>
+  <div class="ax-app__main">
+    <header class="ax-app__bar">
+      <a class="ax-brand ax-app__brand-compact" href="painel.html"><span class="ax-brand__mark" aria-hidden="true"><i class="ax-i" data-i="medical_services" aria-hidden="true"></i></span><span class="ax-brand__text">Axioma <b>XMed</b></span></a>
+      <nav class="ax-crumbs" aria-label="Você está em"><a href="painel.html">Painel</a><i class="ax-i" data-i="chevron_right" aria-hidden="true"></i><span aria-current="page">Receitas</span></nav>
+      <div class="ax-app__bar-end">
+        <label class="ax-search"><i class="ax-i" data-i="search" aria-hidden="true"></i><input type="search" placeholder="Buscar no XMed" aria-label="Buscar no XMed"><span class="ax-kbd">/</span></label>
+        <button class="ax-icon-btn" type="button" aria-label="Notificações, 2 novas"><i class="ax-i" data-i="notifications" aria-hidden="true"></i></button>
+        <button class="ax-icon-btn ax-only-medium" type="button" data-ax-menu="menu-conta" aria-label="Conta de Clínica Bem Viver"><span class="ax-avatar ax-avatar--xs" data-tint="1">CB</span></button>
+      </div>
+    </header>
+    <main class="ax-app__content" id="conteudo" tabindex="-1">
+<div class="ax-page">
+  <div class="tela-demo" data-demo-group="estado"><span><i class="ax-i" data-i="auto_awesome" aria-hidden="true"></i>Só na demonstração · mostre cada estado</span><div class="ax-seg" role="radiogroup" aria-label="Estado da tela"><span class="ax-seg__thumb" aria-hidden="true"></span><button class="ax-seg__opt" type="button" role="radio" aria-checked="true" data-demo="dados">Com dados</button><button class="ax-seg__opt" type="button" role="radio" aria-checked="false" data-demo="carregando">Carregando</button><button class="ax-seg__opt" type="button" role="radio" aria-checked="false" data-demo="vazio">Vazio</button><button class="ax-seg__opt" type="button" role="radio" aria-checked="false" data-demo="filtro">Sem resultado</button><button class="ax-seg__opt" type="button" role="radio" aria-checked="false" data-demo="erro">Erro</button></div></div>
+  <header class="ax-pagehead"><div class="ax-pagehead__text"><h1 class="ax-pagehead__title">Receitas <span class="ax-pill ax-pill--plain">342</span></h1><p class="ax-pagehead__desc">Tudo o que entrou e vai entrar no caixa da clínica.</p></div><div class="ax-pagehead__actions"><button class="ax-btn ax-btn--secondary ax-hide-compact" type="button"><i class="ax-i" data-i="download" aria-hidden="true"></i>Exportar</button><a class="ax-btn ax-btn--primary" href="formulario.html"><i class="ax-i" data-i="add" aria-hidden="true"></i>Nova receita</a></div></header>
+  <div class="ax-toolbar" role="search" aria-label="Filtrar receitas">
+  <label class="ax-search"><i class="ax-i" data-i="search" aria-hidden="true"></i><input type="search" placeholder="Buscar paciente ou profissional" aria-label="Buscar receitas"></label>
+  <div class="ax-select ax-hide-compact" data-value="todas"><button type="button" class="ax-input ax-select__trigger" aria-label="Situação"><i class="ax-i" data-i="filter_list" aria-hidden="true"></i><span class="ax-select__value">Todas as situações</span><i class="ax-i ax-select__chev" data-i="unfold_more" aria-hidden="true"></i></button>
+    <div class="ax-select__pop" hidden><ul class="ax-select__list" role="listbox" aria-label="Situação" tabindex="-1">
+      <li class="ax-option" role="option" data-value="todas" aria-selected="true">Todas as situações</li>
+      <li class="ax-option" role="option" data-value="recebida" aria-selected="false"><i class="ax-i" data-i="check_circle" aria-hidden="true"></i>Recebida</li>
+      <li class="ax-option" role="option" data-value="areceber" aria-selected="false"><i class="ax-i" data-i="schedule" aria-hidden="true"></i>A receber</li>
+      <li class="ax-option" role="option" data-value="analise" aria-selected="false"><i class="ax-i" data-i="hourglass_top" aria-hidden="true"></i>Em análise</li>
+      <li class="ax-option" role="option" data-value="atrasada" aria-selected="false"><i class="ax-i" data-i="error" aria-hidden="true"></i>Atrasada</li>
+    </ul></div></div>
+  <div class="ax-select ax-hide-compact" data-value="nov"><button type="button" class="ax-input ax-select__trigger" aria-label="Período"><i class="ax-i" data-i="calendar_month" aria-hidden="true"></i><span class="ax-select__value">Novembro de 2026</span><i class="ax-i ax-select__chev" data-i="unfold_more" aria-hidden="true"></i></button>
+    <div class="ax-select__pop" hidden><ul class="ax-select__list" role="listbox" aria-label="Período" tabindex="-1">
+      <li class="ax-option" role="option" data-value="nov" aria-selected="true">Novembro de 2026</li><li class="ax-option" role="option" data-value="out" aria-selected="false">Outubro de 2026</li><li class="ax-option" role="option" data-value="tri" aria-selected="false">Últimos 3 meses</li><li class="ax-option" role="option" data-value="ano" aria-selected="false">2026 inteiro</li>
+    </ul></div></div>
+  <button class="ax-btn ax-btn--secondary ax-only-compact" type="button" data-ax-open="filtros"><i class="ax-i" data-i="tune" aria-hidden="true"></i>Filtros</button>
+  <div class="ax-toolbar__end"><span><b>342</b> receitas · <b>R$ 86.240,00</b></span></div>
+</div>
+  <div data-state-panel="dados"><div class="ax-table-wrap">
+  <table class="ax-table ax-table--stack"><caption class="ax-sr">Receitas de novembro de 2026</caption><thead><tr><th scope="col">Paciente</th><th scope="col" aria-sort="descending"><button type="button">Data<i class="ax-i" data-i="arrow_downward" aria-hidden="true"></i></button></th><th scope="col">Pagamento</th><th scope="col">Situação</th><th scope="col" class="num">Valor</th><th scope="col"><span class="ax-sr">Ações</span></th></tr></thead><tbody>
+<tr data-href="detalhe.html"><td><div class="ax-cell-main"><b><a class="ax-link-quiet" href="detalhe.html">Maria Lima</a></b><span>Consulta · Dra. Ana Beatriz</span></div></td><td data-label="Data">10/11</td><td data-label="Pagamento">Pix</td><td data-label="Situação"><span class="ax-pill" data-tone="success"><i class="ax-i" data-i="check_circle" aria-hidden="true"></i>Recebida</span></td><td class="num" data-label="Valor">R$ 450,00</td><td class="ax-cell-actions"><button class="ax-icon-btn ax-icon-btn--sm ax-row-actions" type="button" data-ax-menu="menu-linha" aria-label="Mais opções da receita de Maria Lima"><i class="ax-i" data-i="more_vert" aria-hidden="true"></i></button></td></tr>
+<tr data-href="detalhe.html"><td><div class="ax-cell-main"><b><a class="ax-link-quiet" href="detalhe.html">João Pedro Almeida</a></b><span>Retorno · Dra. Ana Beatriz</span></div></td><td data-label="Data">09/11</td><td data-label="Pagamento">Cartão de crédito</td><td data-label="Situação"><span class="ax-pill" data-tone="warning"><i class="ax-i" data-i="schedule" aria-hidden="true"></i>A receber</span></td><td class="num" data-label="Valor">R$ 280,00</td><td class="ax-cell-actions"><button class="ax-icon-btn ax-icon-btn--sm ax-row-actions" type="button" data-ax-menu="menu-linha" aria-label="Mais opções da receita de João Pedro Almeida"><i class="ax-i" data-i="more_vert" aria-hidden="true"></i></button></td></tr>
+<tr data-href="detalhe.html"><td><div class="ax-cell-main"><b><a class="ax-link-quiet" href="detalhe.html">Rebeca Nogueira</a></b><span>Procedimento · Dr. Caio Freitas</span></div></td><td data-label="Data">08/11</td><td data-label="Pagamento">Convênio</td><td data-label="Situação"><span class="ax-pill" data-tone="info"><i class="ax-i" data-i="hourglass_top" aria-hidden="true"></i>Em análise</span></td><td class="num" data-label="Valor">R$ 1.200,00</td><td class="ax-cell-actions"><button class="ax-icon-btn ax-icon-btn--sm ax-row-actions" type="button" data-ax-menu="menu-linha" aria-label="Mais opções da receita de Rebeca Nogueira"><i class="ax-i" data-i="more_vert" aria-hidden="true"></i></button></td></tr>
+<tr data-href="detalhe.html"><td><div class="ax-cell-main"><b><a class="ax-link-quiet" href="detalhe.html">Carlos Henrique Dias</a></b><span>Consulta · Dra. Mariana Costa</span></div></td><td data-label="Data">06/11</td><td data-label="Pagamento">Pix</td><td data-label="Situação"><span class="ax-pill" data-tone="success"><i class="ax-i" data-i="check_circle" aria-hidden="true"></i>Recebida</span></td><td class="num" data-label="Valor">R$ 450,00</td><td class="ax-cell-actions"><button class="ax-icon-btn ax-icon-btn--sm ax-row-actions" type="button" data-ax-menu="menu-linha" aria-label="Mais opções da receita de Carlos Henrique Dias"><i class="ax-i" data-i="more_vert" aria-hidden="true"></i></button></td></tr>
+<tr data-href="detalhe.html"><td><div class="ax-cell-main"><b><a class="ax-link-quiet" href="detalhe.html">Luíza Andrade</a></b><span>Consulta · Dra. Ana Beatriz</span></div></td><td data-label="Data">05/11</td><td data-label="Pagamento">Boleto</td><td data-label="Situação"><span class="ax-pill" data-tone="danger"><i class="ax-i" data-i="error" aria-hidden="true"></i>Atrasada</span></td><td class="num" data-label="Valor">R$ 450,00</td><td class="ax-cell-actions"><button class="ax-icon-btn ax-icon-btn--sm ax-row-actions" type="button" data-ax-menu="menu-linha" aria-label="Mais opções da receita de Luíza Andrade"><i class="ax-i" data-i="more_vert" aria-hidden="true"></i></button></td></tr>
+<tr data-href="detalhe.html"><td><div class="ax-cell-main"><b><a class="ax-link-quiet" href="detalhe.html">Tiago Moreira</a></b><span>Retorno · Dr. Caio Freitas</span></div></td><td data-label="Data">04/11</td><td data-label="Pagamento">Dinheiro</td><td data-label="Situação"><span class="ax-pill" data-tone="success"><i class="ax-i" data-i="check_circle" aria-hidden="true"></i>Recebida</span></td><td class="num" data-label="Valor">R$ 200,00</td><td class="ax-cell-actions"><button class="ax-icon-btn ax-icon-btn--sm ax-row-actions" type="button" data-ax-menu="menu-linha" aria-label="Mais opções da receita de Tiago Moreira"><i class="ax-i" data-i="more_vert" aria-hidden="true"></i></button></td></tr>
+<tr data-href="detalhe.html"><td><div class="ax-cell-main"><b><a class="ax-link-quiet" href="detalhe.html">Beatriz Sampaio</a></b><span>Procedimento · Dra. Mariana Costa</span></div></td><td data-label="Data">03/11</td><td data-label="Pagamento">Cartão de débito</td><td data-label="Situação"><span class="ax-pill"><i class="ax-i" data-i="cancel" aria-hidden="true"></i>Cancelada</span></td><td class="num" data-label="Valor">R$ 680,00</td><td class="ax-cell-actions"><button class="ax-icon-btn ax-icon-btn--sm ax-row-actions" type="button" data-ax-menu="menu-linha" aria-label="Mais opções da receita de Beatriz Sampaio"><i class="ax-i" data-i="more_vert" aria-hidden="true"></i></button></td></tr>
+  </tbody></table>
+  <div class="ax-table-foot"><nav class="ax-pager" aria-label="Paginação"><span class="ax-pager__info">Mostrando <b>1–20</b> de <b>342</b></span><div class="ax-pager__pages"><a class="ax-pager__page" href="#" aria-label="Página anterior" aria-disabled="true"><i class="ax-i" data-i="chevron_left" aria-hidden="true"></i></a><a class="ax-pager__page" href="#" aria-current="page">1</a><a class="ax-pager__page" href="#">2</a><a class="ax-pager__page ax-hide-compact" href="#">3</a><span class="ax-pager__gap">…</span><a class="ax-pager__page" href="#">18</a><a class="ax-pager__page" href="#" aria-label="Próxima página"><i class="ax-i" data-i="chevron_right" aria-hidden="true"></i></a></div></nav></div>
+</div></div>
+  <div data-state-panel="carregando" hidden><div class="ax-table-wrap" aria-busy="true"><table class="ax-table ax-table--stack"><caption class="ax-sr">Carregando receitas</caption><thead><tr><th scope="col">Paciente</th><th scope="col" aria-sort="descending"><button type="button">Data<i class="ax-i" data-i="arrow_downward" aria-hidden="true"></i></button></th><th scope="col">Pagamento</th><th scope="col">Situação</th><th scope="col" class="num">Valor</th></tr></thead><tbody><tr><td><div class="ax-skel ax-skel--title"></div><div class="ax-skel ax-skel--text"></div></td><td><div class="ax-skel ax-skel--text"></div></td><td><div class="ax-skel ax-skel--text"></div></td><td><div class="ax-skel ax-skel--text"></div></td><td class="num"><div class="ax-skel ax-skel--text"></div></td></tr><tr><td><div class="ax-skel ax-skel--title"></div><div class="ax-skel ax-skel--text"></div></td><td><div class="ax-skel ax-skel--text"></div></td><td><div class="ax-skel ax-skel--text"></div></td><td><div class="ax-skel ax-skel--text"></div></td><td class="num"><div class="ax-skel ax-skel--text"></div></td></tr><tr><td><div class="ax-skel ax-skel--title"></div><div class="ax-skel ax-skel--text"></div></td><td><div class="ax-skel ax-skel--text"></div></td><td><div class="ax-skel ax-skel--text"></div></td><td><div class="ax-skel ax-skel--text"></div></td><td class="num"><div class="ax-skel ax-skel--text"></div></td></tr><tr><td><div class="ax-skel ax-skel--title"></div><div class="ax-skel ax-skel--text"></div></td><td><div class="ax-skel ax-skel--text"></div></td><td><div class="ax-skel ax-skel--text"></div></td><td><div class="ax-skel ax-skel--text"></div></td><td class="num"><div class="ax-skel ax-skel--text"></div></td></tr><tr><td><div class="ax-skel ax-skel--title"></div><div class="ax-skel ax-skel--text"></div></td><td><div class="ax-skel ax-skel--text"></div></td><td><div class="ax-skel ax-skel--text"></div></td><td><div class="ax-skel ax-skel--text"></div></td><td class="num"><div class="ax-skel ax-skel--text"></div></td></tr></tbody></table></div></div>
+  <div data-state-panel="vazio" hidden><div class="ax-card"><div class="ax-empty"><span class="ax-empty__art"><i class="ax-i" data-i="payments" aria-hidden="true"></i></span><p class="ax-empty__title">Nenhuma receita em novembro ainda</p><p class="ax-empty__text">Lance a primeira para o XMed calcular o Carnê-Leão do mês e emitir o recibo.</p><div class="ax-empty__actions"><a class="ax-btn ax-btn--primary" href="formulario.html"><i class="ax-i" data-i="add" aria-hidden="true"></i>Nova receita</a></div></div></div></div>
+  <div data-state-panel="filtro" hidden><div class="ax-card"><div class="ax-empty"><span class="ax-empty__art" data-tone="neutral"><i class="ax-i" data-i="search_off" aria-hidden="true"></i></span><p class="ax-empty__title">Nenhuma receita com "Ana" em novembro</p><p class="ax-empty__text">Confira a grafia ou procure em outro período.</p><div class="ax-empty__actions"><button class="ax-btn ax-btn--secondary" type="button">Limpar filtros</button></div></div></div></div>
+  <div data-state-panel="erro" hidden><div class="ax-alert" data-tone="danger" role="alert"><i class="ax-i" data-i="error" aria-hidden="true"></i><div class="ax-alert__body"><p class="ax-alert__title">Não deu para carregar as receitas</p><p class="ax-alert__text">A conexão com o servidor caiu. Seus dados estão seguros; tente de novo em instantes.</p><div class="ax-alert__actions"><button class="ax-btn ax-btn--secondary ax-btn--sm" type="button"><i class="ax-i" data-i="refresh" aria-hidden="true"></i>Tentar de novo</button></div></div></div></div>
+</div>
+    </main>
+  </div>
+  <nav class="ax-bottomnav" data-auto aria-label="Menu principal"><a class="ax-bottomnav__item" href="painel.html"><span class="ax-bottomnav__pill"><i class="ax-i" data-i="home" aria-hidden="true"></i></span>Início</a><a class="ax-bottomnav__item" href="lista.html" aria-current="page"><span class="ax-bottomnav__pill"><i class="ax-i" data-i="payments" aria-hidden="true"></i></span>Receitas</a><a class="ax-bottomnav__item" href="#"><span class="ax-bottomnav__pill"><i class="ax-i" data-i="receipt_long" aria-hidden="true"></i></span>Recibos</a><button class="ax-bottomnav__item" type="button" data-ax-open="nav-mais"><span class="ax-bottomnav__pill"><i class="ax-i" data-i="menu" aria-hidden="true"></i></span>Mais</button></nav>
+</div>
+<div class="ax-menu" id="menu-conta" hidden aria-label="Conta">
+  <div class="ax-menu__group"><a class="ax-menu__item" href="#"><i class="ax-i" data-i="person" aria-hidden="true"></i>Meu perfil</a><a class="ax-menu__item" href="configuracoes.html"><i class="ax-i" data-i="settings" aria-hidden="true"></i>Configurações</a><a class="ax-menu__item" href="#"><i class="ax-i" data-i="help" aria-hidden="true"></i>Ajuda</a></div>
+  <div class="ax-menu__group"><a class="ax-menu__item" href="acesso.html"><i class="ax-i" data-i="logout" aria-hidden="true"></i>Sair</a></div>
+</div>
+<dialog class="ax-sheet" id="nav-mais" aria-labelledby="nav-mais-t">
+  <span class="ax-sheet__grabber" aria-hidden="true"></span>
+  <h2 class="ax-sheet__title" id="nav-mais-t">Todas as áreas</h2>
+  <nav class="ax-side__nav" aria-label="Todas as áreas">
+      <a class="ax-nav-item" href="painel.html"><i class="ax-i" data-i="space_dashboard" aria-hidden="true"></i>Painel</a>
+      <p class="ax-side__title">Financeiro</p>
+      <a class="ax-nav-item" href="lista.html" aria-current="page"><i class="ax-i" data-i="payments" aria-hidden="true"></i>Receitas</a>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="trending_down" aria-hidden="true"></i>Despesas</a>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="receipt_long" aria-hidden="true"></i>Recibos<span class="ax-nav-item__count ax-nav-item__count--quiet">12</span></a>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="account_balance" aria-hidden="true"></i>Carnê-Leão</a>
+      <p class="ax-side__title">Cadastros</p>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="person" aria-hidden="true"></i>Pacientes</a>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="medical_services" aria-hidden="true"></i>Profissionais</a>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="assignment" aria-hidden="true"></i>Solicitações<span class="ax-nav-item__count">2</span></a>
+      <a class="ax-nav-item" href="configuracoes.html"><i class="ax-i" data-i="settings" aria-hidden="true"></i>Configurações</a>
+  </nav>
+  <button class="ax-btn ax-btn--secondary ax-btn--block" type="button" data-ax-close>Fechar</button>
+</dialog>
+<div class="ax-menu" id="menu-linha" hidden aria-label="Ações da receita">
+  <a class="ax-menu__item" href="detalhe.html"><i class="ax-i" data-i="visibility" aria-hidden="true"></i>Ver detalhes</a>
+  <a class="ax-menu__item" href="formulario.html"><i class="ax-i" data-i="edit" aria-hidden="true"></i>Editar</a>
+  <button class="ax-menu__item" type="button"><i class="ax-i" data-i="receipt_long" aria-hidden="true"></i>Emitir recibo</button>
+  <div class="ax-menu__group"><button class="ax-menu__item ax-menu__item--danger" type="button" data-ax-confirm="Excluir esta receita?" data-ax-confirm-text="O recibo ligado a ela também será cancelado. Não dá para desfazer." data-ax-confirm-ok="Excluir receita"><i class="ax-i" data-i="delete" aria-hidden="true"></i>Excluir</button></div>
+</div>
+<dialog class="ax-sheet" id="filtros" aria-labelledby="filtros-t">
+  <span class="ax-sheet__grabber" aria-hidden="true"></span>
+  <h2 class="ax-sheet__title" id="filtros-t">Filtrar receitas</h2>
+  <fieldset class="ax-field"><legend class="ax-field__label">Situação</legend><div class="ax-row">
+    <button class="ax-chip" type="button" aria-pressed="true"><i class="ax-i ax-chip__check" data-i="check" aria-hidden="true"></i>Todas</button><button class="ax-chip" type="button" aria-pressed="false"><i class="ax-i ax-chip__check" data-i="check" aria-hidden="true"></i>Recebida</button><button class="ax-chip" type="button" aria-pressed="false"><i class="ax-i ax-chip__check" data-i="check" aria-hidden="true"></i>A receber</button><button class="ax-chip" type="button" aria-pressed="false"><i class="ax-i ax-chip__check" data-i="check" aria-hidden="true"></i>Atrasada</button>
+  </div></fieldset>
+  <div class="ax-row"><button class="ax-btn ax-btn--quiet" type="button">Limpar</button><button class="ax-btn ax-btn--primary" type="button" data-ax-close>Ver 342 receitas</button></div>
+</dialog>
+<script>document.addEventListener('DOMContentLoaded', function () { 
+document.querySelectorAll('[data-demo-group]').forEach(function (g) {
+  g.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-demo]'); if (!b) return;
+    document.querySelectorAll('[data-state-panel]').forEach(function (p) { p.hidden = p.getAttribute('data-state-panel') !== b.getAttribute('data-demo'); });
+  });
+});
+document.querySelectorAll('.ax-progress__fill[data-w]').forEach(function (f) { f.style.width = f.getAttribute('data-w') + '%'; });
+document.querySelectorAll('form[data-ax-validate]').forEach(function (f) {
+  f.addEventListener('submit', function (e) {
+    if (f.getAttribute('action') !== '#' && location.protocol !== 'about:' && true) return;
+    e.preventDefault(); var b = f.querySelector('[type="submit"]'); Eixo.busy(b, true);
+    setTimeout(function () { Eixo.busy(b, false); Eixo.toast({ tone: 'success', title: f.id === 'form-acesso' ? 'Bem-vinda de volta' : 'Tudo certo, salvo', text: 'Na demonstração nada é enviado.' }); }, 900);
+  });
+});
+ });</script>
+</body>
+</html>

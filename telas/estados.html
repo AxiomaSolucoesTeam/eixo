@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="pt-BR" data-ax-prefs>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Estados · Axioma XMed</title>
+<script>try{var p=JSON.parse(localStorage.getItem('axioma.eixo')||'{}'),t=p.theme&&p.theme!=='auto'?p.theme:(matchMedia('(prefers-contrast: more)').matches?'contraste':matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../web/eixo.css">
+<style>
+.tela-demo { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 8px 8px 8px 14px; border: 1px dashed var(--line-strong); border-radius: var(--radius-lg); color: var(--text-mute); font-size: 13px; }
+.tela-demo > span { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; }
+.tela-demo .ax-seg { max-width: 100%; overflow-x: auto; scrollbar-width: none; }
+.tela-demo .ax-seg__opt { white-space: nowrap; }
+.ax-link-quiet { color: inherit; text-decoration: none; }
+.ax-link-quiet:hover { text-decoration: underline; }
+</style>
+<script src="../web/eixo.js" defer></script>
+</head>
+<body>
+<a class="ax-skip" href="#conteudo">Pular para o conteúdo</a>
+<div class="ax-app">
+  <aside class="ax-side" aria-label="Menu principal">
+    <div class="ax-side__brand"><a class="ax-brand" href="painel.html"><span class="ax-brand__mark" aria-hidden="true"><i class="ax-i" data-i="medical_services" aria-hidden="true"></i></span><span class="ax-brand__text">Axioma <b>XMed</b></span></a></div>
+    <nav class="ax-side__nav" data-auto aria-label="Áreas do XMed">
+      <a class="ax-nav-item" href="painel.html"><i class="ax-i" data-i="space_dashboard" aria-hidden="true"></i>Painel</a>
+      <p class="ax-side__title">Financeiro</p>
+      <a class="ax-nav-item" href="lista.html"><i class="ax-i" data-i="payments" aria-hidden="true"></i>Receitas</a>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="trending_down" aria-hidden="true"></i>Despesas</a>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="receipt_long" aria-hidden="true"></i>Recibos<span class="ax-nav-item__count ax-nav-item__count--quiet">12</span></a>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="account_balance" aria-hidden="true"></i>Carnê-Leão</a>
+      <p class="ax-side__title">Cadastros</p>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="person" aria-hidden="true"></i>Pacientes</a>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="medical_services" aria-hidden="true"></i>Profissionais</a>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="assignment" aria-hidden="true"></i>Solicitações<span class="ax-nav-item__count">2</span></a>
+    </nav>
+    <div class="ax-side__foot">
+      <button class="ax-user" type="button" data-ax-menu="menu-conta"><span class="ax-avatar ax-avatar--sm" data-tint="1">CB</span><span class="ax-user__text"><span class="ax-user__name">Clínica Bem Viver</span><span class="ax-user__role">Administrador</span></span><i class="ax-i" data-i="unfold_more" aria-hidden="true"></i></button>
+    </div>
+  </aside>
+  <nav class="ax-rail" aria-label="Menu principal"><a class="ax-brand__mark" href="painel.html" aria-label="Axioma XMed, início"><i class="ax-i" data-i="medical_services" aria-hidden="true"></i></a><a class="ax-rail__item" href="painel.html"><span class="ax-rail__pill"><i class="ax-i" data-i="space_dashboard" aria-hidden="true"></i></span>Painel</a><a class="ax-rail__item" href="lista.html"><span class="ax-rail__pill"><i class="ax-i" data-i="payments" aria-hidden="true"></i></span>Receitas</a><a class="ax-rail__item" href="#"><span class="ax-rail__pill"><i class="ax-i" data-i="receipt_long" aria-hidden="true"></i></span>Recibos</a><a class="ax-rail__item" href="#"><span class="ax-rail__pill"><i class="ax-i" data-i="person" aria-hidden="true"></i></span>Pacientes</a><button class="ax-rail__item" type="button" data-ax-open="nav-mais"><span class="ax-rail__pill"><i class="ax-i" data-i="menu" aria-hidden="true"></i></span>Mais</button></nav>
+  <div class="ax-app__main">
+    <header class="ax-app__bar">
+      <a class="ax-brand ax-app__brand-compact" href="painel.html"><span class="ax-brand__mark" aria-hidden="true"><i class="ax-i" data-i="medical_services" aria-hidden="true"></i></span><span class="ax-brand__text">Axioma <b>XMed</b></span></a>
+      <nav class="ax-crumbs" aria-label="Você está em"><a href="painel.html">Painel</a><i class="ax-i" data-i="chevron_right" aria-hidden="true"></i><span aria-current="page">Página não encontrada</span></nav>
+      <div class="ax-app__bar-end">
+        <label class="ax-search"><i class="ax-i" data-i="search" aria-hidden="true"></i><input type="search" placeholder="Buscar no XMed" aria-label="Buscar no XMed"><span class="ax-kbd">/</span></label>
+        <button class="ax-icon-btn" type="button" aria-label="Notificações, 2 novas"><i class="ax-i" data-i="notifications" aria-hidden="true"></i></button>
+        <button class="ax-icon-btn ax-only-medium" type="button" data-ax-menu="menu-conta" aria-label="Conta de Clínica Bem Viver"><span class="ax-avatar ax-avatar--xs" data-tint="1">CB</span></button>
+      </div>
+    </header>
+    <main class="ax-app__content" id="conteudo" tabindex="-1">
+<div class="ax-page">
+  <div class="tela-demo" data-demo-group="estado"><span><i class="ax-i" data-i="auto_awesome" aria-hidden="true"></i>Só na demonstração · mostre cada estado</span><div class="ax-seg" role="radiogroup" aria-label="Estado da tela"><span class="ax-seg__thumb" aria-hidden="true"></span><button class="ax-seg__opt" type="button" role="radio" aria-checked="true" data-demo="404">Não encontrada</button><button class="ax-seg__opt" type="button" role="radio" aria-checked="false" data-demo="403">Sem acesso</button><button class="ax-seg__opt" type="button" role="radio" aria-checked="false" data-demo="500">Erro</button><button class="ax-seg__opt" type="button" role="radio" aria-checked="false" data-demo="manut">Manutenção</button><button class="ax-seg__opt" type="button" role="radio" aria-checked="false" data-demo="offline">Sem internet</button></div></div>
+  <div class="ax-state" data-state-panel="404"><div class="ax-state__body">
+    <span class="ax-state__art"><i class="ax-i" data-i="search_off" aria-hidden="true"></i></span><span class="ax-state__code">ERRO 404</span>
+    <h1 class="ax-state__title">Não achamos essa página</h1><p class="ax-state__text">O endereço pode ter mudado ou a receita foi excluída. Confira o link ou volte para o painel.</p>
+    <div class="ax-state__actions"><a class="ax-btn ax-btn--primary" href="painel.html"><i class="ax-i" data-i="home" aria-hidden="true"></i>Ir para o painel</a><button class="ax-btn ax-btn--secondary" type="button"><i class="ax-i" data-i="arrow_back" aria-hidden="true"></i>Voltar</button></div></div></div>
+  <div class="ax-state" data-state-panel="403" hidden><div class="ax-state__body">
+    <span class="ax-state__art" data-tone="warning"><i class="ax-i" data-i="lock" aria-hidden="true"></i></span><span class="ax-state__code">ACESSO RESTRITO</span>
+    <h1 class="ax-state__title">Você não tem acesso a esta área</h1><p class="ax-state__text">O financeiro da clínica fica com quem o administrador liberar. Peça acesso à Juliana Prado.</p>
+    <div class="ax-state__actions"><button class="ax-btn ax-btn--primary" type="button"><i class="ax-i" data-i="send" aria-hidden="true"></i>Pedir acesso</button><a class="ax-btn ax-btn--secondary" href="painel.html"><i class="ax-i" data-i="home" aria-hidden="true"></i>Ir para o painel</a></div></div></div>
+  <div class="ax-state" data-state-panel="500" hidden><div class="ax-state__body">
+    <span class="ax-state__art" data-tone="danger"><i class="ax-i" data-i="warning" aria-hidden="true"></i></span><span class="ax-state__code">ERRO 500</span>
+    <h1 class="ax-state__title">Algo deu errado do nosso lado</h1><p class="ax-state__text">Não foi nada que você fez. A equipe já foi avisada. Tente de novo em instantes; seus dados estão seguros.</p>
+    <div class="ax-state__actions"><button class="ax-btn ax-btn--primary" type="button"><i class="ax-i" data-i="refresh" aria-hidden="true"></i>Tentar de novo</button><a class="ax-btn ax-btn--secondary" href="painel.html"><i class="ax-i" data-i="home" aria-hidden="true"></i>Ir para o painel</a></div><p class="ax-state__ref">Código para o suporte: XMD-7F3A-2026</p></div></div>
+  <div class="ax-state" data-state-panel="manut" hidden><div class="ax-state__body">
+    <span class="ax-state__art" data-tone="warning"><i class="ax-i" data-i="schedule" aria-hidden="true"></i></span><span class="ax-state__code">MANUTENÇÃO PROGRAMADA</span>
+    <h1 class="ax-state__title">O XMed volta às 06:00</h1><p class="ax-state__text">Estamos atualizando o sistema para o novo layout do recibo. Nada foi perdido.</p>
+    <div class="ax-state__actions"><a class="ax-btn ax-btn--secondary" href="#"><i class="ax-i" data-i="monitor_heart" aria-hidden="true"></i>Acompanhar no Axioma Status</a></div></div></div>
+  <div class="ax-state" data-state-panel="offline" hidden><div class="ax-state__body">
+    <span class="ax-state__art"><i class="ax-i" data-i="cloud_off" aria-hidden="true"></i></span><span class="ax-state__code">SEM CONEXÃO</span>
+    <h1 class="ax-state__title">Você está sem internet</h1><p class="ax-state__text">O que você digitou continua aqui. Quando a conexão voltar, é só tentar de novo.</p>
+    <div class="ax-state__actions"><button class="ax-btn ax-btn--primary" type="button"><i class="ax-i" data-i="refresh" aria-hidden="true"></i>Tentar de novo</button></div></div></div>
+</div>
+    </main>
+  </div>
+  <nav class="ax-bottomnav" data-auto aria-label="Menu principal"><a class="ax-bottomnav__item" href="painel.html"><span class="ax-bottomnav__pill"><i class="ax-i" data-i="home" aria-hidden="true"></i></span>Início</a><a class="ax-bottomnav__item" href="lista.html"><span class="ax-bottomnav__pill"><i class="ax-i" data-i="payments" aria-hidden="true"></i></span>Receitas</a><a class="ax-bottomnav__item" href="#"><span class="ax-bottomnav__pill"><i class="ax-i" data-i="receipt_long" aria-hidden="true"></i></span>Recibos</a><button class="ax-bottomnav__item" type="button" data-ax-open="nav-mais" aria-current="page"><span class="ax-bottomnav__pill"><i class="ax-i" data-i="menu" aria-hidden="true"></i></span>Mais</button></nav>
+</div>
+<div class="ax-menu" id="menu-conta" hidden aria-label="Conta">
+  <div class="ax-menu__group"><a class="ax-menu__item" href="#"><i class="ax-i" data-i="person" aria-hidden="true"></i>Meu perfil</a><a class="ax-menu__item" href="configuracoes.html"><i class="ax-i" data-i="settings" aria-hidden="true"></i>Configurações</a><a class="ax-menu__item" href="#"><i class="ax-i" data-i="help" aria-hidden="true"></i>Ajuda</a></div>
+  <div class="ax-menu__group"><a class="ax-menu__item" href="acesso.html"><i class="ax-i" data-i="logout" aria-hidden="true"></i>Sair</a></div>
+</div>
+<dialog class="ax-sheet" id="nav-mais" aria-labelledby="nav-mais-t">
+  <span class="ax-sheet__grabber" aria-hidden="true"></span>
+  <h2 class="ax-sheet__title" id="nav-mais-t">Todas as áreas</h2>
+  <nav class="ax-side__nav" aria-label="Todas as áreas">
+      <a class="ax-nav-item" href="painel.html"><i class="ax-i" data-i="space_dashboard" aria-hidden="true"></i>Painel</a>
+      <p class="ax-side__title">Financeiro</p>
+      <a class="ax-nav-item" href="lista.html"><i class="ax-i" data-i="payments" aria-hidden="true"></i>Receitas</a>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="trending_down" aria-hidden="true"></i>Despesas</a>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="receipt_long" aria-hidden="true"></i>Recibos<span class="ax-nav-item__count ax-nav-item__count--quiet">12</span></a>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="account_balance" aria-hidden="true"></i>Carnê-Leão</a>
+      <p class="ax-side__title">Cadastros</p>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="person" aria-hidden="true"></i>Pacientes</a>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="medical_services" aria-hidden="true"></i>Profissionais</a>
+      <a class="ax-nav-item" href="#"><i class="ax-i" data-i="assignment" aria-hidden="true"></i>Solicitações<span class="ax-nav-item__count">2</span></a>
+      <a class="ax-nav-item" href="configuracoes.html"><i class="ax-i" data-i="settings" aria-hidden="true"></i>Configurações</a>
+  </nav>
+  <button class="ax-btn ax-btn--secondary ax-btn--block" type="button" data-ax-close>Fechar</button>
+</dialog>
+
+<script>document.addEventListener('DOMContentLoaded', function () { 
+document.querySelectorAll('[data-demo-group]').forEach(function (g) {
+  g.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-demo]'); if (!b) return;
+    document.querySelectorAll('[data-state-panel]').forEach(function (p) { p.hidden = p.getAttribute('data-state-panel') !== b.getAttribute('data-demo'); });
+  });
+});
+document.querySelectorAll('.ax-progress__fill[data-w]').forEach(function (f) { f.style.width = f.getAttribute('data-w') + '%'; });
+document.querySelectorAll('form[data-ax-validate]').forEach(function (f) {
+  f.addEventListener('submit', function (e) {
+    if (f.getAttribute('action') !== '#' && location.protocol !== 'about:' && true) return;
+    e.preventDefault(); var b = f.querySelector('[type="submit"]'); Eixo.busy(b, true);
+    setTimeout(function () { Eixo.busy(b, false); Eixo.toast({ tone: 'success', title: f.id === 'form-acesso' ? 'Bem-vinda de volta' : 'Tudo certo, salvo', text: 'Na demonstração nada é enviado.' }); }, 900);
+  });
+});
+ });</script>
+</body>
+</html>
