@@ -1,11 +1,11 @@
-/*! Axioma Eixo 0.3.1 · design system da Axioma · gerado por tools/build_dist.py — não edite à mão */
+/*! Axioma Eixo 0.4.0 · design system da Axioma · gerado por tools/build_dist.py — não edite à mão */
 /* Axioma Eixo · runtime de referência (esboço v0.2). Sem dependências.
    Ícones SVG (desenhos do Lucide, licença ISC, com nomes do Eixo), sons sintetizados com Web Audio,
    háptica, toasts, seletor próprio, marcadores deslizantes de navegação e abas.
    Uso: <i class="ax-i" data-i="receipt_long"></i> · Eixo.sound.play('success') · Eixo.toast({...}) · Eixo.select(el)
    v0.3: Eixo.init(raiz) liga tudo o que estiver marcado (também em HTML carregado depois): seletores, navegação, abas,
    menus [data-ax-menu], diálogos [data-ax-open]/[data-ax-close], confirmação [data-ax-confirm], validação form[data-ax-validate],
-   máscaras [data-ax-mask], avisos do servidor [data-ax-toast], preferências [data-ax-pref] e html[data-ax-prefs]. */
+   máscaras [data-ax-mask], calendário [data-ax-date], avisos do servidor [data-ax-toast], preferências [data-ax-pref] e html[data-ax-prefs]. */
 (function () {
   'use strict';
   var w = window, d = document;
@@ -130,6 +130,9 @@
   /* ── Seletor próprio ──
      Marcação: .ax-select > button.ax-input.ax-select__trigger (.ax-select__value + chevron)
                + .ax-select__pop[hidden] > [.ax-select__search] + ul.ax-select__list[role=listbox] > li.ax-option[role=option][data-value]
+     Por categoria: ul.ax-select__list > li.ax-select__section[role=group] > span.ax-select__group + ul.ax-select__options[role=none] > li.ax-option
+               (ou, mais simples, li.ax-select__group soltos entre as opções: o runtime monta as seções)
+     Busca: ignora acentos e maiúsculas, procura no nome, na dica e no nome da categoria, destaca o trecho e esconde categoria vazia.
      Teclado: ↑ ↓ Home End movem, Enter/Espaço escolhem, Esc fecha, letras pulam para a opção. */
   function select(root) {
     if (root.__axsel) return root.__axsel;
@@ -138,6 +141,30 @@
     var search = root.querySelector('.ax-select__search input');
     var uid = 'axs' + Math.random().toString(36).slice(2, 8);
     list.id = list.id || uid + '-list';
+    /* Categorias escritas soltas (li.ax-select__group entre as opções) viram seções com role=group */
+    Array.prototype.slice.call(list.children).forEach(function (g, gi) {
+      if (!g.classList.contains('ax-select__group')) return;
+      var sec = d.createElement('li'), lab = d.createElement('span'), ul = d.createElement('ul');
+      sec.className = 'ax-select__section'; sec.setAttribute('role', 'group');
+      lab.className = 'ax-select__group'; lab.id = g.id || uid + '-g' + gi; lab.innerHTML = g.innerHTML;
+      ul.className = 'ax-select__options'; ul.setAttribute('role', 'none');
+      sec.setAttribute('aria-labelledby', lab.id); sec.appendChild(lab); sec.appendChild(ul);
+      var n = g.nextElementSibling;
+      while (n && n.classList.contains('ax-option')) { var nx = n.nextElementSibling; ul.appendChild(n); n = nx; }
+      list.replaceChild(sec, g);
+    });
+    list.querySelectorAll('.ax-select__section').forEach(function (sec, gi) {
+      var lab = sec.querySelector('.ax-select__group'); if (!lab) return;
+      lab.id = lab.id || uid + '-g' + gi; sec.setAttribute('role', 'group'); sec.setAttribute('aria-labelledby', lab.id); sec.__axGroup = lab.textContent.trim();
+      if (!lab.querySelector('.ax-select__group-count')) lab.insertAdjacentHTML('beforeend', '<span class="ax-select__group-count" aria-hidden="true" hidden></span>');
+    });
+    /* O texto de cada opção num span próprio, para destacar o trecho buscado sem mexer em ícone e dica */
+    list.querySelectorAll('.ax-option').forEach(function (o) {
+      if (o.querySelector('.ax-option__label')) return;
+      var sp = d.createElement('span'); sp.className = 'ax-option__label';
+      Array.prototype.slice.call(o.childNodes).forEach(function (n) { if (n.nodeType === 3 && n.textContent.trim()) { if (!sp.parentNode) o.insertBefore(sp, n); sp.appendChild(n); } });
+      if (sp.parentNode) o.__axText = sp.textContent.trim();
+    });
     trig.setAttribute('aria-haspopup', 'listbox'); trig.setAttribute('aria-expanded', 'false'); trig.setAttribute('aria-controls', list.id);
     var opts = function () { return Array.prototype.slice.call(list.querySelectorAll('.ax-option:not([hidden]):not([aria-disabled="true"])')); };
     list.querySelectorAll('.ax-option').forEach(function (o, i) { o.id = o.id || uid + '-' + i; if (!o.querySelector('.ax-option__check')) o.insertAdjacentHTML('beforeend', icon('check', 'ax-option__check')); });
@@ -169,7 +196,7 @@
     function choose(o) {
       if (!o) return;
       list.querySelectorAll('.ax-option').forEach(function (x) { x.setAttribute('aria-selected', x === o ? 'true' : 'false'); });
-      var label = o.getAttribute('data-label') || o.textContent.trim();
+      var label = o.getAttribute('data-label') || o.__axText || o.textContent.trim();
       val.textContent = label; val.removeAttribute('data-placeholder');
       root.setAttribute('data-value', o.getAttribute('data-value') || label);
       syncHidden();
@@ -185,16 +212,33 @@
       var o = null; list.querySelectorAll('.ax-option').forEach(function (x) { if (x.getAttribute('data-value') === String(v)) o = x; });
       if (!o) return;
       list.querySelectorAll('.ax-option').forEach(function (x) { x.setAttribute('aria-selected', x === o ? 'true' : 'false'); });
-      val.textContent = o.getAttribute('data-label') || o.textContent.trim(); val.removeAttribute('data-placeholder');
+      val.textContent = o.getAttribute('data-label') || o.__axText || o.textContent.trim(); val.removeAttribute('data-placeholder');
       root.setAttribute('data-value', v); syncHidden();
     }
     var pre = list.querySelector('.ax-option[aria-selected="true"]');
     if (pre && !root.hasAttribute('data-value')) { root.setAttribute('data-value', pre.getAttribute('data-value') || ''); var h0 = root.querySelector('input[type="hidden"]'); if (h0 && !h0.value) h0.value = root.getAttribute('data-value'); }
+    function fold(t) { return t.normalize ? t.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase() : t.toLowerCase(); }
+    function esc(t) { return t.replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+    function mark(o, ql) {
+      var sp = o.querySelector('.ax-option__label'); if (!sp || o.__axText == null) return;
+      var t = o.__axText, chars = Array.from(t), folded = chars.map(fold), i = ql ? folded.join('').indexOf(ql) : -1;
+      if (i < 0) { sp.textContent = t; return; }
+      var pos = 0, a = -1, b = -1;
+      for (var k = 0; k < chars.length; k++) { if (a < 0 && pos >= i) a = k; pos += folded[k].length; if (a >= 0 && pos >= i + ql.length) { b = k + 1; break; } }
+      if (a < 0 || b < 0) { sp.textContent = t; return; }
+      sp.innerHTML = esc(chars.slice(0, a).join('')) + '<mark>' + esc(chars.slice(a, b).join('')) + '</mark>' + esc(chars.slice(b).join(''));
+    }
     function filter(q) {
-      var any = false, ql = q.trim().toLowerCase();
+      var any = false, ql = fold(q.trim());
       list.querySelectorAll('.ax-option').forEach(function (o) {
-        var t = (o.getAttribute('data-label') || o.textContent).trim(), hit = !ql || t.toLowerCase().indexOf(ql) > -1;
-        o.hidden = !hit; any = any || hit;
+        var sec = o.closest('.ax-select__section'), g = sec && sec.__axGroup ? fold(sec.__axGroup) : '';
+        var t = fold(((o.getAttribute('data-label') || o.__axText || o.textContent) + ' ' + ((o.querySelector('.ax-option__hint') || {}).textContent || '')).trim());
+        var hit = !ql || t.indexOf(ql) > -1 || (g && g.indexOf(ql) > -1);
+        o.hidden = !hit; any = any || hit; mark(o, ql);
+      });
+      list.querySelectorAll('.ax-select__section').forEach(function (sec) {
+        var n = sec.querySelectorAll('.ax-option:not([hidden])').length, c = sec.querySelector('.ax-select__group-count');
+        sec.hidden = !n; if (c) { c.hidden = !ql; c.textContent = n; }
       });
       var empty = list.querySelector('.ax-select__empty');
       if (!any && !empty) { empty = d.createElement('li'); empty.className = 'ax-select__empty'; list.appendChild(empty); }
@@ -212,7 +256,7 @@
       else if (e.key === 'Tab') close(false);
       else if (!search && e.key.length === 1) {
         var now = Date.now(); typed = (now - typedT > 700 ? '' : typed) + e.key.toLowerCase(); typedT = now;
-        var hit = all.find(function (o) { return o.textContent.trim().toLowerCase().indexOf(typed) === 0; });
+        var hit = all.find(function (o) { return fold(o.__axText || o.textContent.trim()).indexOf(fold(typed)) === 0; });
         if (hit) { if (pop.hidden) choose(hit); else setActive(hit); }
       }
     }
@@ -366,6 +410,7 @@
     if (el.classList && el.classList.contains('ax-select')) {
       return el.hasAttribute('data-required') && !el.getAttribute('data-value') ? (el.getAttribute('data-error-missing') || MSG.choose) : '';
     }
+    if (el.__axdate) el.setCustomValidity(el.__axdate.erro());
     var kind = el.getAttribute('data-ax-valid');
     if (kind && VALID[kind]) el.setCustomValidity(el.value && !VALID[kind](el.value) ? (el.getAttribute('data-error') || MSG[kind] || MSG[kind.split('-')[0]]) : '');
     var v = el.validity; if (!v || v.valid) return '';
@@ -440,7 +485,7 @@
     var el = e.target; if (el.getAttribute && el.getAttribute('aria-invalid') === 'true') validateField(el);
   });
 
-  /* ── Máscaras brasileiras: data-ax-mask="cpf|cnpj|cpf-cnpj|cep|telefone|data|moeda" ── */
+  /* ── Máscaras brasileiras: data-ax-mask="cpf|cnpj|cpf-cnpj|cep|telefone|data|mes|periodo|moeda" ── */
   var MASKS = {
     cpf: function (v) { v = v.replace(/\D/g, '').slice(0, 11); return v.replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d{1,2})$/, '$1-$2'); },
     cnpj: function (v) { v = v.replace(/\D/g, '').slice(0, 14); return v.replace(/^(\d{2})(\d)/, '$1.$2').replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3').replace(/\.(\d{3})(\d)/, '.$1/$2').replace(/(\d{4})(\d)/, '$1-$2'); },
@@ -448,6 +493,8 @@
     cep: function (v) { v = v.replace(/\D/g, '').slice(0, 8); return v.replace(/(\d{5})(\d)/, '$1-$2'); },
     telefone: function (v) { v = v.replace(/\D/g, '').slice(0, 11); return v.length > 10 ? v.replace(/(\d{2})(\d)/, '($1) $2').replace(/(\d{5})(\d)/, '$1-$2') : v.replace(/(\d{2})(\d)/, '($1) $2').replace(/(\d{4})(\d)/, '$1-$2'); },
     data: function (v) { v = v.replace(/\D/g, '').slice(0, 8); return v.replace(/(\d{2})(\d)/, '$1/$2').replace(/(\d{2})(\d)/, '$1/$2'); },
+    mes: function (v) { v = v.replace(/\D/g, '').slice(0, 6); return v.replace(/(\d{2})(\d)/, '$1/$2'); },
+    periodo: function (v) { v = v.replace(/\D/g, '').slice(0, 16); var a = MASKS.data(v.slice(0, 8)), b = v.length > 8 ? MASKS.data(v.slice(8)) : ''; return b ? a + ' a ' + b : a; },
     moeda: function (v) { var n = v.replace(/\D/g, '').replace(/^0+(?=\d)/, ''); if (!n) return ''; return (parseInt(n, 10) / 100).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
   };
   function applyMask(el) {
@@ -691,10 +738,223 @@
     each(root, '.ax-app', function (app) { if (!app.querySelector(':scope > .ax-pblur--bottom')) app.appendChild(pblurEl('bottom')); });
   }
 
+  /* ── Calendário: <input data-ax-date> dentro de .ax-input ──
+     data-ax-date="" ou "data" (dd/mm/aaaa) · "periodo" (dd/mm/aaaa a dd/mm/aaaa, com atalhos) · "mes" (competência mm/aaaa).
+     data-min / data-max: dd/mm/aaaa (mm/aaaa no modo mes) ou "hoje". No modo mes, meses futuros já vêm desligados (data-max="hoje").
+     data-dots="10/11/2026,12/11/2026": ponto sob os dias que têm registros.
+     Digitar sempre funciona (máscara, "10/11" completa o ano). O calendário abre ao clicar no campo ou no botão; ↓ leva o foco
+     para os dias. Teclado: setas movem um dia, Home/End vão ao começo/fim da semana, Page Up/Down trocam o mês (com Shift, o ano),
+     Enter ou Espaço escolhem, Esc fecha e devolve o foco ao campo. Dispara input e change no campo ao escolher. */
+  var MESES = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
+  var SEMANA = [['D', 'domingo'], ['S', 'segunda'], ['T', 'terça'], ['Q', 'quarta'], ['Q', 'quinta'], ['S', 'sexta'], ['S', 'sábado']];
+  function pad2(n) { return (n < 10 ? '0' : '') + n; }
+  function hoje() { var t = new Date(); return new Date(t.getFullYear(), t.getMonth(), t.getDate()); }
+  function dmy(x) { return pad2(x.getDate()) + '/' + pad2(x.getMonth() + 1) + '/' + x.getFullYear(); }
+  function mmaa(x) { return pad2(x.getMonth() + 1) + '/' + x.getFullYear(); }
+  function chave(x) { return x.getFullYear() + '-' + pad2(x.getMonth() + 1) + '-' + pad2(x.getDate()); }
+  function deChave(k) { var p = k.split('-'); return new Date(+p[0], +p[1] - 1, +(p[2] || 1)); }
+  function addDias(x, n) { return new Date(x.getFullYear(), x.getMonth(), x.getDate() + n); }
+  function addMeses(x, n) { var r = new Date(x.getFullYear(), x.getMonth() + n, 1), fim = new Date(r.getFullYear(), r.getMonth() + 1, 0).getDate(); r.setDate(Math.min(x.getDate(), fim)); return r; }
+  function mesmoDia(a, b) { return !!(a && b && a.getTime() === b.getTime()); }
+  function lerData(s) {
+    s = (s || '').trim();
+    var m = s.match(/^(\d{1,2})\/(\d{1,2})(?:\/(\d{2}|\d{4}))?$/) || s.match(/^(\d{2})(\d{2})(\d{4})$/);
+    if (!m) return null;
+    var dd = +m[1], mm = +m[2], aa = m[3] ? +m[3] : hoje().getFullYear(); if (aa < 100) aa += 2000;
+    var x = new Date(aa, mm - 1, dd); return x.getMonth() === mm - 1 && x.getDate() === dd ? x : null;
+  }
+  function lerMes(s) { var m = (s || '').trim().match(/^(\d{1,2})\/(\d{4})$/); return m && +m[1] >= 1 && +m[1] <= 12 ? new Date(+m[2], +m[1] - 1, 1) : null; }
+  function lerPeriodo(s) {
+    var p = (s || '').trim().split(/\s+(?:a|até)(?:\s+|$)|\s*[–—]\s*/);
+    var a = lerData(p[0]), b = p[1] ? lerData(p[1]) : null;
+    return a ? { a: a, b: b } : null;
+  }
+  function datePicker(inp) {
+    if (inp.__axdate) return inp.__axdate;
+    var modo = inp.getAttribute('data-ax-date') || 'data'; if (['data', 'periodo', 'mes'].indexOf(modo) < 0) modo = 'data';
+    var ehMes = modo === 'mes';
+    var box = inp.closest('.ax-input') || inp.parentNode, uid = 'axd' + Math.random().toString(36).slice(2, 8);
+    if (!inp.hasAttribute('data-ax-mask')) inp.setAttribute('data-ax-mask', modo);
+    inp.setAttribute('autocomplete', 'off');
+    if (!inp.placeholder) inp.placeholder = ehMes ? 'mm/aaaa' : modo === 'periodo' ? 'dd/mm/aaaa a dd/mm/aaaa' : 'dd/mm/aaaa';
+    if (inp.getAttribute('pattern')) inp.removeAttribute('pattern');  // a conferência do calendário (data que existe, limites) substitui o pattern
+    var velho = box.querySelector(':scope > .ax-i[data-i^="calendar"], :scope > .ax-i[data-i="event_note"]'); if (velho) velho.remove();
+    var btn = d.createElement('button'); btn.type = 'button'; btn.className = 'ax-date__btn';
+    btn.setAttribute('aria-label', ehMes ? 'Escolher no calendário de meses' : 'Escolher no calendário');
+    btn.setAttribute('aria-haspopup', 'dialog'); btn.setAttribute('aria-expanded', 'false');
+    btn.innerHTML = icon(ehMes ? 'calendar_month' : 'calendar_today');
+    var pop = d.createElement('div'); pop.className = 'ax-cal ax-cal--pop'; pop.id = uid; pop.hidden = true; pop.setAttribute('role', 'dialog');
+    pop.setAttribute('aria-label', ehMes ? 'Escolher mês' : modo === 'periodo' ? 'Escolher período' : 'Escolher data');
+    btn.setAttribute('aria-controls', uid);
+    box.appendChild(btn); box.appendChild(pop); hydrate(btn);
+    function limite(v) { if (!v) return null; if (v === 'hoje') return ehMes ? new Date(hoje().getFullYear(), hoje().getMonth(), 1) : hoje(); return ehMes ? lerMes(v) : lerData(v); }
+    var min = limite(inp.getAttribute('data-min')), max = limite(inp.getAttribute('data-max') || (ehMes ? 'hoje' : ''));
+    var pontos = {}; (inp.getAttribute('data-dots') || '').split(',').forEach(function (s) { var x = lerData(s); if (x) pontos[chave(x)] = 1; });
+    var sel = null, faixa = null, vista = null, foco = null, saindo = 0;
+    function fora(x) { return !!((min && x < min) || (max && x > max)); }
+    function ler() {
+      sel = null; faixa = null;
+      if (modo === 'periodo') faixa = lerPeriodo(inp.value);
+      else sel = ehMes ? lerMes(inp.value) : lerData(inp.value);
+    }
+    function base() {
+      var x = modo === 'periodo' ? faixa && (faixa.b || faixa.a) : sel;
+      if (x) return x;
+      var h = ehMes ? new Date(hoje().getFullYear(), hoje().getMonth(), 1) : hoje();
+      return max && h > max ? max : min && h < min ? min : h;
+    }
+    function botaoNav(dir, rot) { return '<button type="button" class="ax-icon-btn" data-nav="' + dir + '" aria-label="' + rot + '">' + icon(dir < 0 ? 'chevron_left' : 'chevron_right') + '</button>'; }
+    function render() {
+      var h = hoje(), html, i;
+      if (ehMes) {
+        var ano = vista.getFullYear();
+        html = '<div class="ax-cal__head"><span class="ax-cal__month" aria-live="polite">' + ano + '</span><span class="ax-cal__nav">' + botaoNav(-1, 'Ano anterior') + botaoNav(1, 'Próximo ano') + '</span></div><div class="ax-cal__grid ax-cal__grid--months">';
+        for (i = 0; i < 12; i++) {
+          var mx = new Date(ano, i, 1);
+          html += '<button type="button" class="ax-cal__day" data-k="' + chave(mx) + '" tabindex="' + (mesmoDia(mx, foco) ? 0 : -1) + '" aria-label="' + MESES[i] + ' de ' + ano + '"' +
+            ' aria-pressed="' + (mesmoDia(mx, sel) ? 'true' : 'false') + '"' + (ano === h.getFullYear() && i === h.getMonth() ? ' aria-current="date"' : '') + (fora(mx) ? ' disabled' : '') + '>' + MESES[i].slice(0, 3) + '</button>';
+        }
+        html += '</div>';
+      } else {
+        var y = vista.getFullYear(), m = vista.getMonth(), ini = new Date(y, m, 1), c = addDias(ini, -ini.getDay());
+        var a = faixa && faixa.a, b = faixa && faixa.b;
+        html = '<div class="ax-cal__head"><span class="ax-cal__month" aria-live="polite">' + MESES[m] + ' de ' + y + '</span><span class="ax-cal__nav">' + botaoNav(-1, 'Mês anterior') + botaoNav(1, 'Próximo mês') + '</span></div><div class="ax-cal__grid">';
+        SEMANA.forEach(function (s) { html += '<abbr class="ax-cal__wd" title="' + s[1] + '">' + s[0] + '</abbr>'; });
+        for (i = 0; i < 42; i++, c = addDias(c, 1)) {
+          var marcado = modo === 'periodo' ? (mesmoDia(c, a) || mesmoDia(c, b)) : mesmoDia(c, sel);
+          html += '<button type="button" class="ax-cal__day" data-k="' + chave(c) + '" tabindex="' + (mesmoDia(c, foco) ? 0 : -1) + '" aria-label="' + c.getDate() + ' de ' + MESES[c.getMonth()] + ' de ' + c.getFullYear() + '"' +
+            ' aria-pressed="' + (marcado ? 'true' : 'false') + '"' + (c.getMonth() !== m ? ' data-out' : '') + (mesmoDia(c, h) ? ' aria-current="date"' : '') +
+            (a && b && c > a && c < b ? ' data-in-range' : '') + (pontos[chave(c)] ? ' data-dot' : '') + (fora(c) ? ' disabled' : '') + '>' + c.getDate() + '</button>';
+        }
+        html += '</div>';
+        var at = modo === 'periodo' ? [['mes', 'Este mês'], ['mes-1', 'Mês passado'], ['30', 'Últimos 30 dias'], ['ano', 'Este ano']] : (fora(h) ? [] : [['hoje', 'Hoje']]);
+        if (at.length) html += '<div class="ax-cal__presets">' + at.map(function (p) { return '<button type="button" class="ax-chip" data-preset="' + p[0] + '">' + p[1] + '</button>'; }).join('') + '</div>';
+        if (modo === 'periodo') html += '<p class="ax-sr" aria-live="polite">' + (a && !b ? 'Início em ' + dmy(a) + '. Escolha o fim.' : '') + '</p>';
+      }
+      pop.innerHTML = html; hydrate(pop);
+    }
+    function focarDia() { var el = pop.querySelector('.ax-cal__day[tabindex="0"]') || pop.querySelector('.ax-cal__day:not([disabled])'); if (el) el.focus({ preventScroll: true }); }
+    function irPara(x, focar) {
+      if (min && x < min) x = min; if (max && x > max) x = max;
+      foco = x;
+      var mudou = ehMes ? x.getFullYear() !== vista.getFullYear() : (x.getMonth() !== vista.getMonth() || x.getFullYear() !== vista.getFullYear());
+      if (mudou) vista = ehMes ? new Date(x.getFullYear(), 0, 1) : new Date(x.getFullYear(), x.getMonth(), 1);
+      render(); if (focar) focarDia();
+    }
+    function avisar() {
+      inp.dispatchEvent(new Event('input', { bubbles: true })); inp.dispatchEvent(new Event('change', { bubbles: true }));
+      var f = inp.closest('.ax-field'); if (f && f.hasAttribute('data-invalid')) validateField(inp);
+    }
+    function escolher(x) {
+      if (!x || fora(x)) return;
+      sound.play('tap');
+      if (modo === 'periodo') {
+        if (!faixa || !faixa.a || faixa.b) { faixa = { a: x, b: null }; inp.value = dmy(x) + ' a '; foco = x; render(); focarDia(); return; }
+        if (x < faixa.a) { faixa.b = faixa.a; faixa.a = x; } else faixa.b = x;
+        inp.value = dmy(faixa.a) + ' a ' + dmy(faixa.b);
+      } else inp.value = ehMes ? mmaa(x) : dmy(x);
+      avisar(); fechar(true);
+    }
+    function atalho(p) {
+      var h = hoje(), a, b;
+      if (p === 'hoje') return escolher(h);
+      if (p === 'mes') { a = new Date(h.getFullYear(), h.getMonth(), 1); b = new Date(h.getFullYear(), h.getMonth() + 1, 0); }
+      else if (p === 'mes-1') { a = new Date(h.getFullYear(), h.getMonth() - 1, 1); b = new Date(h.getFullYear(), h.getMonth(), 0); }
+      else if (p === '30') { a = addDias(h, -29); b = h; }
+      else { a = new Date(h.getFullYear(), 0, 1); b = new Date(h.getFullYear(), 11, 31); }
+      if (min && a < min) a = min; if (max && b > max) b = max;
+      faixa = { a: a, b: b }; inp.value = dmy(a) + ' a ' + dmy(b); sound.play('tap'); avisar(); fechar(true);
+    }
+    function abrir(focar) {
+      if (!pop.hidden && !saindo) { if (focar) focarDia(); return; }
+      clearTimeout(saindo); saindo = 0; pop.removeAttribute('data-leaving');
+      ler(); foco = base();
+      vista = ehMes ? new Date(foco.getFullYear(), 0, 1) : new Date(foco.getFullYear(), foco.getMonth(), 1);
+      render(); pop.hidden = false; btn.setAttribute('aria-expanded', 'true');
+      var r = box.getBoundingClientRect();
+      pop.toggleAttribute('data-up', w.innerHeight - r.bottom < 400 && r.top > 400);
+      pop.toggleAttribute('data-right', r.left + 320 > w.innerWidth - 8 && r.right > 320);
+      if (focar) focarDia();
+      d.addEventListener('pointerdown', foraDoCampo, true);
+    }
+    function fechar(devolver) {
+      if (pop.hidden || saindo) return;
+      btn.setAttribute('aria-expanded', 'false'); pop.setAttribute('data-leaving', '');
+      d.removeEventListener('pointerdown', foraDoCampo, true);
+      saindo = setTimeout(function () { pop.hidden = true; pop.removeAttribute('data-leaving'); saindo = 0; }, reduceMotion() ? 0 : 120);
+      if (devolver) inp.focus({ preventScroll: true });
+    }
+    function foraDoCampo(e) { if (!box.contains(e.target)) fechar(false); }
+    function erro() {
+      var v = inp.value.trim(); if (!v) return '';
+      if (modo === 'periodo') {
+        var p = lerPeriodo(v); if (!p || !p.b) return inp.getAttribute('data-error') || 'Período incompleto. Use dd/mm/aaaa a dd/mm/aaaa.';
+        if (p.b < p.a) return 'O fim do período vem antes do início.';
+        if (fora(p.a) || fora(p.b)) return 'Escolha um período' + (min ? ' a partir de ' + dmy(min) : '') + (max ? (min ? ' e' : '') + ' até ' + dmy(max) : '') + '.';
+        return '';
+      }
+      var x = ehMes ? lerMes(v) : lerData(v);
+      if (!x) return inp.getAttribute('data-error') || (ehMes ? 'Esse mês não existe. Use mm/aaaa.' : 'Essa data não existe. Use dd/mm/aaaa.');
+      if (max && x > max) return ehMes ? 'Escolha um mês até ' + mmaa(max) + '.' : 'Escolha uma data até ' + dmy(max) + '.';
+      if (min && x < min) return ehMes ? 'Escolha um mês a partir de ' + mmaa(min) + '.' : 'Escolha uma data a partir de ' + dmy(min) + '.';
+      return '';
+    }
+    btn.addEventListener('click', function () { if (pop.hidden || saindo) abrir(true); else fechar(true); });
+    inp.addEventListener('click', function () { abrir(false); });
+    inp.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowDown') { e.preventDefault(); abrir(true); }
+      else if (e.key === 'Escape' && !pop.hidden) { e.preventDefault(); fechar(false); }
+      else if (e.key === 'Tab') fechar(false);
+    });
+    inp.addEventListener('input', function () {
+      if (pop.hidden || saindo) return;
+      ler(); var x = modo === 'periodo' ? faixa && (faixa.b || faixa.a) : sel;
+      if (x) { foco = x; vista = ehMes ? new Date(x.getFullYear(), 0, 1) : new Date(x.getFullYear(), x.getMonth(), 1); }
+      render();
+    });
+    inp.addEventListener('blur', function () {
+      var v = inp.value.trim(), out = null;
+      if (modo === 'data') { var x = lerData(v); if (x) out = dmy(x); }
+      else if (modo === 'periodo') { var p = lerPeriodo(v); if (p && p.b) out = dmy(p.a < p.b ? p.a : p.b) + ' a ' + dmy(p.a < p.b ? p.b : p.a); }
+      if (out && out !== inp.value) { inp.value = out; avisar(); }
+    });
+    pop.addEventListener('click', function (e) {
+      var n = e.target.closest('[data-nav]'), dia = e.target.closest('.ax-cal__day'), pr = e.target.closest('[data-preset]');
+      if (n) {
+        var dir = +n.getAttribute('data-nav');
+        if (ehMes) { vista = new Date(vista.getFullYear() + dir, 0, 1); foco = new Date(vista.getFullYear(), foco.getMonth(), 1); }
+        else { vista = addMeses(vista, dir); foco = addMeses(foco, dir); if (foco.getMonth() !== vista.getMonth()) foco = new Date(vista); }
+        render(); var nb = pop.querySelector('[data-nav="' + dir + '"]'); if (nb) nb.focus();
+      }
+      else if (dia && !dia.disabled) escolher(deChave(dia.getAttribute('data-k')));
+      else if (pr) atalho(pr.getAttribute('data-preset'));
+    });
+    pop.addEventListener('pointerover', function (e) {
+      if (modo !== 'periodo' || !faixa || !faixa.a || faixa.b) return;
+      var dia = e.target.closest('.ax-cal__day'); if (!dia) return;
+      var fim = deChave(dia.getAttribute('data-k')), a = faixa.a < fim ? faixa.a : fim, b = faixa.a < fim ? fim : faixa.a;
+      pop.querySelectorAll('.ax-cal__day').forEach(function (el) { var x = deChave(el.getAttribute('data-k')); el.toggleAttribute('data-in-range', x > a && x < b); });
+    });
+    pop.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); fechar(true); return; }
+      var dia = e.target.closest('.ax-cal__day'); if (!dia) return;
+      var x = deChave(dia.getAttribute('data-k'));
+      var passo = ehMes ? { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -3, ArrowDown: 3 } : { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -7, ArrowDown: 7 };
+      if (passo[e.key] != null) { e.preventDefault(); irPara(ehMes ? addMeses(x, passo[e.key]) : addDias(x, passo[e.key]), true); }
+      else if (e.key === 'Home' && !ehMes) { e.preventDefault(); irPara(addDias(x, -x.getDay()), true); }
+      else if (e.key === 'End' && !ehMes) { e.preventDefault(); irPara(addDias(x, 6 - x.getDay()), true); }
+      else if (e.key === 'PageUp' || e.key === 'PageDown') { e.preventDefault(); var s = e.key === 'PageUp' ? -1 : 1; irPara(addMeses(x, (ehMes || e.shiftKey ? 12 : 1) * s), true); }
+      else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); escolher(x); }
+    });
+    box.addEventListener('focusout', function (e) { if (!pop.hidden && e.relatedTarget && !box.contains(e.relatedTarget)) fechar(false); });
+    return (inp.__axdate = { open: abrir, close: fechar, erro: erro, el: inp });
+  }
+
   /* ── Liga tudo o que estiver marcado dentro de raiz (padrão: a página) ── */
   function init(root) {
     root = root || d;
     each(root, '.ax-select', select);
+    each(root, 'input[data-ax-date]', datePicker);
     each(root, '.ax-side__nav[data-auto], .ax-bottomnav[data-auto]', nav);
     each(root, '.ax-seg', function (el) { if (el.querySelector('.ax-seg__thumb')) seg(el); });
     each(root, '.ax-tabs[data-auto]', tabs);
@@ -706,6 +966,6 @@
   function autoInit() { init(d); ready = true; }
   if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', autoInit); else setTimeout(autoInit, 0);
 
-  w.Eixo = Object.assign(w.Eixo || {}, { icons: ICONS, icon: icon, hydrate: hydrate, sound: sound, haptic: haptic, toast: toast, select: select, nav: nav, seg: seg, tabs: tabs, countUp: countUp, fmt: fmt, reduceMotion: reduceMotion, init: init, prefs: prefs, busy: busy, validate: validate, validateField: validateField, mask: MASKS,
-    confirm: confirmDialog, dialog: { open: dlgOpen, close: dlgClose }, menu: { open: menuOpen, close: menuClose }, version: '0.3.1' });
+  w.Eixo = Object.assign(w.Eixo || {}, { icons: ICONS, icon: icon, hydrate: hydrate, sound: sound, haptic: haptic, toast: toast, select: select, date: datePicker, nav: nav, seg: seg, tabs: tabs, countUp: countUp, fmt: fmt, reduceMotion: reduceMotion, init: init, prefs: prefs, busy: busy, validate: validate, validateField: validateField, mask: MASKS,
+    confirm: confirmDialog, dialog: { open: dlgOpen, close: dlgClose }, menu: { open: menuOpen, close: menuClose }, version: '0.4.0' });
 })();

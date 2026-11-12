@@ -1,4 +1,4 @@
-/*! Axioma Eixo 0.3.1 · design system da Axioma · gerado por tools/build_dist.py — não edite à mão */
+/*! Axioma Eixo 0.4.0 · design system da Axioma · gerado por tools/build_dist.py — não edite à mão */
 /* Axioma Eixo — generated from tokens.json */
 :root, [data-theme="light"] {
   --gray-50: #f9fafb;
@@ -681,6 +681,7 @@ a { color: var(--accent-text); text-underline-offset: 3px; }
 .ax-select__list { overflow-y: auto; outline: none; scrollbar-width: thin; }
 .ax-option { display: flex; align-items: center; gap: 10px; min-height: 40px; padding: 8px 10px; border-radius: var(--radius-md); color: var(--text); font-size: 14px; font-weight: 500; cursor: pointer; transition: background-color var(--duration-instant); }
 .ax-option > .ax-i:first-child { color: var(--text-mute); }
+.ax-option__label { min-width: 0; overflow-wrap: anywhere; }
 .ax-option__hint { margin-left: auto; color: var(--text-mute); font-size: 12px; font-weight: 400; }
 .ax-option__check { margin-left: auto; color: var(--accent-text); opacity: 0; transform: scale(.5); transition: opacity var(--duration-fast), transform var(--duration-spring) var(--ease-spring-soft); --stroke: 2.25; }
 .ax-option__hint + .ax-option__check { margin-left: 8px; }
@@ -690,7 +691,12 @@ a { color: var(--accent-text); text-underline-offset: 3px; }
 .ax-option[aria-selected="true"] .ax-option__check { opacity: 1; transform: none; }
 .ax-option[aria-disabled="true"] { color: var(--text-disabled); cursor: not-allowed; }
 .ax-option mark { background: none; color: var(--accent-text); font-weight: 700; }
-.ax-select__group { padding: 8px 10px 4px; color: var(--text-mute); font: 600 11px/16px var(--font-text); letter-spacing: .08em; text-transform: uppercase; }
+/* Opções por categoria: li.ax-select__section[role=group] > span.ax-select__group + ul.ax-select__options[role=none] > li.ax-option */
+.ax-select__section + .ax-select__section { margin-top: 4px; padding-top: 4px; border-top: 1px solid var(--line); }
+.ax-select__section[hidden] { display: none; }
+.ax-select__options { margin: 0; padding: 0; list-style: none; }
+.ax-select__group { position: sticky; top: 0; z-index: 1; display: flex; align-items: center; gap: 8px; padding: 8px 10px 4px; border-radius: var(--radius-sm); background: color-mix(in srgb, var(--surface-raised) 92%, transparent); -webkit-backdrop-filter: blur(var(--blur-sm)); backdrop-filter: blur(var(--blur-sm)); color: var(--text-mute); font: 600 11px/16px var(--font-text); letter-spacing: .08em; text-transform: uppercase; }
+.ax-select__group-count { margin-left: auto; font-weight: 500; letter-spacing: 0; text-transform: none; }
 .ax-select__empty { padding: 12px 10px; color: var(--text-soft); font-size: 14px; }
 @media (max-width: 599px) {
   .ax-select__pop { position: fixed; left: 8px; right: 8px; top: auto !important; bottom: calc(8px + env(safe-area-inset-bottom, 0px)); max-height: 60vh; border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); animation: ax-sheet-in var(--duration-slow) var(--ease-emphasized); }
@@ -783,7 +789,8 @@ a { color: var(--accent-text); text-underline-offset: 3px; }
 /* Calendário */
 .ax-cal { width: 312px; max-width: 100%; padding: var(--space-3); border: 1px solid var(--glass-line); border-radius: var(--radius-lg); background: var(--sheen), var(--glass-strong); -webkit-backdrop-filter: blur(var(--blur-md)) saturate(160%); backdrop-filter: blur(var(--blur-md)) saturate(160%); box-shadow: var(--shadow-highlight), var(--shadow-md); }
 .ax-cal__head { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--space-2); }
-.ax-cal__month { font: 600 15px/22px var(--font-display); text-transform: capitalize; }
+.ax-cal__month { display: inline-block; font: 600 15px/22px var(--font-display); }
+.ax-cal__month::first-letter { text-transform: uppercase; }
 .ax-cal__grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
 .ax-cal__wd { padding: 4px 0; color: var(--text-mute); font-size: 12px; font-weight: 600; text-align: center; }
 .ax-cal__day { position: relative; display: grid; place-items: center; height: 38px; border: 0; border-radius: var(--radius-md); background: transparent; color: var(--text); font-size: 14px; font-weight: 500; cursor: pointer; transition: background-color var(--duration-instant), transform var(--duration-spring) var(--ease-spring-soft); }
@@ -792,9 +799,29 @@ a { color: var(--accent-text); text-underline-offset: 3px; }
 .ax-cal__day[data-out] { color: var(--text-disabled); }
 .ax-cal__day[aria-current="date"] { box-shadow: inset 0 0 0 1.5px var(--accent-line); color: var(--accent-text); font-weight: 700; }
 .ax-cal__day[data-in-range] { border-radius: 0; background: var(--accent-soft); color: var(--accent-text-soft); }
-.ax-cal__day[aria-selected="true"] { background: var(--sheen-fill), var(--accent); color: var(--on-accent); font-weight: 700; box-shadow: var(--shadow-fill-highlight), var(--shadow-accent); }
+.ax-cal__day[aria-selected="true"], .ax-cal__day[aria-pressed="true"] { background: var(--sheen-fill), var(--accent); color: var(--on-accent); font-weight: 700; box-shadow: var(--shadow-fill-highlight), var(--shadow-accent); }
 .ax-cal__day[data-dot]::after { content: ''; position: absolute; bottom: 5px; width: 4px; height: 4px; border-radius: 50%; background: currentColor; }
 .ax-cal__presets { display: flex; flex-wrap: wrap; gap: 6px; padding-top: var(--space-3); margin-top: var(--space-2); border-top: 1px solid var(--line); }
+/* Calendário ligado a um campo: <input data-ax-date> (eixo.js cria o botão e o painel) */
+.ax-cal--pop { position: absolute; z-index: var(--z-overlay); width: 312px; max-width: calc(100vw - 16px); top: calc(100% + 6px); left: -1px; transform-origin: top left; box-shadow: var(--shadow-highlight), var(--shadow-md); animation: ax-pop var(--duration-moderate) var(--ease-emphasized); cursor: default; }
+.ax-cal--pop[data-up] { top: auto; bottom: calc(100% + 6px); transform-origin: bottom left; }
+.ax-cal--pop[data-right] { left: auto; right: -1px; transform-origin: top right; }
+.ax-cal--pop[data-leaving] { animation: ax-pop-out var(--duration-fast) var(--ease-exit) forwards; }
+.ax-cal--pop[hidden] { display: none !important; }
+.ax-cal__nav { display: flex; gap: 2px; }
+.ax-cal__nav .ax-icon-btn { width: 36px; height: 36px; }
+.ax-cal__wd { text-decoration: none; }
+.ax-cal__day:disabled { background: transparent; color: var(--text-disabled); cursor: not-allowed; transform: none; opacity: .6; }
+.ax-cal__day:focus-visible { outline-offset: 0; }
+.ax-cal__grid--months { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.ax-cal__grid--months .ax-cal__day { height: 44px; text-transform: capitalize; }
+.ax-date__btn { display: inline-grid; place-items: center; flex: none; width: 40px; height: 40px; margin-right: -10px; border: 0; border-radius: var(--radius-md); background: transparent; color: var(--text-mute); cursor: pointer; transition: background-color var(--duration-fast), color var(--duration-fast); }
+.ax-date__btn:hover { background: var(--surface-hover); color: var(--text); }
+.ax-date__btn[aria-expanded="true"] { color: var(--accent-text); }
+@media (max-width: 599px) {
+  .ax-cal--pop, .ax-cal--pop[data-right] { position: fixed; left: 8px; right: 8px; top: auto !important; bottom: calc(8px + env(safe-area-inset-bottom, 0px)); width: auto; transform-origin: bottom center; }
+  .ax-cal--pop .ax-cal__day { height: 44px; }
+}
 
 /* ───────── Navegação flutuante ───────── */
 .ax-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); }

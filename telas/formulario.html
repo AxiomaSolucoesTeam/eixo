@@ -7,7 +7,7 @@
 <script>try{var p=JSON.parse(localStorage.getItem('axioma.eixo')||'{}'),t=p.theme&&p.theme!=='auto'?p.theme:(matchMedia('(prefers-contrast: more)').matches?'contraste':matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="../web/eixo.css?v=30f7a9d244">
+<link rel="stylesheet" href="../web/eixo.css?v=cccbd8cf85">
 <style>
 .tela-demo { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 8px 8px 8px 14px; border: 1px dashed var(--line-strong); border-radius: var(--radius-lg); color: var(--text-mute); font-size: 13px; }
 .tela-demo > span { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; }
@@ -16,7 +16,7 @@
 .ax-link-quiet { color: inherit; text-decoration: none; }
 .ax-link-quiet:hover { text-decoration: underline; }
 </style>
-<script src="../web/eixo.js?v=30f7a9d244" defer></script>
+<script src="../web/eixo.js?v=cccbd8cf85" defer></script>
 </head>
 <body>
 <a class="ax-skip" href="#conteudo">Pular para o conteúdo</a>
@@ -79,11 +79,11 @@
       </div></div>
       <div class="ax-field" data-span="two-thirds"><span class="ax-field__label" id="prof-l">Profissional</span>
       <div class="ax-select" data-required><input type="hidden" name="prof">
-        <button type="button" class="ax-input ax-select__trigger" id="prof" aria-labelledby="prof-l prof-v"><span class="ax-select__value" id="prof-v" data-placeholder>Escolha</span><i class="ax-i ax-select__chev" data-i="unfold_more" aria-hidden="true"></i></button>
-        <div class="ax-select__pop" hidden><ul class="ax-select__list" id="prof-list" role="listbox" aria-labelledby="prof-l" tabindex="-1"><li class="ax-option" role="option" data-value="ana" aria-selected="false"><i class="ax-i" data-i="medical_services" aria-hidden="true"></i>Dra. Ana Beatriz</li><li class="ax-option" role="option" data-value="caio" aria-selected="false"><i class="ax-i" data-i="medical_services" aria-hidden="true"></i>Dr. Caio Freitas</li><li class="ax-option" role="option" data-value="mariana" aria-selected="false"><i class="ax-i" data-i="medical_services" aria-hidden="true"></i>Dra. Mariana Costa</li></ul></div>
+        <button type="button" class="ax-input ax-select__trigger" id="prof" aria-labelledby="prof-l prof-v"><span class="ax-select__value" id="prof-v" data-placeholder>Escolha o profissional</span><i class="ax-i ax-select__chev" data-i="unfold_more" aria-hidden="true"></i></button>
+        <div class="ax-select__pop" hidden><div class="ax-select__search"><i class="ax-i" data-i="search" aria-hidden="true"></i><input type="text" placeholder="Buscar" aria-label="Buscar profissional" aria-controls="prof-list" role="combobox" aria-expanded="true"></div><ul class="ax-select__list" id="prof-list" role="listbox" aria-labelledby="prof-l" tabindex="-1"><li class="ax-select__section" role="group" aria-labelledby="prof-g0"><span class="ax-select__group" id="prof-g0">Clínica geral</span><ul class="ax-select__options" role="none"><li class="ax-option" role="option" data-value="ana" aria-selected="false"><i class="ax-i" data-i="medical_services" aria-hidden="true"></i>Dra. Ana Beatriz</li><li class="ax-option" role="option" data-value="joao" aria-selected="false"><i class="ax-i" data-i="medical_services" aria-hidden="true"></i>Dr. João Simões</li></ul></li><li class="ax-select__section" role="group" aria-labelledby="prof-g1"><span class="ax-select__group" id="prof-g1">Cardiologia</span><ul class="ax-select__options" role="none"><li class="ax-option" role="option" data-value="caio" aria-selected="false"><i class="ax-i" data-i="medical_services" aria-hidden="true"></i>Dr. Caio Freitas</li><li class="ax-option" role="option" data-value="helena" aria-selected="false"><i class="ax-i" data-i="medical_services" aria-hidden="true"></i>Dra. Helena Araújo<span class="ax-option__hint">só às terças</span></li></ul></li><li class="ax-select__section" role="group" aria-labelledby="prof-g2"><span class="ax-select__group" id="prof-g2">Dermatologia</span><ul class="ax-select__options" role="none"><li class="ax-option" role="option" data-value="mariana" aria-selected="false"><i class="ax-i" data-i="medical_services" aria-hidden="true"></i>Dra. Mariana Costa</li><li class="ax-option" role="option" data-value="otavio" aria-selected="false"><i class="ax-i" data-i="medical_services" aria-hidden="true"></i>Dr. Otávio Lemos</li></ul></li><li class="ax-select__section" role="group" aria-labelledby="prof-g3"><span class="ax-select__group" id="prof-g3">Pediatria</span><ul class="ax-select__options" role="none"><li class="ax-option" role="option" data-value="lucia" aria-selected="false"><i class="ax-i" data-i="medical_services" aria-hidden="true"></i>Dra. Lúcia Paiva</li><li class="ax-option" role="option" data-value="renato" aria-selected="false"><i class="ax-i" data-i="medical_services" aria-hidden="true"></i>Dr. Renato Guimarães</li></ul></li></ul></div>
       </div></div>
       <div class="ax-field" data-span="third"><label class="ax-field__label" for="data">Data do atendimento</label>
-      <div class="ax-input"><i class="ax-i" data-i="calendar_today" aria-hidden="true"></i><input id="data" name="data" type="text" required data-ax-mask="data" value="10/11/2026" placeholder="dd/mm/aaaa" pattern="\d{2}/\d{2}/\d{4}" data-error="Use o formato dd/mm/aaaa."></div></div>
+      <div class="ax-input"><i class="ax-i" data-i="calendar_today" aria-hidden="true"></i><input id="data" name="data" type="text" required data-ax-date data-max="hoje" value="10/11/2026" placeholder="dd/mm/aaaa"></div></div>
     </div>
   </section>
   <section class="ax-form__section" aria-labelledby="s-pg">
