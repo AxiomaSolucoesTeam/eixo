@@ -1,11 +1,11 @@
-/*! Axioma Eixo 0.5.0 · design system da Axioma · gerado por tools/build_dist.py — não edite à mão */
+/*! Axioma Eixo 0.6.0 · design system da Axioma · gerado por tools/build_dist.py — não edite à mão */
 /* Axioma Eixo · runtime de referência (esboço v0.2). Sem dependências.
    Ícones SVG (desenhos do Lucide, licença ISC, com nomes do Eixo), sons sintetizados com Web Audio,
    háptica, toasts, seletor próprio, marcadores deslizantes de navegação e abas.
    Uso: <i class="ax-i" data-i="receipt_long"></i> · Eixo.sound.play('success') · Eixo.toast({...}) · Eixo.select(el)
    v0.3: Eixo.init(raiz) liga tudo o que estiver marcado (também em HTML carregado depois): seletores, navegação, abas,
    menus [data-ax-menu], diálogos [data-ax-open]/[data-ax-close], confirmação [data-ax-confirm], validação form[data-ax-validate],
-   máscaras [data-ax-mask], calendário [data-ax-date], avisos do servidor [data-ax-toast], preferências [data-ax-pref] e html[data-ax-prefs]. */
+   máscaras [data-ax-mask], calendário [data-ax-date], horário [data-ax-time], tour [data-ax-tour], avisos do servidor [data-ax-toast], preferências [data-ax-pref] e html[data-ax-prefs]. */
 (function () {
   'use strict';
   var w = window, d = document;
@@ -425,7 +425,7 @@
     if (el.classList && el.classList.contains('ax-select')) {
       return el.hasAttribute('data-required') && !el.getAttribute('data-value') ? (el.getAttribute('data-error-missing') || MSG.choose) : '';
     }
-    if (el.__axdate) el.setCustomValidity(el.__axdate.erro());
+    var chk = el.__axdate || el.__axtime; if (chk) el.setCustomValidity(chk.erro());
     var kind = el.getAttribute('data-ax-valid');
     if (kind && VALID[kind]) el.setCustomValidity(el.value && !VALID[kind](el.value) ? (el.getAttribute('data-error') || MSG[kind] || MSG[kind.split('-')[0]]) : '');
     var v = el.validity; if (!v || v.valid) return '';
@@ -550,8 +550,30 @@
     dl.setAttribute('data-leaving', '');
     setTimeout(function () { dl.removeAttribute('data-leaving'); dl.close(value || ''); }, 210);
   }
+  /* Rolagem dentro de diálogos e folhas: cabeçalho e botões ficam parados, só o meio rola.
+     O runtime envolve o conteúdo entre o cabeçalho (.ax-dialog__head/__title, .ax-sheet__grabber/__title) e as ações
+     (.ax-dialog__actions, .ax-sheet__actions, .ax-actionbar) num .ax-dialog__scroll; dentro de um <form> filho, faz o mesmo nele.
+     data-scrolled (rolou para baixo) e data-more (ainda há conteúdo abaixo) desenham as linhas de borda. */
+  var TOPO = '.ax-dialog__head, .ax-dialog__title, .ax-sheet__grabber, .ax-sheet__title', PE = '.ax-dialog__actions, .ax-sheet__actions, .ax-actionbar, .ax-actionbar-dock';
+  function rolagem(dl) {
+    if (!dl.matches('dialog.ax-dialog, dialog.ax-sheet') || dl.querySelector('.ax-dialog__scroll')) return;
+    var box = dl.children.length === 1 && dl.firstElementChild.tagName === 'FORM' ? dl.firstElementChild : dl;
+    var kids = Array.prototype.slice.call(box.children), meio = kids.filter(function (k) { return !k.matches(TOPO) && !k.matches(PE) && k.tagName !== 'SCRIPT'; });
+    if (!meio.length) return;
+    var sc = d.createElement('div'); sc.className = 'ax-dialog__scroll';
+    box.insertBefore(sc, meio[0]); meio.forEach(function (k) { sc.appendChild(k); });
+    box.classList.add('ax-dialog__frame'); if (box !== dl) dl.classList.add('ax-dialog--form');
+    function marca() {
+      sc.toggleAttribute('data-scrolled', sc.scrollTop > 2);
+      sc.toggleAttribute('data-more', sc.scrollTop + sc.clientHeight < sc.scrollHeight - 2);
+    }
+    sc.addEventListener('scroll', marca, { passive: true });
+    if (w.ResizeObserver) new ResizeObserver(marca).observe(sc);
+    dl.addEventListener('toggle', marca); setTimeout(marca, 0);
+  }
   function bindDialog(dl) {
     if (dl.__axdlg) return; dl.__axdlg = 1;
+    rolagem(dl);
     dl.addEventListener('cancel', function (e) { e.preventDefault(); if (!dl.hasAttribute('data-ax-static')) dlgClose(dl); });
     dl.addEventListener('pointerdown', function (e) {
       if (e.target !== dl || dl.hasAttribute('data-ax-static')) return;
@@ -747,6 +769,17 @@
   function pblurEl(side) {
     var el = d.createElement('div'); el.className = 'ax-pblur ax-pblur--' + side; el.setAttribute('aria-hidden', 'true');
     el.innerHTML = '<i></i><i></i><i></i><i></i><i></i><i></i>'; return el;
+  }
+  /* Barra de ações flutuante: o runtime põe cada .ax-actionbar numa faixa (.ax-actionbar-dock) com desfoque progressivo
+     embaixo; a barra vira uma pílula centralizada. Vale na página e dentro de diálogos e folhas. */
+  function bindActionbar(root) {
+    each(root, '.ax-actionbar', function (bar) {
+      if (bar.parentNode.classList.contains('ax-actionbar-dock') || bar.hasAttribute('data-ax-no-dock')) return;
+      var dock = d.createElement('div'); dock.className = 'ax-actionbar-dock';
+      bar.parentNode.insertBefore(dock, bar); dock.appendChild(pblurEl('bottom')); dock.appendChild(bar);
+      if (!bar.hasAttribute('role')) bar.setAttribute('role', 'group');
+      if (!bar.hasAttribute('aria-label')) bar.setAttribute('aria-label', 'Ações do formulário');
+    });
   }
   function bindPblur(root) {
     each(root, '.ax-app__bar', function (bar) { if (!bar.querySelector(':scope > .ax-pblur')) bar.insertBefore(pblurEl('top'), bar.firstChild); });
@@ -965,22 +998,253 @@
     return (inp.__axdate = { open: abrir, close: fechar, erro: erro, el: inp });
   }
 
+  /* ── Horário: <input data-ax-time> dentro de .ax-input ──
+     Digitação livre e esperta: "9" → 09:00, "930" → 09:30, "9h30", "14:5" → 14:50, "meio-dia", "meia-noite", "agora".
+     Lista de sugestões a cada data-step minutos (padrão 30), filtrada pelo que foi digitado, que abre perto da hora atual.
+     data-min / data-max: "08:00", "18:00" ou "agora". data-busy="10:00,10:30": horários ocupados (aparecem desligados).
+     data-ax-time-after="id-do-inicio": campo de fim; só sugere horários depois do início e mostra a duração ("1 h 30").
+     Teclado: ↓ abre e percorre, ↑, Enter escolhe, Esc fecha. O valor sai no próprio input (hh:mm), com input e change. */
+  function hmin(s) {
+    s = (s || '').trim().toLowerCase().replace(/\s+/g, ' ');
+    if (!s) return null;
+    if (s === 'agora') { var n = new Date(); return n.getHours() * 60 + n.getMinutes(); }
+    if (/^meio[- ]?dia$/.test(s)) return 720;
+    if (/^meia[- ]?noite$/.test(s)) return 0;
+    var m = s.match(/^(\d{1,2})\s*(?:[h:.]\s*(\d{1,2})?)?\s*(?:min)?$/), h, mi;
+    if (m) { h = +m[1]; mi = m[2] == null ? 0 : (m[2].length === 1 ? +m[2] * 10 : +m[2]); }
+    else if ((m = s.match(/^(\d{3,4})$/))) { h = +m[1].slice(0, -2); mi = +m[1].slice(-2); }
+    else return null;
+    return h <= 23 && mi <= 59 ? h * 60 + mi : null;
+  }
+  function hfmt(x) { return pad2(Math.floor(x / 60)) + ':' + pad2(x % 60); }
+  function duracao(x) { var h = Math.floor(x / 60), m = x % 60; return h ? h + ' h' + (m ? ' ' + m : '') : m + ' min'; }
+  function timePicker(inp) {
+    if (inp.__axtime) return inp.__axtime;
+    var box = inp.closest('.ax-input') || inp.parentNode, uid = 'axt' + Math.random().toString(36).slice(2, 8);
+    var passo = Math.max(5, +inp.getAttribute('data-step') || 30);
+    inp.setAttribute('autocomplete', 'off'); if (!inp.hasAttribute('inputmode')) inp.setAttribute('inputmode', 'numeric');
+    if (!inp.placeholder) inp.placeholder = 'hh:mm';
+    inp.setAttribute('role', 'combobox'); inp.setAttribute('aria-autocomplete', 'list'); inp.setAttribute('aria-expanded', 'false');
+    var velho = box.querySelector(':scope > .ax-i[data-i="schedule"], :scope > .ax-i[data-i="timer"]'); if (velho) velho.remove();
+    var btn = d.createElement('button'); btn.type = 'button'; btn.className = 'ax-date__btn'; btn.tabIndex = -1;
+    btn.setAttribute('aria-label', 'Ver horários'); btn.innerHTML = icon('schedule');
+    var pop = d.createElement('div'); pop.className = 'ax-select__pop ax-time__pop'; pop.hidden = true;
+    var list = d.createElement('ul'); list.className = 'ax-select__list'; list.id = uid + '-list'; list.setAttribute('role', 'listbox');
+    list.setAttribute('aria-label', 'Horários'); pop.appendChild(list);
+    inp.setAttribute('aria-controls', list.id);
+    box.appendChild(btn); box.appendChild(pop); hydrate(btn);
+    var ocupados = {}; (inp.getAttribute('data-busy') || '').split(',').forEach(function (s) { var x = hmin(s); if (x != null) ocupados[x] = 1; });
+    var ativo = null, saindo = 0;
+    function lim(a) { var v = inp.getAttribute(a); return v ? hmin(v) : null; }
+    function inicio() { var id = inp.getAttribute('data-ax-time-after'), el = id && d.getElementById(id); return el ? hmin(el.value) : null; }
+    function opcoes(q) {
+      var min = lim('data-min'), max = lim('data-max'), ini = inicio(), out = [], digitado = hmin(q), dig = (q || '').replace(/\D/g, '');
+      var de = ini != null ? ini + passo : (min != null ? Math.ceil(min / passo) * passo : 0), ate = max != null ? max : 1439;
+      for (var x = de; x <= ate; x += passo) out.push(x);
+      if (digitado != null && out.indexOf(digitado) < 0 && digitado >= (ini != null ? ini + 1 : (min || 0)) && digitado <= ate) { out.push(digitado); out.sort(function (a, b) { return a - b; }); }
+      if (dig && !/^(agora|meio|meia)/.test((q || '').trim().toLowerCase())) {
+        var hDig = dig.length <= 2 ? dig : dig.slice(0, dig.length - 2);
+        out = out.filter(function (x) { var h = String(Math.floor(x / 60)), hh = pad2(Math.floor(x / 60)); return digitado != null && x === digitado || h.indexOf(hDig) === 0 || hh.indexOf(dig.slice(0, 2)) === 0; });
+      }
+      return out.map(function (x) { return { v: x, ocupado: !!ocupados[x], dur: ini != null ? duracao(x - ini) : null }; });
+    }
+    function render(q) {
+      var ops = opcoes(q), atual = hmin(inp.value), agora = new Date(), na = agora.getHours() * 60 + agora.getMinutes();
+      list.innerHTML = ops.map(function (o, i) {
+        return '<li class="ax-option" role="option" id="' + uid + '-' + i + '" data-v="' + o.v + '" aria-selected="' + (o.v === atual ? 'true' : 'false') + '"' +
+          (o.ocupado ? ' aria-disabled="true"' : '') + '><span class="ax-option__label">' + hfmt(o.v) + '</span>' +
+          (o.ocupado ? '<span class="ax-option__hint">ocupado</span>' : o.dur ? '<span class="ax-option__hint">' + o.dur + '</span>' : '') + '</li>';
+      }).join('') || '<li class="ax-select__empty">Nenhum horário com "' + String(q).replace(/[&<>"]/g, '') + '". Use hh:mm, como 14:30.</li>';
+      list.querySelectorAll('.ax-option').forEach(function (o) { if (!o.querySelector('.ax-option__check')) o.insertAdjacentHTML('beforeend', icon('check', 'ax-option__check')); });
+      hydrate(list);
+      // Destaque: o escolhido; senão o primeiro livre a partir de agora (ou do primeiro da lista)
+      var alvo = list.querySelector('[aria-selected="true"]');
+      if (!alvo) { var livres = Array.prototype.slice.call(list.querySelectorAll('.ax-option:not([aria-disabled])')); alvo = (q ? livres[0] : livres.filter(function (o) { return +o.getAttribute('data-v') >= na; })[0]) || livres[0]; }
+      marcar(alvo, true);
+    }
+    function marcar(o, centro) {
+      list.querySelectorAll('[data-active]').forEach(function (x) { x.removeAttribute('data-active'); });
+      ativo = o || null; if (!o) { inp.removeAttribute('aria-activedescendant'); return; }
+      o.setAttribute('data-active', ''); inp.setAttribute('aria-activedescendant', o.id);
+      if (centro) list.scrollTop = o.offsetTop - list.clientHeight / 2 + o.offsetHeight / 2;
+      else { var r = o.getBoundingClientRect(), lr = list.getBoundingClientRect(); if (r.bottom > lr.bottom) list.scrollTop += r.bottom - lr.bottom; else if (r.top < lr.top) list.scrollTop -= lr.top - r.top; }
+    }
+    function abrir() {
+      if (!pop.hidden && !saindo) return;
+      clearTimeout(saindo); saindo = 0; pop.removeAttribute('data-leaving');
+      pop.hidden = false; inp.setAttribute('aria-expanded', 'true');
+      var r = box.getBoundingClientRect(); pop.toggleAttribute('data-up', w.innerHeight - r.bottom < 300 && r.top > 300);
+      render(hmin(inp.value) != null ? '' : inp.value);
+      d.addEventListener('pointerdown', foraDoCampo, true);
+    }
+    function fechar() {
+      if (pop.hidden || saindo) return;
+      inp.setAttribute('aria-expanded', 'false'); pop.setAttribute('data-leaving', ''); inp.removeAttribute('aria-activedescendant');
+      d.removeEventListener('pointerdown', foraDoCampo, true);
+      saindo = setTimeout(function () { pop.hidden = true; pop.removeAttribute('data-leaving'); saindo = 0; }, reduceMotion() ? 0 : 120);
+    }
+    function foraDoCampo(e) { if (!box.contains(e.target)) fechar(); }
+    function avisar() {
+      inp.__axemit = true; inp.dispatchEvent(new Event('input', { bubbles: true })); inp.dispatchEvent(new Event('change', { bubbles: true })); inp.__axemit = false;
+      var f = inp.closest('.ax-field'); if (f && f.hasAttribute('data-invalid')) validateField(inp);
+      d.querySelectorAll('[data-ax-time-after="' + inp.id + '"]').forEach(function (fim) { if (fim.__axtime && fim.value) { var f2 = fim.closest('.ax-field'); if (f2 && f2.hasAttribute('data-invalid')) validateField(fim); } });
+    }
+    function escolher(o) {
+      if (!o || o.getAttribute('aria-disabled') === 'true') return;
+      inp.value = hfmt(+o.getAttribute('data-v')); sound.play('tap'); avisar(); fechar();
+    }
+    function erro() {
+      var v = inp.value.trim(); if (!v) return '';
+      var x = hmin(v); if (x == null) return inp.getAttribute('data-error') || 'Essa hora não existe. Use hh:mm, como 14:30.';
+      var min = lim('data-min'), max = lim('data-max'), ini = inicio();
+      if (ini != null && x <= ini) return 'O fim precisa ser depois do início (' + hfmt(ini) + ').';
+      if (min != null && x < min) return 'Escolha a partir de ' + hfmt(min) + '.';
+      if (max != null && x > max) return 'Escolha até ' + hfmt(max) + '.';
+      if (ocupados[x]) return 'Esse horário já está ocupado. Escolha outro.';
+      return '';
+    }
+    inp.addEventListener('click', abrir);
+    inp.addEventListener('focus', function () { if (!inp.value) abrir(); });
+    btn.addEventListener('click', function () { if (pop.hidden || saindo) { abrir(); inp.focus(); } else fechar(); });
+    inp.addEventListener('input', function () { if (inp.__axemit) return; if (pop.hidden || saindo) abrir(); render(inp.value); });
+    inp.addEventListener('keydown', function (e) {
+      var ops = Array.prototype.slice.call(list.querySelectorAll('.ax-option:not([aria-disabled])')), i = ops.indexOf(ativo);
+      if (e.key === 'ArrowDown') { e.preventDefault(); if (pop.hidden || saindo) abrir(); else marcar(ops[Math.min(i + 1, ops.length - 1)]); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); if (!pop.hidden) marcar(ops[Math.max(i - 1, 0)]); }
+      else if (e.key === 'Enter' && !pop.hidden && ativo) { e.preventDefault(); escolher(ativo); }
+      else if (e.key === 'Escape' && !pop.hidden) { e.preventDefault(); fechar(); }
+      else if (e.key === 'Tab') fechar();
+    });
+    inp.addEventListener('blur', function () {
+      var x = hmin(inp.value); if (x != null && hfmt(x) !== inp.value) { inp.value = hfmt(x); avisar(); }
+    });
+    list.addEventListener('pointerdown', function (e) { e.preventDefault(); });  // não tira o foco do campo
+    list.addEventListener('click', function (e) { escolher(e.target.closest('.ax-option')); });
+    list.addEventListener('pointermove', function (e) { var o = e.target.closest('.ax-option:not([aria-disabled])'); if (o && o !== ativo) marcar(o); });
+    box.addEventListener('focusout', function (e) { if (e.relatedTarget && !box.contains(e.relatedTarget)) fechar(); });
+    return (inp.__axtime = { open: abrir, close: fechar, erro: erro, el: inp });
+  }
+
+  /* ── Tour do produto (onboarding e "o que mudou") ──
+     Na marcação: cada passo é um elemento com data-ax-tour="id" data-ax-tour-step="1" data-ax-tour-title="…" data-ax-tour-text="…".
+       Um passo sem alvo visível (ex.: <template data-ax-tour="id" data-ax-tour-step="0" …>) aparece no centro: boas-vindas.
+     Começar: botão data-ax-tour-start="id" (refaz quando quiser) · data-ax-tour-auto="id" em qualquer elemento: começa
+       sozinho uma vez por navegador · Eixo.tour.start('id') ou Eixo.tour.start({ id, steps: [{ el, title, text }] }).
+     Guarda os tours vistos em localStorage 'axioma.eixo.tours'. Passos cujo alvo está escondido (ex.: só existe no celular) são pulados.
+     Teclado: → ou Enter avança, ← volta, Esc encerra. O foco vai para o cartão e volta para onde estava no fim. */
+  var TKEY = 'axioma.eixo.tours', tourAtual = null;
+  function toursVistos() { try { return JSON.parse(localStorage.getItem(TKEY) || '{}') || {}; } catch (e) { return {}; } }
+  function marcarVisto(id) { var v = toursVistos(); v[id] = new Date().toISOString().slice(0, 10); try { localStorage.setItem(TKEY, JSON.stringify(v)); } catch (e) {} }
+  function passosDe(id) {
+    return Array.prototype.slice.call(d.querySelectorAll('[data-ax-tour="' + id + '"]')).map(function (el) {
+      return { el: el.tagName === 'TEMPLATE' ? null : el, title: el.getAttribute('data-ax-tour-title') || '', text: el.getAttribute('data-ax-tour-text') || '',
+        ordem: +el.getAttribute('data-ax-tour-step') || 0 };
+    }).sort(function (a, b) { return a.ordem - b.ordem; });
+  }
+  function visivel(el) { if (!el) return true; var r = el.getBoundingClientRect(); return r.width > 0 && r.height > 0 && getComputedStyle(el).visibility !== 'hidden'; }
+  function tourStart(def) {
+    var id = typeof def === 'string' ? def : def.id, passos = (typeof def === 'string' ? passosDe(def) : def.steps.map(function (s) {
+      return { el: typeof s.el === 'string' ? d.querySelector(s.el) : s.el || null, title: s.title || '', text: s.text || '' };
+    })).filter(function (p) { return p.el === null || visivel(p.el); });
+    if (!passos.length) return;
+    if (tourAtual) tourAtual.fim(false);
+    var volta = d.activeElement, i = 0, uid = 'axtour' + Math.random().toString(36).slice(2, 7);
+    var veu = d.createElement('div'); veu.className = 'ax-tour'; veu.setAttribute('data-ax-ui', '');
+    veu.innerHTML = '<div class="ax-tour__hole" aria-hidden="true"></div>' +
+      '<section class="ax-tour__card" role="dialog" aria-modal="true" aria-labelledby="' + uid + '-t" aria-describedby="' + uid + '-x" tabindex="-1">' +
+      '<div class="ax-tour__top"><span class="ax-tour__count" aria-live="polite"></span><button type="button" class="ax-icon-btn ax-tour__close" aria-label="Encerrar o tour">' + icon('close') + '</button></div>' +
+      '<h2 class="ax-tour__title" id="' + uid + '-t"></h2><p class="ax-tour__text" id="' + uid + '-x"></p>' +
+      '<div class="ax-tour__dots" aria-hidden="true"></div>' +
+      '<div class="ax-tour__actions"><button type="button" class="ax-btn ax-btn--ghost ax-tour__skip">Pular</button><span class="ax-tour__spacer"></span>' +
+      '<button type="button" class="ax-btn ax-btn--secondary ax-tour__prev">' + icon('arrow_back') + 'Voltar</button>' +
+      '<button type="button" class="ax-btn ax-btn--primary ax-tour__next"></button></div></section>';
+    d.body.appendChild(veu); hydrate(veu);
+    var hole = veu.querySelector('.ax-tour__hole'), card = veu.querySelector('.ax-tour__card');
+    function posicionar() {
+      var p = passos[i], m = 8, cw = card.offsetWidth, ch = card.offsetHeight, vw = w.innerWidth, vh = w.innerHeight;
+      if (!p.el) { hole.hidden = true; veu.setAttribute('data-center', ''); card.style.left = card.style.top = ''; return; }
+      veu.removeAttribute('data-center'); hole.hidden = false;
+      var r = p.el.getBoundingClientRect(), pad = 6;
+      hole.style.left = (r.left - pad) + 'px'; hole.style.top = (r.top - pad) + 'px'; hole.style.width = (r.width + pad * 2) + 'px'; hole.style.height = (r.height + pad * 2) + 'px';
+      hole.style.borderRadius = Math.min(16, parseFloat(getComputedStyle(p.el).borderRadius) + pad || 12) + 'px';
+      if (vw < 600) { card.style.left = card.style.top = ''; veu.setAttribute('data-dock', r.top > vh / 2 ? 'top' : 'bottom'); return; }
+      veu.removeAttribute('data-dock');
+      var top = r.bottom + 14 + ch <= vh - m ? r.bottom + 14 : r.top - 14 - ch >= m ? r.top - 14 - ch : Math.max(m, Math.min(vh - ch - m, r.top));
+      var left = Math.max(m, Math.min(vw - cw - m, r.left + r.width / 2 - cw / 2));
+      if (top === r.top && r.right + 14 + cw <= vw - m) left = r.right + 14;
+      card.style.left = left + 'px'; card.style.top = top + 'px';
+    }
+    function mostrar(n) {
+      i = Math.max(0, Math.min(passos.length - 1, n)); var p = passos[i], ultimo = i === passos.length - 1;
+      veu.querySelector('.ax-tour__title').textContent = p.title;
+      veu.querySelector('.ax-tour__text').textContent = p.text;
+      veu.querySelector('.ax-tour__count').textContent = passos.length > 1 ? (i + 1) + ' de ' + passos.length : '';
+      veu.querySelector('.ax-tour__dots').innerHTML = passos.length > 1 ? passos.map(function (_, k) { return '<i' + (k === i ? ' data-on' : '') + '></i>'; }).join('') : '';
+      veu.querySelector('.ax-tour__prev').hidden = i === 0;
+      veu.querySelector('.ax-tour__skip').hidden = ultimo;
+      veu.querySelector('.ax-tour__next').innerHTML = ultimo ? (passos.length > 1 ? 'Concluir' : 'Entendi') : 'Próximo' + icon('arrow_forward');
+      hydrate(veu);
+      if (p.el) p.el.scrollIntoView({ block: 'center', inline: 'nearest', behavior: reduceMotion() ? 'auto' : 'smooth' });
+      posicionar(); setTimeout(posicionar, reduceMotion() ? 0 : 320);
+      card.focus({ preventScroll: true });
+    }
+    function fim(concluiu) {
+      w.removeEventListener('resize', posicionar); w.removeEventListener('scroll', posicionar, true); d.removeEventListener('keydown', tecla, true);
+      veu.setAttribute('data-leaving', ''); setTimeout(function () { veu.remove(); }, reduceMotion() ? 0 : 160);
+      if (id) marcarVisto(id); tourAtual = null;
+      if (volta && volta.focus && d.contains(volta)) volta.focus({ preventScroll: true });
+      d.dispatchEvent(new CustomEvent('ax-tour-end', { detail: { id: id, completed: concluiu !== false && i === passos.length - 1 } }));
+      if (concluiu && i === passos.length - 1) sound.play('complete');
+    }
+    function tecla(e) {
+      var campo = e.target && e.target.closest && e.target.closest('input, textarea, [contenteditable]');
+      if (e.key === 'Escape') { e.preventDefault(); fim(false); }
+      else if (e.key === 'ArrowRight' && !campo) { e.preventDefault(); if (i < passos.length - 1) mostrar(i + 1); }
+      else if (e.key === 'ArrowLeft' && !campo) { e.preventDefault(); mostrar(i - 1); }
+      else if (e.key === 'Tab') {  // o foco fica dentro do cartão
+        var f = Array.prototype.slice.call(card.querySelectorAll('button:not([hidden])')), a = f.indexOf(d.activeElement);
+        e.preventDefault(); f[(a + (e.shiftKey ? -1 : 1) + f.length) % f.length].focus();
+      }
+    }
+    veu.addEventListener('click', function (e) {
+      if (e.target.closest('.ax-tour__next')) { if (i < passos.length - 1) mostrar(i + 1); else fim(true); }
+      else if (e.target.closest('.ax-tour__prev')) mostrar(i - 1);
+      else if (e.target.closest('.ax-tour__skip, .ax-tour__close')) fim(false);
+    });
+    w.addEventListener('resize', posicionar); w.addEventListener('scroll', posicionar, true); d.addEventListener('keydown', tecla, true);
+    tourAtual = { fim: fim, ir: mostrar };
+    mostrar(0);
+  }
+  d.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('[data-ax-tour-start]'); if (!b) return;
+    e.preventDefault(); if (openMenu) menuClose(openMenu); tourStart(b.getAttribute('data-ax-tour-start'));
+  });
+  function bindTours(root) {
+    each(root, '[data-ax-tour-auto]', function (el) {
+      var id = el.getAttribute('data-ax-tour-auto'); if (el.__axtour || toursVistos()[id]) return; el.__axtour = 1;
+      setTimeout(function () { if (!tourAtual && !d.querySelector('dialog[open]')) tourStart(id); }, 600);
+    });
+  }
+  var tour = { start: tourStart, seen: function (id) { return !!toursVistos()[id]; }, reset: function (id) { var v = toursVistos(); if (id) delete v[id]; else v = {}; try { localStorage.setItem(TKEY, JSON.stringify(v)); } catch (e) {} } };
+
   /* ── Liga tudo o que estiver marcado dentro de raiz (padrão: a página) ── */
   function init(root) {
     root = root || d;
     each(root, '.ax-select', select);
     each(root, 'input[data-ax-date]', datePicker);
+    each(root, 'input[data-ax-time]', timePicker);
     each(root, '.ax-side__nav[data-auto], .ax-bottomnav[data-auto]', nav);
     each(root, '.ax-seg', function (el) { if (el.querySelector('.ax-seg__thumb')) seg(el); });
     each(root, '.ax-tabs[data-auto]', tabs);
+    bindActionbar(root);
     each(root, 'dialog.ax-dialog, dialog.ax-sheet, dialog.ax-side-sheet', bindDialog);
     each(root, 'form[data-ax-validate]', function (f) { f.noValidate = true; });
-    bindMenus(root); bindMasks(root); bindPrefs(root); bindCounts(root); bindCounters(root); bindPblur(root); flash(root);
+    bindMenus(root); bindMasks(root); bindPrefs(root); bindCounts(root); bindCounters(root); bindPblur(root); flash(root); bindTours(root);
   }
 
   function autoInit() { init(d); ready = true; }
   if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', autoInit); else setTimeout(autoInit, 0);
 
-  w.Eixo = Object.assign(w.Eixo || {}, { icons: ICONS, icon: icon, hydrate: hydrate, sound: sound, haptic: haptic, toast: toast, select: select, date: datePicker, nav: nav, seg: seg, tabs: tabs, countUp: countUp, fmt: fmt, reduceMotion: reduceMotion, init: init, prefs: prefs, busy: busy, validate: validate, validateField: validateField, mask: MASKS,
-    confirm: confirmDialog, dialog: { open: dlgOpen, close: dlgClose }, menu: { open: menuOpen, close: menuClose }, version: '0.5.0' });
+  w.Eixo = Object.assign(w.Eixo || {}, { icons: ICONS, icon: icon, hydrate: hydrate, sound: sound, haptic: haptic, toast: toast, select: select, date: datePicker, time: timePicker, tour: tour, nav: nav, seg: seg, tabs: tabs, countUp: countUp, fmt: fmt, reduceMotion: reduceMotion, init: init, prefs: prefs, busy: busy, validate: validate, validateField: validateField, mask: MASKS,
+    confirm: confirmDialog, dialog: { open: dlgOpen, close: dlgClose }, menu: { open: menuOpen, close: menuClose }, version: '0.6.0' });
 })();

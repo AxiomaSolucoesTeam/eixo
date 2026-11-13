@@ -1,4 +1,4 @@
-/*! Axioma Eixo 0.5.0 · design system da Axioma · gerado por tools/build_dist.py — não edite à mão */
+/*! Axioma Eixo 0.6.0 · design system da Axioma · gerado por tools/build_dist.py — não edite à mão */
 /* Axioma Eixo — generated from tokens.json */
 :root, [data-theme="light"] {
   --gray-50: #f9fafb;
@@ -1590,4 +1590,66 @@ body { background: var(--page-ambient), radial-gradient(120% 70% at 50% -20%, va
   .ax-app > .ax-side, .ax-app > .ax-rail, .ax-card, .ax-dialog, .ax-side-sheet { background: var(--surface-raised); -webkit-backdrop-filter: none; backdrop-filter: none; }
 }
 [data-theme="contraste"] .ax-app > .ax-side, [data-theme="contraste"] .ax-app > .ax-rail, [data-theme="contraste"] .ax-card, [data-theme="contraste"] .ax-dialog, [data-theme="contraste"] .ax-side-sheet { background: var(--surface); -webkit-backdrop-filter: none; backdrop-filter: none; border-color: var(--line-strong); }
+/* ── Rolagem (v0.6): barras finas na cor do tema; a página não pula ao abrir diálogo; em diálogos e folhas só o meio rola ── */
+html { scrollbar-gutter: stable; scrollbar-color: color-mix(in srgb, var(--text-mute) 55%, transparent) transparent; }
+.ax-table-scroll, .ax-table-wrap, .ax-side-sheet__body, .ax-cmd__list, .ax-dialog__scroll, .ax-select__list, .ax-side__nav, .ax-chart-scroll { scrollbar-width: thin; }
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-track, ::-webkit-scrollbar-corner { background: transparent; }
+::-webkit-scrollbar-thumb { border: 3px solid transparent; border-radius: 999px; background: color-mix(in srgb, var(--text-mute) 45%, transparent) padding-box; }
+::-webkit-scrollbar-thumb:hover { background-color: color-mix(in srgb, var(--text-mute) 75%, transparent); }
+dialog.ax-dialog { --ax-pad: var(--space-6); }
+dialog.ax-sheet { --ax-pad: var(--space-5); }
+dialog[open].ax-dialog__frame, dialog[open].ax-dialog--form { display: flex; flex-direction: column; gap: var(--space-4); overflow: hidden; }
+form.ax-dialog__frame { display: flex; flex-direction: column; flex: 1 1 auto; gap: var(--space-4); min-height: 0; margin: 0; }
+.ax-dialog__frame > :not(.ax-dialog__scroll) { flex: none; }
+.ax-dialog__scroll { flex: 1 1 auto; min-height: 0; display: grid; gap: var(--space-4); align-content: start; overflow-y: auto; overscroll-behavior: contain; margin-inline: calc(-1 * var(--ax-pad, 24px)); padding: 2px var(--ax-pad, 24px); border-block: 1px solid transparent; transition: border-color var(--duration-fast); }
+.ax-dialog__scroll[data-scrolled] { border-top-color: var(--line); }
+.ax-dialog__scroll[data-more] { border-bottom-color: var(--line); }
+/* ── Barra de ações em pílula (v0.6): centralizada, flutuando sobre uma faixa com desfoque progressivo ──
+   O runtime envolve cada .ax-actionbar num .ax-actionbar-dock (com o .ax-pblur dentro). Sem JS, a barra antiga continua. */
+.ax-actionbar-dock { position: sticky; bottom: 0; z-index: var(--z-sticky); display: flex; justify-content: center; margin-top: calc(-1 * var(--space-6)); padding: 40px 0 calc(16px + env(safe-area-inset-bottom, 0px)); pointer-events: none; isolation: isolate; }
+.ax-actionbar-dock > .ax-pblur { z-index: -1; height: 100%; left: calc(-1 * var(--space-4)); right: calc(-1 * var(--space-4)); }
+.ax-actionbar-dock > .ax-actionbar { position: static; pointer-events: auto; flex-wrap: nowrap; justify-content: center; max-width: 100%; padding: 6px; border-radius: 999px; }
+.ax-actionbar-dock > .ax-actionbar .ax-btn { border-radius: 999px; }
+.ax-actionbar-dock .ax-actionbar__note { margin-right: 4px; padding-inline: 14px 6px; white-space: nowrap; }
+/* Dentro de diálogo ou folha: a faixa cobre o fim da área que rola */
+.ax-dialog__frame > .ax-actionbar-dock { position: relative; margin: -56px calc(-1 * var(--ax-pad, 24px)) calc(-1 * var(--ax-pad, 24px) + 8px); padding: 56px var(--ax-pad, 24px) 0; }
+.ax-dialog__frame > .ax-actionbar-dock > .ax-pblur { left: 0; right: 0; }
+.ax-dialog__frame > .ax-actionbar-dock > .ax-pblur::after { background: linear-gradient(var(--pb-dir), transparent, color-mix(in srgb, var(--surface-raised) 70%, transparent)); }
+@media (max-width: 599px) {
+  .ax-actionbar-dock > .ax-actionbar { flex-wrap: wrap; width: 100%; border-radius: 24px; }
+  .ax-actionbar-dock .ax-actionbar__note { flex-basis: 100%; justify-content: center; padding: 4px 0 2px; margin: 0; }
+}
+/* A faixa da barra substitui o desfoque fixo do rodapé da moldura (que ficaria por cima dos botões no celular) */
+.ax-app:has(.ax-actionbar-dock) > .ax-pblur--bottom { display: none !important; }
+@media (prefers-reduced-transparency: reduce) { .ax-actionbar-dock > .ax-pblur { display: none; } }
+[data-theme="contraste"] .ax-actionbar-dock > .ax-pblur { display: none; }
+/* ── Horário (v0.6): lista de sugestões do <input data-ax-time>; usa o painel do seletor ── */
+.ax-time__pop { min-width: 200px; max-height: 288px; }
+.ax-time__pop .ax-option__label { font-variant-numeric: tabular-nums; }
+.ax-time__pop .ax-option[aria-disabled="true"] .ax-option__label { text-decoration: line-through; text-decoration-color: var(--text-disabled); }
+/* ── Tour do produto (v0.6): véu com recorte no elemento e cartão de vidro ── */
+.ax-tour { position: fixed; inset: 0; z-index: calc(var(--z-overlay) + 10); pointer-events: auto; animation: ax-fade var(--duration-base) var(--ease-standard); }
+.ax-tour[data-leaving] { animation: ax-fade-out var(--duration-fast) var(--ease-exit) forwards; }
+.ax-tour[data-center] { background: var(--scrim); -webkit-backdrop-filter: blur(var(--blur-scrim)); backdrop-filter: blur(var(--blur-scrim)); }
+.ax-tour__hole { position: fixed; box-shadow: 0 0 0 9999px var(--scrim), 0 0 0 2px var(--accent-line) inset; transition: left var(--duration-moderate) var(--ease-emphasized), top var(--duration-moderate) var(--ease-emphasized), width var(--duration-moderate) var(--ease-emphasized), height var(--duration-moderate) var(--ease-emphasized); pointer-events: none; }
+.ax-tour__card { position: fixed; display: grid; gap: 10px; width: min(360px, calc(100vw - 32px)); padding: var(--space-5); border: 1px solid var(--glass-line); border-radius: 20px; background: var(--sheen), var(--glass-strong); -webkit-backdrop-filter: blur(var(--blur-xl)) saturate(170%); backdrop-filter: blur(var(--blur-xl)) saturate(170%); box-shadow: var(--shadow-highlight), var(--shadow-xl); color: var(--text); outline: none; transition: left var(--duration-moderate) var(--ease-emphasized), top var(--duration-moderate) var(--ease-emphasized); }
+.ax-tour[data-center] .ax-tour__card { left: 50% !important; top: 50% !important; transform: translate(-50%, -50%); width: min(440px, calc(100vw - 32px)); padding: var(--space-6); }
+.ax-tour[data-dock] .ax-tour__card { left: 12px !important; right: 12px; width: auto; }
+.ax-tour[data-dock="bottom"] .ax-tour__card { top: auto !important; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); }
+.ax-tour[data-dock="top"] .ax-tour__card { top: calc(12px + env(safe-area-inset-top, 0px)) !important; }
+.ax-tour__top { display: flex; align-items: center; justify-content: space-between; min-height: 28px; margin: -6px -8px -4px 0; }
+.ax-tour__count { color: var(--text-mute); font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+.ax-tour__close { width: 32px; height: 32px; }
+.ax-tour__title { margin: 0; font: 600 18px/26px var(--font-display); letter-spacing: -.01em; text-wrap: balance; }
+.ax-tour__text { margin: 0; color: var(--text-soft); font-size: 14px; line-height: 21px; }
+.ax-tour__dots { display: flex; gap: 6px; }
+.ax-tour__dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--line-strong); transition: width var(--duration-base) var(--ease-standard), background-color var(--duration-base); }
+.ax-tour__dots i[data-on] { width: 18px; border-radius: 3px; background: var(--accent); }
+.ax-tour__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); padding-top: 4px; }
+.ax-tour__spacer { flex: 1; }
+.ax-tour__skip { margin-left: -10px; }
+@media (prefers-reduced-transparency: reduce) { .ax-tour__card { background: var(--surface-raised); -webkit-backdrop-filter: none; backdrop-filter: none; } }
+[data-theme="contraste"] .ax-tour__card { background: var(--surface); -webkit-backdrop-filter: none; backdrop-filter: none; border: 2px solid var(--line-strong); }
+[data-theme="contraste"] .ax-tour__hole { box-shadow: 0 0 0 9999px var(--scrim), 0 0 0 3px var(--focus) inset; }
 /* ═══ fim Aplicação ═══ */
