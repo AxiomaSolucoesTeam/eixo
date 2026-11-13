@@ -1,4 +1,4 @@
-/*! Axioma Eixo 0.4.0 · design system da Axioma · gerado por tools/build_dist.py — não edite à mão */
+/*! Axioma Eixo 0.5.0 · design system da Axioma · gerado por tools/build_dist.py — não edite à mão */
 /* Axioma Eixo — generated from tokens.json */
 :root, [data-theme="light"] {
   --gray-50: #f9fafb;
@@ -130,9 +130,9 @@
   --surface-inverse: #111827;
   --deep: var(--navy-800);
   --deep-raised: rgba(255,255,255,0.06);
-  --glass: rgba(255,255,255,0.72);
-  --glass-strong: rgba(255,255,255,0.86);
-  --glass-line: rgba(255,255,255,0.75);
+  --glass: rgba(255,255,255,0.58);
+  --glass-strong: rgba(255,255,255,0.74);
+  --glass-line: rgba(255,255,255,0.85);
   --bg-top: #fcfdff;
   --sheen-hi: rgba(255,255,255,0);
   --sheen-lo: rgba(15,23,42,0.022);
@@ -199,34 +199,34 @@
   --shadow-fill-highlight: inset 0 1px 0 rgba(255,255,255,0.18), inset 0 -1px 0 rgba(0,0,0,0.08);
 }
 [data-theme="dark"] {
-  --bg: #0b1120;
-  --surface: #111a2c;
-  --surface-raised: #182337;
-  --surface-sunken: #0d1526;
-  --surface-hover: #1e2a41;
-  --surface-selected: #1b2846;
-  --surface-inverse: #e7ecf5;
-  --deep: #13234b;
+  --bg: #0f0f11;
+  --surface: #161618;
+  --surface-raised: #1d1d20;
+  --surface-sunken: #121214;
+  --surface-hover: #242427;
+  --surface-selected: #26262b;
+  --surface-inverse: #ececee;
+  --deep: #1a1a1d;
   --deep-raised: rgba(255,255,255,0.05);
-  --glass: rgba(20,30,50,0.66);
-  --glass-strong: rgba(24,35,55,0.84);
-  --glass-line: rgba(255,255,255,0.08);
-  --bg-top: #0e1628;
+  --glass: rgba(30,30,34,0.56);
+  --glass-strong: rgba(32,32,36,0.74);
+  --glass-line: rgba(255,255,255,0.12);
+  --bg-top: #121214;
   --sheen-hi: rgba(255,255,255,0.035);
   --sheen-lo: rgba(0,0,0,0.10);
   --sheen-fill-hi: rgba(255,255,255,0.12);
   --sheen-fill-lo: rgba(0,0,0,0.10);
-  --scrim: rgba(3,6,14,0.62);
-  --line: #253149;
-  --line-strong: #33405a;
-  --line-control: #68768f;
-  --text: #e7ecf5;
-  --text-soft: #b6c0d2;
-  --text-mute: #8e9ab0;
-  --text-disabled: #56627a;
+  --scrim: rgba(0,0,0,0.64);
+  --line: #2a2a2e;
+  --line-strong: #3a3a40;
+  --line-control: #76767f;
+  --text: #ececee;
+  --text-soft: #b9b9c0;
+  --text-mute: #909099;
+  --text-disabled: #5c5c63;
   --text-inverse: #111827;
-  --on-deep-soft: var(--navy-200);
-  --deep-line: #2b3d6e;
+  --on-deep-soft: #c4c4ca;
+  --deep-line: #38383e;
   --accent: var(--accent-600);
   --accent-hover: var(--accent-700);
   --accent-pressed: var(--accent-800);
@@ -258,8 +258,8 @@
   --chart-4: var(--violet-400);
   --chart-5: var(--pink-400);
   --chart-6: var(--yellow-300);
-  --chart-grid: #253149;
-  --cell-empty: #1e2a41;
+  --chart-grid: #2a2a2e;
+  --cell-empty: #242427;
   --cell-ok: var(--green-500);
   --cell-partial: var(--yellow-400);
   --cell-down: var(--red-500);
@@ -403,9 +403,9 @@
   --blur-xs: 2px;
   --blur-sm: 6px;
   --blur-md: 12px;
-  --blur-lg: 20px;
-  --blur-xl: 32px;
-  --blur-glass: 20px;
+  --blur-lg: 24px;
+  --blur-xl: 40px;
+  --blur-glass: 24px;
   --blur-scrim: 6px;
   --opacity-hover: 0.06;
   --opacity-selected: 0.10;
@@ -451,7 +451,7 @@
 [data-accent="indigo"] { --accent-50: var(--indigo-50); --accent-100: var(--indigo-100); --accent-200: var(--indigo-200); --accent-300: var(--indigo-300); --accent-400: var(--indigo-400); --accent-500: var(--indigo-500); --accent-600: var(--indigo-600); --accent-700: var(--indigo-700); --accent-800: var(--indigo-800); --accent-900: var(--indigo-900); }
 [data-accent="violet"] { --accent-50: var(--violet-50); --accent-100: var(--violet-100); --accent-200: var(--violet-200); --accent-300: var(--violet-300); --accent-400: var(--violet-400); --accent-500: var(--violet-500); --accent-600: var(--violet-600); --accent-700: var(--violet-700); --accent-800: var(--violet-800); --accent-900: var(--violet-900); }
 [data-accent]:not(html) { --accent: var(--accent-700); --accent-hover: var(--accent-800); --accent-pressed: var(--accent-900); --accent-text: var(--accent-700); --accent-soft: var(--accent-100); --accent-text-soft: var(--accent-800); --accent-line: var(--accent-600); --surface-selected: var(--accent-50); }
-[data-theme="dark"] [data-accent]:not(html) { --accent: var(--accent-600); --accent-hover: var(--accent-700); --accent-pressed: var(--accent-800); --accent-text: var(--accent-300); --accent-soft: var(--accent-900); --accent-text-soft: var(--accent-200); --accent-line: var(--accent-400); }
+[data-theme="dark"] [data-accent]:not(html) { --accent: var(--accent-600); --accent-hover: var(--accent-700); --accent-pressed: var(--accent-800); --accent-text: var(--accent-300); --accent-soft: color-mix(in srgb, var(--accent-900) 35%, var(--surface)); --accent-text-soft: var(--accent-200); --accent-line: var(--accent-400); }
 [data-theme="contraste"] [data-accent]:not(html) { --accent: var(--accent-800); --accent-hover: var(--accent-900); --accent-text: var(--accent-800); --accent-soft: var(--accent-100); --accent-text-soft: var(--accent-900); --accent-line: var(--accent-800); }
 
 /* ───────── Profundidade: brilhos, luz ambiente, máscaras ───────── */
@@ -468,7 +468,8 @@
   --mask-minus: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M5 12h14'/%3E%3C/svg%3E");
   --mask-chevron: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
 }
-[data-theme="dark"] { --page-glow: color-mix(in srgb, var(--accent-600) 13%, transparent); }
+/* Escuro sóbrio: fundo grafite sem brilho colorido; o acento fica nos botões, links e marcadores, e o fundo de item ativo só levemente tingido. */
+[data-theme="dark"] { --page-glow: transparent; --accent-soft: color-mix(in srgb, var(--accent-900) 35%, var(--surface)); }
 [data-theme="contraste"] { --page-glow: transparent; --sheen: none; --sheen-fill: none; --shadow-accent: none; --shadow-accent-hover: none; --shadow-danger: none; }
 
 /* ───────── Base ───────── */
@@ -934,6 +935,11 @@ a { color: var(--accent-text); text-underline-offset: 3px; }
 
 /* Menu suspenso (vidro) */
 .ax-menu { min-width: 232px; padding: 6px; border: 1px solid var(--glass-line); border-radius: var(--radius-lg); background: var(--sheen), var(--glass-strong); -webkit-backdrop-filter: blur(var(--blur-md)) saturate(160%); backdrop-filter: blur(var(--blur-md)) saturate(160%); box-shadow: var(--shadow-highlight), var(--shadow-md); transform-origin: top right; animation: ax-pop var(--duration-moderate) var(--ease-emphasized); }
+.ax-menu__label { display: block; padding: 6px 10px 2px; color: var(--text-mute); font: 600 11px/16px var(--font-text); letter-spacing: .08em; text-transform: uppercase; }
+.ax-menu__hint { margin-left: auto; padding-left: 12px; color: var(--text-mute); font-size: 12px; font-weight: 400; }
+.ax-menu__item[aria-checked="true"] { color: var(--accent-text); font-weight: 600; }
+.ax-menu__item[aria-checked="true"]::after { content: ''; flex: none; width: 6px; height: 6px; margin-left: auto; border-radius: 50%; background: currentColor; }
+.ax-menu__item[aria-checked="true"]:has(.ax-menu__hint)::after { margin-left: 10px; }
 .ax-menu__group + .ax-menu__group { margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--line); }
 .ax-menu__title { padding: 6px 10px 4px; color: var(--text-mute); font: 600 11px/16px var(--font-text); letter-spacing: .08em; text-transform: uppercase; }
 .ax-menu__item { display: flex; align-items: center; gap: 10px; width: 100%; min-height: 38px; padding: 6px 10px; border: 0; border-radius: var(--radius-md); background: none; color: var(--text); font-size: 14px; font-weight: 500; text-align: left; text-decoration: none; cursor: pointer; transition: background-color var(--duration-instant); }
@@ -1327,7 +1333,7 @@ button.ax-list-item { width: 100%; border: 0; background: none; text-align: left
 /* ── Moldura ── */
 .ax-app { display: grid; grid-template-columns: auto minmax(0, 1fr); min-height: 100vh; min-height: 100dvh; }
 /* Barra lateral fixa: top igual à margem (não pula ao rolar) e opaca (nada rola por trás dela; vidro deixaria o degradê do fundo aparecer e mudar de tom com a rolagem) */
-.ax-app > .ax-side, .ax-app > .ax-rail { position: sticky; top: 12px; z-index: var(--z-nav); align-self: start; height: calc(100vh - 24px); height: calc(100dvh - 24px); background: var(--surface); -webkit-backdrop-filter: none; backdrop-filter: none; box-shadow: var(--shadow-highlight), var(--shadow-xs); border-color: var(--line); }
+.ax-app > .ax-side, .ax-app > .ax-rail { position: sticky; top: 12px; z-index: var(--z-nav); align-self: start; height: calc(100vh - 24px); height: calc(100dvh - 24px); }
 .ax-app > .ax-side .ax-side__nav { overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
 .ax-app > .ax-rail, .ax-app > .ax-bottomnav { display: none; }
 .ax-app__main { display: flex; flex-direction: column; min-width: 0; }
@@ -1569,4 +1575,19 @@ html:has(dialog[open]) { overflow: hidden; }
 [data-theme="contraste"] .ax-pblur { display: none !important; }
 [data-theme="contraste"] .ax-app__bar { background: var(--bg); box-shadow: 0 1px 0 var(--line-strong); }
 @media (forced-colors: active) { .ax-pblur { display: none !important; } }
+/* ── Vidro (v0.5): luz ambiente no fundo para o vidro ter o que desfocar; lateral, cartões e diálogos de vidro ──
+   Tudo volta a ser opaco no tema contraste e com prefers-reduced-transparency. */
+:root { --page-ambient: radial-gradient(42% 46% at 100% 0%, color-mix(in srgb, var(--accent-300) 48%, transparent), transparent 72%), radial-gradient(38% 42% at 0% 100%, color-mix(in srgb, var(--accent-200) 42%, transparent), transparent 72%); }
+[data-theme="dark"] { --page-ambient: radial-gradient(42% 46% at 100% 0%, color-mix(in srgb, var(--accent-700) 12%, transparent), transparent 72%), radial-gradient(38% 42% at 0% 100%, rgba(255,255,255,.035), transparent 72%); }
+[data-theme="contraste"] { --page-ambient: none, none; }
+body { background: var(--page-ambient), radial-gradient(120% 70% at 50% -20%, var(--page-glow), transparent 70%), linear-gradient(180deg, var(--bg-top), var(--bg) 40%); background-attachment: fixed, fixed, scroll, scroll; background-color: var(--bg); }
+.ax-app > .ax-side, .ax-app > .ax-rail { background: var(--sheen), var(--glass-strong); -webkit-backdrop-filter: blur(var(--blur-xl)) saturate(170%); backdrop-filter: blur(var(--blur-xl)) saturate(170%); border-color: var(--glass-line); box-shadow: var(--shadow-highlight), var(--shadow-md); }
+.ax-card { background: var(--sheen), color-mix(in srgb, var(--surface) 78%, transparent); -webkit-backdrop-filter: blur(var(--blur-glass)) saturate(160%); backdrop-filter: blur(var(--blur-glass)) saturate(160%); border-color: color-mix(in srgb, var(--line) 70%, var(--glass-line)); }
+.ax-dialog, .ax-side-sheet { background: var(--sheen), color-mix(in srgb, var(--surface-raised) 90%, transparent); -webkit-backdrop-filter: blur(var(--blur-xl)) saturate(170%); backdrop-filter: blur(var(--blur-xl)) saturate(170%); }
+.ax-actionbar, .ax-bottomnav, .ax-toast, .ax-menu, .ax-select__pop, .ax-cal { box-shadow: var(--shadow-highlight), inset 0 1px 0 var(--glass-line), var(--shadow-float, var(--shadow-lg)); }
+@media (prefers-reduced-transparency: reduce) {
+  body { background: linear-gradient(180deg, var(--bg-top), var(--bg) 40%); background-color: var(--bg); }
+  .ax-app > .ax-side, .ax-app > .ax-rail, .ax-card, .ax-dialog, .ax-side-sheet { background: var(--surface-raised); -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+[data-theme="contraste"] .ax-app > .ax-side, [data-theme="contraste"] .ax-app > .ax-rail, [data-theme="contraste"] .ax-card, [data-theme="contraste"] .ax-dialog, [data-theme="contraste"] .ax-side-sheet { background: var(--surface); -webkit-backdrop-filter: none; backdrop-filter: none; border-color: var(--line-strong); }
 /* ═══ fim Aplicação ═══ */

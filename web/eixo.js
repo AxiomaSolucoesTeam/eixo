@@ -1,4 +1,4 @@
-/*! Axioma Eixo 0.4.0 · design system da Axioma · gerado por tools/build_dist.py — não edite à mão */
+/*! Axioma Eixo 0.5.0 · design system da Axioma · gerado por tools/build_dist.py — não edite à mão */
 /* Axioma Eixo · runtime de referência (esboço v0.2). Sem dependências.
    Ícones SVG (desenhos do Lucide, licença ISC, com nomes do Eixo), sons sintetizados com Web Audio,
    háptica, toasts, seletor próprio, marcadores deslizantes de navegação e abas.
@@ -368,7 +368,22 @@
     if (!w.matchMedia) return; var m = w.matchMedia(q), f = function () { applyPrefs(); };
     if (m.addEventListener) m.addEventListener('change', f); else if (m.addListener) m.addListener(f);
   });
+  /* Troca de tema em qualquer lugar: botões [data-ax-theme="auto|light|dark|contraste"] (o menu da conta da moldura já traz).
+     O escolhido fica com aria-checked="true" (em menu, role="menuitemradio"; fora, aria-pressed). */
+  function marcarTema() {
+    var t = prefs.get('theme') || 'auto';
+    d.querySelectorAll('[data-ax-theme]').forEach(function (b) {
+      var on = b.getAttribute('data-ax-theme') === t;
+      if (b.getAttribute('role') === 'menuitemradio') b.setAttribute('aria-checked', on ? 'true' : 'false'); else b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
+  d.addEventListener('click', function (e) {
+    var b = e.target.closest && e.target.closest('[data-ax-theme]'); if (!b) return;
+    prefs.set('theme', b.getAttribute('data-ax-theme')); marcarTema(); sound.play('tap');
+  });
+  d.addEventListener('ax-prefs', marcarTema);
   function bindPrefs(root) {
+    marcarTema();
     each(root, '[data-ax-pref]', function (el) {
       if (el.__axpref) return; el.__axpref = 1;
       var k = el.getAttribute('data-ax-pref'), cur = prefs.get(k);
@@ -967,5 +982,5 @@
   if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', autoInit); else setTimeout(autoInit, 0);
 
   w.Eixo = Object.assign(w.Eixo || {}, { icons: ICONS, icon: icon, hydrate: hydrate, sound: sound, haptic: haptic, toast: toast, select: select, date: datePicker, nav: nav, seg: seg, tabs: tabs, countUp: countUp, fmt: fmt, reduceMotion: reduceMotion, init: init, prefs: prefs, busy: busy, validate: validate, validateField: validateField, mask: MASKS,
-    confirm: confirmDialog, dialog: { open: dlgOpen, close: dlgClose }, menu: { open: menuOpen, close: menuClose }, version: '0.4.0' });
+    confirm: confirmDialog, dialog: { open: dlgOpen, close: dlgClose }, menu: { open: menuOpen, close: menuClose }, version: '0.5.0' });
 })();
