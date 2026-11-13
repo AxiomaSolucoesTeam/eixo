@@ -1,4 +1,4 @@
-/*! Axioma Eixo 0.6.0 · design system da Axioma · gerado por tools/build_dist.py — não edite à mão */
+/*! Axioma Eixo 0.7.0 · design system da Axioma · gerado por tools/build_dist.py — não edite à mão */
 /* Axioma Eixo · runtime de referência (esboço v0.2). Sem dependências.
    Ícones SVG (desenhos do Lucide, licença ISC, com nomes do Eixo), sons sintetizados com Web Audio,
    háptica, toasts, seletor próprio, marcadores deslizantes de navegação e abas.
@@ -375,6 +375,11 @@
     d.querySelectorAll('[data-ax-theme]').forEach(function (b) {
       var on = b.getAttribute('data-ax-theme') === t;
       if (b.getAttribute('role') === 'menuitemradio') b.setAttribute('aria-checked', on ? 'true' : 'false'); else b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    var NOMES_TEMA = { auto: ['contrast', 'Automático'], light: ['light_mode', 'Claro'], dark: ['dark_mode', 'Escuro'], contraste: ['visibility', 'Alto contraste'] };
+    d.querySelectorAll('[data-ax-theme-icon]').forEach(function (b) {
+      var n = NOMES_TEMA[t] || NOMES_TEMA.auto, ic = b.querySelector('.ax-i');
+      if (ic) ic.setAttribute('data-i', n[0]); b.setAttribute('aria-label', 'Tema: ' + n[1] + '. Trocar tema');
     });
   }
   d.addEventListener('click', function (e) {
@@ -781,7 +786,25 @@
       if (!bar.hasAttribute('aria-label')) bar.setAttribute('aria-label', 'Ações do formulário');
     });
   }
+  /* Marca da lateral flutuando sobre o topo do menu, com desfoque progressivo: o menu rola por baixo dela.
+     A altura da marca (a do produto ou a logo de um cliente) vira --ax-brand-h na lateral, para o menu começar logo abaixo. */
+  function bindSideBrand(root) {
+    each(root, '.ax-side__brand', function (b) {
+      if (b.__axbrand) return; b.__axbrand = 1;
+      if (!b.querySelector(':scope > .ax-pblur')) b.insertBefore(pblurEl('top'), b.firstChild);
+      var side = b.closest('.ax-side'); if (!side) return;
+      var medir = function () { side.style.setProperty('--ax-brand-h', Math.ceil(b.getBoundingClientRect().height) + 'px'); };
+      medir(); if (w.ResizeObserver) new ResizeObserver(medir).observe(b);
+      b.querySelectorAll('img').forEach(function (im) { if (!im.complete) im.addEventListener('load', medir); });
+    });
+  }
   function bindPblur(root) {
+    bindSideBrand(root);
+    /* Qualquer cabeçalho ou rodapé fixo (landing, telas fora da moldura): data-ax-pblur="top" ou "bottom" */
+    each(root, '[data-ax-pblur]', function (el) {
+      if (el.querySelector(':scope > .ax-pblur')) return;
+      el.classList.add('ax-pblur-host'); el.insertBefore(pblurEl(el.getAttribute('data-ax-pblur') === 'bottom' ? 'bottom' : 'top'), el.firstChild);
+    });
     each(root, '.ax-app__bar', function (bar) { if (!bar.querySelector(':scope > .ax-pblur')) bar.insertBefore(pblurEl('top'), bar.firstChild); });
     each(root, '.ax-app', function (app) { if (!app.querySelector(':scope > .ax-pblur--bottom')) app.appendChild(pblurEl('bottom')); });
   }
@@ -1246,5 +1269,5 @@
   if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', autoInit); else setTimeout(autoInit, 0);
 
   w.Eixo = Object.assign(w.Eixo || {}, { icons: ICONS, icon: icon, hydrate: hydrate, sound: sound, haptic: haptic, toast: toast, select: select, date: datePicker, time: timePicker, tour: tour, nav: nav, seg: seg, tabs: tabs, countUp: countUp, fmt: fmt, reduceMotion: reduceMotion, init: init, prefs: prefs, busy: busy, validate: validate, validateField: validateField, mask: MASKS,
-    confirm: confirmDialog, dialog: { open: dlgOpen, close: dlgClose }, menu: { open: menuOpen, close: menuClose }, version: '0.6.0' });
+    confirm: confirmDialog, dialog: { open: dlgOpen, close: dlgClose }, menu: { open: menuOpen, close: menuClose }, version: '0.7.0' });
 })();

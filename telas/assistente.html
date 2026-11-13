@@ -7,7 +7,7 @@
 <script>try{var p=JSON.parse(localStorage.getItem('axioma.eixo')||'{}'),t=p.theme&&p.theme!=='auto'?p.theme:(matchMedia('(prefers-contrast: more)').matches?'contraste':matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="../web/eixo.css?v=0cd8b60132">
+<link rel="stylesheet" href="../web/eixo.css?v=46640656a0">
 <style>
 .tela-demo { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 8px 8px 8px 14px; border: 1px dashed var(--line-strong); border-radius: var(--radius-lg); color: var(--text-mute); font-size: 13px; }
 .tela-demo > span { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; }
@@ -16,7 +16,7 @@
 .ax-link-quiet { color: inherit; text-decoration: none; }
 .ax-link-quiet:hover { text-decoration: underline; }
 </style>
-<script src="../web/eixo.js?v=0cd8b60132" defer></script>
+<script src="../web/eixo.js?v=46640656a0" defer></script>
 </head>
 <body>
 <a class="ax-skip" href="#conteudo">Pular para o conteúdo</a>
@@ -36,7 +36,7 @@
       <a class="ax-nav-item" href="#"><i class="ax-i" data-i="assignment" aria-hidden="true"></i>Solicitações<span class="ax-nav-item__count">2</span></a>
     </nav>
     <div class="ax-side__foot">
-      <button class="ax-user" type="button" data-ax-menu="menu-conta" data-ax-tour="xmed-receitas" data-ax-tour-step="4" data-ax-tour-title="Sua conta e o tema" data-ax-tour-text="Aqui ficam seu perfil, as configurações e a troca de tema: automático, claro, escuro ou alto contraste."><span class="ax-avatar ax-avatar--sm" data-tint="1">CB</span><span class="ax-user__text"><span class="ax-user__name">Clínica Bem Viver</span><span class="ax-user__role">Administrador</span></span><i class="ax-i" data-i="unfold_more" aria-hidden="true"></i></button>
+      <button class="ax-user" type="button" data-ax-menu="menu-conta" data-ax-tour="xmed-receitas" data-ax-tour-step="4" data-ax-tour-title="Sua conta" data-ax-tour-text="Aqui ficam seu perfil e as configurações, onde você escolhe o tema: automático, claro, escuro ou alto contraste."><span class="ax-avatar ax-avatar--sm" data-tint="1">CB</span><span class="ax-user__text"><span class="ax-user__name">Clínica Bem Viver</span><span class="ax-user__role">Administrador</span></span><i class="ax-i" data-i="unfold_more" aria-hidden="true"></i></button>
     </div>
   </aside>
   <nav class="ax-rail" aria-label="Menu principal"><a class="ax-brand__mark" href="painel.html" aria-label="Axioma XMed, início"><i class="ax-i" data-i="medical_services" aria-hidden="true"></i></a><a class="ax-rail__item" href="painel.html"><span class="ax-rail__pill"><i class="ax-i" data-i="space_dashboard" aria-hidden="true"></i></span>Painel</a><a class="ax-rail__item" href="lista.html"><span class="ax-rail__pill"><i class="ax-i" data-i="payments" aria-hidden="true"></i></span>Receitas</a><a class="ax-rail__item" href="#"><span class="ax-rail__pill"><i class="ax-i" data-i="receipt_long" aria-hidden="true"></i></span>Recibos</a><a class="ax-rail__item" href="#"><span class="ax-rail__pill"><i class="ax-i" data-i="person" aria-hidden="true"></i></span>Pacientes</a><button class="ax-rail__item" type="button" data-ax-open="nav-mais"><span class="ax-rail__pill"><i class="ax-i" data-i="menu" aria-hidden="true"></i></span>Mais</button></nav>
@@ -93,7 +93,6 @@
 </div>
 <div class="ax-menu" id="menu-conta" hidden aria-label="Conta">
   <div class="ax-menu__group"><a class="ax-menu__item" href="#"><i class="ax-i" data-i="person" aria-hidden="true"></i>Meu perfil</a><a class="ax-menu__item" href="configuracoes.html"><i class="ax-i" data-i="settings" aria-hidden="true"></i>Configurações</a><a class="ax-menu__item" href="#"><i class="ax-i" data-i="help" aria-hidden="true"></i>Ajuda</a></div>
-  <div class="ax-menu__group" role="group" aria-labelledby="menu-tema-t"><span class="ax-menu__label" id="menu-tema-t">Tema</span><button type="button" class="ax-menu__item" role="menuitemradio" data-ax-theme="auto"><i class="ax-i" data-i="contrast" aria-hidden="true"></i>Automático<span class="ax-menu__hint">igual ao do aparelho</span></button><button type="button" class="ax-menu__item" role="menuitemradio" data-ax-theme="light"><i class="ax-i" data-i="light_mode" aria-hidden="true"></i>Claro</button><button type="button" class="ax-menu__item" role="menuitemradio" data-ax-theme="dark"><i class="ax-i" data-i="dark_mode" aria-hidden="true"></i>Escuro</button><button type="button" class="ax-menu__item" role="menuitemradio" data-ax-theme="contraste"><i class="ax-i" data-i="visibility" aria-hidden="true"></i>Alto contraste</button></div>
   <div class="ax-menu__group"><a class="ax-menu__item" href="acesso.html"><i class="ax-i" data-i="logout" aria-hidden="true"></i>Sair</a></div>
 </div>
 <dialog class="ax-sheet" id="nav-mais" aria-labelledby="nav-mais-t">

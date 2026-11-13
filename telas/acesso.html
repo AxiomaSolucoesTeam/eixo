@@ -7,7 +7,7 @@
 <script>try{var p=JSON.parse(localStorage.getItem('axioma.eixo')||'{}'),t=p.theme&&p.theme!=='auto'?p.theme:(matchMedia('(prefers-contrast: more)').matches?'contraste':matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="../web/eixo.css?v=0cd8b60132">
+<link rel="stylesheet" href="../web/eixo.css?v=46640656a0">
 <style>
 .tela-demo { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; padding: 8px 8px 8px 14px; border: 1px dashed var(--line-strong); border-radius: var(--radius-lg); color: var(--text-mute); font-size: 13px; }
 .tela-demo > span { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; }
@@ -16,7 +16,7 @@
 .ax-link-quiet { color: inherit; text-decoration: none; }
 .ax-link-quiet:hover { text-decoration: underline; }
 </style>
-<script src="../web/eixo.js?v=0cd8b60132" defer></script>
+<script src="../web/eixo.js?v=46640656a0" defer></script>
 </head>
 <body>
 <div class="ax-auth">
@@ -26,6 +26,10 @@
     <p class="ax-caption">Axioma · sistemas para quem cuida de gente</p>
   </div>
   <main class="ax-auth__panel" id="conteudo">
+  <div class="ax-auth__corner"><div class="ax-theme-switch">
+    <button class="ax-icon-btn ax-theme-switch__btn" type="button" data-ax-menu="menu-tema-login" data-ax-theme-icon aria-label="Tema da tela"><i class="ax-i" data-i="contrast" aria-hidden="true"></i></button>
+    <div class="ax-menu" id="menu-tema-login" hidden aria-label="Tema"><div class="ax-menu__group" role="group" aria-labelledby="tema-login-t"><span class="ax-menu__label" id="tema-login-t">Tema</span><button type="button" class="ax-menu__item" role="menuitemradio" data-ax-theme="auto"><i class="ax-i" data-i="contrast" aria-hidden="true"></i>Automático</button><button type="button" class="ax-menu__item" role="menuitemradio" data-ax-theme="light"><i class="ax-i" data-i="light_mode" aria-hidden="true"></i>Claro</button><button type="button" class="ax-menu__item" role="menuitemradio" data-ax-theme="dark"><i class="ax-i" data-i="dark_mode" aria-hidden="true"></i>Escuro</button><button type="button" class="ax-menu__item" role="menuitemradio" data-ax-theme="contraste"><i class="ax-i" data-i="visibility" aria-hidden="true"></i>Alto contraste</button></div></div>
+  </div></div>
     <form class="ax-auth__form" data-ax-validate action="painel.html" method="get" id="form-acesso">
       <span class="ax-brand ax-only-medium"><span class="ax-brand__mark" aria-hidden="true"><i class="ax-i" data-i="medical_services" aria-hidden="true"></i></span><span class="ax-brand__text">Axioma <b>XMed</b></span></span>
       <h2>Entrar no XMed</h2>

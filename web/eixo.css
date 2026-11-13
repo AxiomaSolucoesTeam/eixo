@@ -1,4 +1,4 @@
-/*! Axioma Eixo 0.6.0 · design system da Axioma · gerado por tools/build_dist.py — não edite à mão */
+/*! Axioma Eixo 0.7.0 · design system da Axioma · gerado por tools/build_dist.py — não edite à mão */
 /* Axioma Eixo — generated from tokens.json */
 :root, [data-theme="light"] {
   --gray-50: #f9fafb;
@@ -1580,13 +1580,15 @@ html:has(dialog[open]) { overflow: hidden; }
 :root { --page-ambient: radial-gradient(42% 46% at 100% 0%, color-mix(in srgb, var(--accent-300) 48%, transparent), transparent 72%), radial-gradient(38% 42% at 0% 100%, color-mix(in srgb, var(--accent-200) 42%, transparent), transparent 72%); }
 [data-theme="dark"] { --page-ambient: radial-gradient(42% 46% at 100% 0%, color-mix(in srgb, var(--accent-700) 12%, transparent), transparent 72%), radial-gradient(38% 42% at 0% 100%, rgba(255,255,255,.035), transparent 72%); }
 [data-theme="contraste"] { --page-ambient: none, none; }
-body { background: var(--page-ambient), radial-gradient(120% 70% at 50% -20%, var(--page-glow), transparent 70%), linear-gradient(180deg, var(--bg-top), var(--bg) 40%); background-attachment: fixed, fixed, scroll, scroll; background-color: var(--bg); }
+/* O fundo da página fica no html (não no body): assim ele pinta também o espaço reservado da barra de rolagem, sem faixa branca */
+html { background: var(--page-ambient), radial-gradient(120% 70% at 50% -20%, var(--page-glow), transparent 70%), linear-gradient(180deg, var(--bg-top), var(--bg) 40%); background-attachment: fixed, fixed, scroll, scroll; background-color: var(--bg); min-height: 100%; }
+body { background: none; }
 .ax-app > .ax-side, .ax-app > .ax-rail { background: var(--sheen), var(--glass-strong); -webkit-backdrop-filter: blur(var(--blur-xl)) saturate(170%); backdrop-filter: blur(var(--blur-xl)) saturate(170%); border-color: var(--glass-line); box-shadow: var(--shadow-highlight), var(--shadow-md); }
 .ax-card { background: var(--sheen), color-mix(in srgb, var(--surface) 78%, transparent); -webkit-backdrop-filter: blur(var(--blur-glass)) saturate(160%); backdrop-filter: blur(var(--blur-glass)) saturate(160%); border-color: color-mix(in srgb, var(--line) 70%, var(--glass-line)); }
 .ax-dialog, .ax-side-sheet { background: var(--sheen), color-mix(in srgb, var(--surface-raised) 90%, transparent); -webkit-backdrop-filter: blur(var(--blur-xl)) saturate(170%); backdrop-filter: blur(var(--blur-xl)) saturate(170%); }
 .ax-actionbar, .ax-bottomnav, .ax-toast, .ax-menu, .ax-select__pop, .ax-cal { box-shadow: var(--shadow-highlight), inset 0 1px 0 var(--glass-line), var(--shadow-float, var(--shadow-lg)); }
 @media (prefers-reduced-transparency: reduce) {
-  body { background: linear-gradient(180deg, var(--bg-top), var(--bg) 40%); background-color: var(--bg); }
+  html { background: linear-gradient(180deg, var(--bg-top), var(--bg) 40%); background-color: var(--bg); }
   .ax-app > .ax-side, .ax-app > .ax-rail, .ax-card, .ax-dialog, .ax-side-sheet { background: var(--surface-raised); -webkit-backdrop-filter: none; backdrop-filter: none; }
 }
 [data-theme="contraste"] .ax-app > .ax-side, [data-theme="contraste"] .ax-app > .ax-rail, [data-theme="contraste"] .ax-card, [data-theme="contraste"] .ax-dialog, [data-theme="contraste"] .ax-side-sheet { background: var(--surface); -webkit-backdrop-filter: none; backdrop-filter: none; border-color: var(--line-strong); }
@@ -1652,4 +1654,47 @@ form.ax-dialog__frame { display: flex; flex-direction: column; flex: 1 1 auto; g
 @media (prefers-reduced-transparency: reduce) { .ax-tour__card { background: var(--surface-raised); -webkit-backdrop-filter: none; backdrop-filter: none; } }
 [data-theme="contraste"] .ax-tour__card { background: var(--surface); -webkit-backdrop-filter: none; backdrop-filter: none; border: 2px solid var(--line-strong); }
 [data-theme="contraste"] .ax-tour__hole { box-shadow: 0 0 0 9999px var(--scrim), 0 0 0 3px var(--focus) inset; }
+/* ── Marca da lateral sobre desfoque progressivo (v0.7): o menu rola por baixo da marca ── */
+.ax-side__brand { position: absolute; top: 0; left: 0; right: 0; z-index: 2; isolation: isolate; pointer-events: none; }
+.ax-side__brand > :not(.ax-pblur) { pointer-events: auto; }
+.ax-side__brand > .ax-pblur { z-index: -1; height: calc(100% + 24px); }
+.ax-side__brand > .ax-pblur::after { background: linear-gradient(to top, transparent, color-mix(in srgb, var(--surface) 78%, transparent) 70%); }
+.ax-side__nav { padding-top: calc(var(--ax-brand-h, 68px) + 4px); scroll-padding-top: var(--ax-brand-h, 68px); }
+@media (prefers-reduced-transparency: reduce) { .ax-side__brand { background: var(--surface-raised); } .ax-side__brand > .ax-pblur { display: none; } }
+[data-theme="contraste"] .ax-side__brand { background: var(--surface); border-bottom: 1px solid var(--line-strong); }
+[data-theme="contraste"] .ax-side__brand > .ax-pblur { display: none; }
+
+/* ── Marca do cliente (v0.7, opcional): a logo de um cliente no lugar da marca do produto ──
+   Exclusivo de alguns produtos e clientes (ex.: XAgro). A logo manda, o produto aparece pequeno embaixo ("XAgro · Axioma").
+   <a class="ax-brand ax-brand--cliente"><img class="ax-brand__logo" src alt="Nome do cliente"><span class="ax-brand__by">…</span></a>
+   Versão para o escuro: segunda <img class="ax-brand__logo ax-brand__logo--dark"> (a primeira ganha --light).
+   Logo feita só para fundo claro e sem versão escura: .ax-brand--placa põe a logo numa placa clara no tema escuro.
+   No trilho e no topo do celular: .ax-brand__mark--cliente com a versão quadrada da logo (ou a marca do produto). */
+.ax-brand--cliente { flex-direction: column; align-items: flex-start; gap: 8px; min-width: 0; max-width: 100%; }
+.ax-brand__logo { display: block; width: auto; height: auto; max-width: 100%; max-height: 40px; object-fit: contain; object-position: left center; }
+.ax-brand__logo--dark { display: none; }
+[data-theme="dark"] .ax-brand__logo--light { display: none; }
+[data-theme="dark"] .ax-brand__logo--dark { display: block; }
+[data-theme="dark"] .ax-brand--placa .ax-brand__logo { padding: 6px 10px; border-radius: 10px; background: #ffffff; box-shadow: 0 0 0 1px var(--glass-line); }
+.ax-brand__by { display: inline-flex; align-items: center; gap: 6px; color: var(--text-mute); font: 500 11.5px/1 var(--font-text); letter-spacing: .01em; white-space: nowrap; }
+.ax-brand__by .ax-brand__mark { width: 18px; height: 18px; border-radius: 6px; box-shadow: none; }
+.ax-brand__by .ax-brand__mark .ax-i { font-size: 12px; --stroke: 2.2; }
+.ax-brand__by b { color: var(--text-soft); font-weight: 600; }
+.ax-brand__mark--cliente { padding: 3px; background: var(--surface); box-shadow: 0 0 0 1px var(--line); overflow: hidden; }
+.ax-brand__mark--cliente img { display: block; width: 100%; height: 100%; object-fit: contain; border-radius: 8px; }
+.ax-app__brand-compact.ax-brand--cliente { flex-direction: row; align-items: center; }
+.ax-app__brand-compact .ax-brand__logo { max-height: 28px; max-width: 160px; }
+.ax-app__brand-compact .ax-brand__by { display: none; }
+/* ── Troca de tema discreta (v0.7): botão de ícone que abre o seletor; no login fica no canto superior direito ── */
+.ax-auth { position: relative; }
+.ax-auth__corner { position: absolute; top: max(16px, env(safe-area-inset-top, 0px)); right: max(16px, env(safe-area-inset-right, 0px)); z-index: var(--z-sticky); }
+.ax-theme-switch__btn { border: 1px solid var(--glass-line); border-radius: var(--radius-full); background: var(--sheen), var(--glass); -webkit-backdrop-filter: blur(var(--blur-lg)) saturate(160%); backdrop-filter: blur(var(--blur-lg)) saturate(160%); box-shadow: var(--shadow-highlight), var(--shadow-xs); color: var(--text-soft); }
+.ax-theme-switch__btn:hover, .ax-theme-switch__btn[aria-expanded="true"] { color: var(--text); }
+[data-theme="contraste"] .ax-theme-switch__btn { background: var(--surface); -webkit-backdrop-filter: none; backdrop-filter: none; border-color: var(--line-strong); }
+/* ── Desfoque progressivo em qualquer cabeçalho ou rodapé fixo (v0.7): <header data-ax-pblur="top"> ── */
+.ax-pblur-host { isolation: isolate; }
+.ax-pblur-host > .ax-pblur { z-index: -1; }
+@media (prefers-reduced-transparency: reduce) { .ax-pblur-host > .ax-pblur { display: none; } .ax-pblur-host { background: var(--surface); } }
+[data-theme="contraste"] .ax-pblur-host > .ax-pblur { display: none; }
+[data-theme="contraste"] .ax-pblur-host { background: var(--bg); box-shadow: 0 1px 0 var(--line-strong); }
 /* ═══ fim Aplicação ═══ */
